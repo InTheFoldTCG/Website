@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import logo from '../../../imports/Untitled.svg'
+import logo from '../../imports/Untitled.svg'
 
 export function ImageWithFallback(props: React.ImgHTMLAttributes<HTMLImageElement>) {
   const [didError, setDidError] = useState(false)
