@@ -353,7 +353,7 @@ export default function App() {
             </h2>
           </div>
 
-        <div
+       <div
             className="grid grid-cols-1 md:grid-cols-3 gap-px"
             style={{ background: "rgba(255,255,255,0.07)" }}
           >
