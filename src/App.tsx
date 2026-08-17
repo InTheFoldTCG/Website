@@ -47,6 +47,7 @@ const SHOWS = [
     location: "20570 West Roosevelt St, Buckeye, AZ 85326",
     table: "Table 45",
     status: "confirmed",
+    href: "https://www.ontreasure.com/events/west-valley-tcg-expo-6-09262026",
   },
   {
     name: "TBD",
@@ -294,41 +295,56 @@ export default function App() {
             </p>
           </div>
 
-       <div className="flex flex-col gap-px" style={{ background: "rgba(255,255,255,0.07)" }}>
-            {SHOWS.map((show, i) => (
-              <div key={i} className="bg-background hover:bg-card transition-colors group">
-                <div className="px-8 py-6 grid grid-cols-1 lg:grid-cols-[140px_minmax(0,1fr)_380px_120px] gap-6 items-center">
-                  <div className="flex items-center gap-2">
-                    <Calendar size={11} className="text-primary shrink-0" />
-                    <span className="text-xs tracking-wider text-primary" style={{ fontFamily: "'Space Mono', monospace" }}>
-                      {show.date}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold uppercase truncate" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
-                    {show.name}
-                  </h3>
-                  <div className="flex items-center gap-2">
-                    <MapPin size={11} className="text-muted-foreground shrink-0" />
-                    <span className="text-xs text-muted-foreground tracking-wide truncate" style={{ fontFamily: "'Space Mono', monospace" }}>
-                      {show.location}
-                    </span>
-                  </div>
-                  <div className="flex items-center lg:justify-end">
-                    <span
-                      className="text-xs px-3 py-1 border whitespace-nowrap"
-                      style={{
-                        fontFamily: "'Space Mono', monospace",
-                        borderColor: show.table === "TBD" ? "rgba(255,255,255,0.12)" : "rgba(181,255,0,0.4)",
-                        color: show.table === "TBD" ? "#7878a0" : "#b5ff00",
-                      }}
-                    >
-                      {show.table}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+   <div className="flex flex-col gap-px" style={{ background: "rgba(255,255,255,0.07)" }}>
+  {SHOWS.map((show, i) => (
+    <div key={i} className="bg-background hover:bg-card transition-colors group">
+      <div className="px-8 py-6 grid grid-cols-1 lg:grid-cols-[140px_minmax(0,1fr)_380px_120px] gap-6 items-center">
+        <div className="flex items-center gap-2">
+          <Calendar size={11} className="text-primary shrink-0" />
+          <span className="text-xs tracking-wider text-primary" style={{ fontFamily: "'Space Mono', monospace" }}>
+            {show.date}
+          </span>
+        </div>
+
+        {/* Conditional link for the show name */}
+        {show.href ? (
+          <a 
+            href={show.href} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-xl font-bold uppercase truncate hover:text-primary transition-colors"
+            style={{ fontFamily: "'Chakra Petch', sans-serif" }}
+          >
+            {show.name}
+          </a>
+        ) : (
+          <h3 className="text-xl font-bold uppercase truncate" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+            {show.name}
+          </h3>
+        )}
+
+        <div className="flex items-center gap-2">
+          <MapPin size={11} className="text-muted-foreground shrink-0" />
+          <span className="text-xs text-muted-foreground tracking-wide truncate" style={{ fontFamily: "'Space Mono', monospace" }}>
+            {show.location}
+          </span>
+        </div>
+        <div className="flex items-center lg:justify-end">
+          <span 
+            className="text-xs px-3 py-1 border whitespace-nowrap" 
+            style={{
+              fontFamily: "'Space Mono', monospace", 
+              borderColor: show.table === "TBD" ? "rgba(255,255,255,0.12)" : "rgba(181,255,0,0.4)", 
+              color: show.table === "TBD" ? "#7878a0" : "#b5ff00"
+            }}
+          >
+            {show.table}
+          </span>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
         </div>
       </section>
 
