@@ -338,23 +338,32 @@ export default function App() {
                 key={i}
                 className="bg-background hover:bg-card transition-colors group"
               >
-                <div className="px-8 py-6 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 items-center">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                <div className="px-8 py-6 grid grid-cols-1 lg:grid-cols-[160px_1fr_200px_auto] gap-6 items-center">
   <div className="flex items-center gap-2">
     <Calendar size={11} className="text-primary shrink-0" />
     <span className="text-xs tracking-wider text-primary" style={{ fontFamily: "'Space Mono', monospace" }}>
       {show.date}
     </span>
   </div>
-  {/* Name */}
   <h3 className="text-xl font-bold uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
     {show.name}
   </h3>
-  {/* Location */}
   <div className="flex items-center gap-2">
     <MapPin size={11} className="text-muted-foreground shrink-0" />
     <span className="text-xs text-muted-foreground tracking-wide" style={{ fontFamily: "'Space Mono', monospace" }}>
       {show.location}
+    </span>
+  </div>
+  <div className="flex items-center lg:justify-end">
+    <span
+      className="text-xs px-3 py-1 border"
+      style={{
+        fontFamily: "'Space Mono', monospace",
+        borderColor: show.table === "TBD" ? "rgba(255,255,255,0.12)" : "rgba(181,255,0,0.4)",
+        color: show.table === "TBD" ? "#7878a0" : "#b5ff00",
+      }}
+    >
+      {show.table}
     </span>
   </div>
 </div>
