@@ -365,6 +365,18 @@ export default function App() {
     >
       {show.table}
     </span>
+</div>
+  <div className="flex items-center lg:justify-end">
+    <span
+      className="text-xs px-3 py-1 border"
+      style={{
+        fontFamily: "'Space Mono', monospace",
+        borderColor: show.table === "TBD" ? "rgba(255,255,255,0.12)" : "rgba(181,255,0,0.4)",
+        color: show.table === "TBD" ? "#7878a0" : "#b5ff00",
+      }}
+    >
+      {show.table}
+    </span>
   </div>
 </div>
 
