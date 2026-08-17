@@ -339,49 +339,25 @@ export default function App() {
                 className="bg-background hover:bg-card transition-colors group"
               >
                 <div className="px-8 py-6 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-4 items-center">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="flex items-center gap-2">
-                      <Calendar
-                        size={11}
-                        className="text-primary shrink-0"
-                      />
-                      <span
-                        className="text-xs tracking-wider text-primary"
-                        style={{
-                          fontFamily: "'Space Mono', monospace",
-                        }}
-                      >
-                        {show.date}
-                      </span>
-                    </div>
-
-                    {/* Name */}
-                    <h3
-                      className="text-xl font-bold uppercase sm:row-span-2"
-                      style={{
-                        fontFamily:
-                          "'Chakra Petch', sans-serif",
-                      }}
-                    >
-                      {show.name}
-                    </h3>
-
-                    {/* Location */}
-                    <div className="flex items-start gap-2">
-                      <MapPin
-                        size={11}
-                        className="text-muted-foreground shrink-0 mt-0.5"
-                      />
-                      <span
-                        className="text-xs text-muted-foreground tracking-wide leading-relaxed"
-                        style={{
-                          fontFamily: "'Space Mono', monospace",
-                        }}
-                      >
-                        {show.location}
-                      </span>
-                    </div>
-                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+  <div className="flex items-center gap-2">
+    <Calendar size={11} className="text-primary shrink-0" />
+    <span className="text-xs tracking-wider text-primary" style={{ fontFamily: "'Space Mono', monospace" }}>
+      {show.date}
+    </span>
+  </div>
+  {/* Name */}
+  <h3 className="text-xl font-bold uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+    {show.name}
+  </h3>
+  {/* Location */}
+  <div className="flex items-center gap-2">
+    <MapPin size={11} className="text-muted-foreground shrink-0" />
+    <span className="text-xs text-muted-foreground tracking-wide" style={{ fontFamily: "'Space Mono', monospace" }}>
+      {show.location}
+    </span>
+  </div>
+</div>
 
                   <div className="flex items-center gap-4 md:justify-end">
                     <span
