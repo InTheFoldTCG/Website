@@ -338,7 +338,7 @@ export default function App() {
                 key={i}
                 className="bg-background hover:bg-card transition-colors group"
               >
-                <div className="px-8 py-6 grid grid-cols-1 lg:grid-cols-[160px_1fr_200px_auto] gap-6 items-center">
+                <div className="px-8 py-6 grid grid-cols-1 lg:grid-cols-[140px_1fr_180px_auto] gap-6 items-center">
   <div className="flex items-center gap-2">
     <Calendar size={11} className="text-primary shrink-0" />
     <span className="text-xs tracking-wider text-primary" style={{ fontFamily: "'Space Mono', monospace" }}>
