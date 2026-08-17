@@ -243,10 +243,11 @@ export default function App() {
             </h1>
 
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm mb-10">
-              In The Fold is a TCG vendor at card shows across
-              the Valley. We buy, sell, and trade singles and
-              sealed product across all major games. Come by our
-              table and see what you can find!
+              In The Fold is a local TCG vendor setting 
+              up at card shows across the Valley. We carry 
+              a varied portfolio of slabs, sealed product, 
+              and singles. Come by our table, bring your binders, 
+              and see what we have in stock!
             </p>
 
             <div className="flex flex-wrap gap-4">
