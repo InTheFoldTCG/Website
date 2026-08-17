@@ -76,6 +76,7 @@ const SERVICES = [
     icon: ShoppingBag,
     label: "Buy",
     desc: "Singles, sealed product, and collections sourced from across the hobby.",
+    href: "https://app.getcollectr.com/showcase/profile/@inthefoldtcg",
   },
   {
     icon: Tag,
@@ -352,14 +353,17 @@ export default function App() {
             </h2>
           </div>
 
-          <div
+        <div
             className="grid grid-cols-1 md:grid-cols-3 gap-px"
             style={{ background: "rgba(255,255,255,0.07)" }}
           >
-            {SERVICES.map(({ icon: Icon, label, desc }) => (
-              <div
+            {SERVICES.map(({ icon: Icon, label, desc, href }) => (
+              <a
                 key={label}
-                className="bg-background p-10 hover:bg-card transition-colors group"
+                href={href || "#"}
+                target={href ? "_blank" : undefined}
+                rel={href ? "noopener noreferrer" : undefined}
+                className="bg-background p-10 hover:bg-card transition-colors group block"
               >
                 <Icon
                   size={28}
@@ -374,7 +378,7 @@ export default function App() {
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   {desc}
                 </p>
-              </div>
+              </a>
             ))}
           </div>
 
