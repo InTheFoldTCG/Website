@@ -596,8 +596,11 @@ export default function App() {
                 A Shop <span className="text-primary">Coming</span> Soon
               </h2>
               <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
-                We are working toward opening our own brick-and-mortar location right here in Phoenix. Our goal is to build a clean, permanent home for the local Valley tabletop community—featuring dedicated singles cases, comfortable custom table seating, and plenty of space to play. We will share more details as we get closer.
-                closer.
+                We are working toward opening our own brick-and-mortar location right here in Phoenix. 
+                Our goal is to build a clean, permanent home for the local Valley tabletop community 
+                featuring dedicated singles cases, comfortable custom table seating, 
+                and plenty of space to play. We will share more details as we get closer.
+                
               </p>
             </div>
           </div>
