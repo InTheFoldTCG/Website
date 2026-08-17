@@ -15,7 +15,7 @@ import logo from "@/imports/Untitled (1).svg";
 
 const GAMES = [
   {
-   name: "Pokémon TCG",
+    name: "Pokémon TCG",
     abbr: "PKM",
     desc: "Vintage and modern sets, holos, graded slabs, and bulk.",
     color: "#e84040",
@@ -44,8 +44,7 @@ const SHOWS = [
   {
     name: "TBD",
     date: "2026",
-    location:
-      "Phoenix, AZ",
+    location: "Phoenix, AZ",
     table: "Table 123",
     status: "upcoming",
   },
@@ -97,22 +96,16 @@ export default function App() {
 
   function handleSubscribe(e: React.FormEvent) {
     e.preventDefault();
-
-    const GOOGLE_FORM_ID =
-      "1FAIpQLSfzjjJy1P8wQh7Wtxz4sVXw9NcwcXi0REwp26GCnCmnv03hRg";
+    const GOOGLE_FORM_ID = "1FAIpQLSfzjjJy1P8wQh7Wtxz4sVXw9NcwcXi0REwp26GCnCmnv03hRg";
     const GOOGLE_EMAIL_ENTRY_ID = "entry.117977572";
-
     const formData = new FormData();
     formData.append(GOOGLE_EMAIL_ENTRY_ID, email);
 
-    fetch(
-      `https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`,
-      {
-        method: "POST",
-        mode: "no-cors",
-        body: formData,
-      },
-    )
+    fetch(`https://docs.google.com/forms/d/e/${GOOGLE_FORM_ID}/formResponse`, {
+      method: "POST",
+      mode: "no-cors",
+      body: formData,
+    })
       .then(() => {
         setSubscribed(true);
         setEmail("");
@@ -149,19 +142,14 @@ export default function App() {
             {[
               { label: "Shows", href: "#shows" },
               { label: "Inventory", href: "#inventory" },
-              {
-                label: "Buy · Sell · Trade",
-                href: "#services",
-              },
+              { label: "Buy · Sell · Trade", href: "#services" },
               { label: "Contact", href: "#contact" },
             ].map(({ label, href }) => (
               <a
                 key={label}
                 href={href}
                 className="text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors"
-                style={{
-                  fontFamily: "'Space Mono', monospace",
-                }}
+                style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 {label}
               </a>
@@ -182,19 +170,14 @@ export default function App() {
             {[
               { label: "Shows", href: "#shows" },
               { label: "Inventory", href: "#inventory" },
-              {
-                label: "Buy · Sell · Trade",
-                href: "#services",
-              },
+              { label: "Buy · Sell · Trade", href: "#services" },
               { label: "Contact", href: "#contact" },
             ].map(({ label, href }) => (
               <a
                 key={label}
                 href={href}
                 className="text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground transition-colors"
-                style={{
-                  fontFamily: "'Space Mono', monospace",
-                }}
+                style={{ fontFamily: "'Space Mono', monospace" }}
                 onClick={() => setMenuOpen(false)}
               >
                 {label}
@@ -218,7 +201,6 @@ export default function App() {
           className="absolute top-1/3 right-1/4 w-[600px] h-[500px] pointer-events-none blur-[160px] opacity-[0.06]"
           style={{ background: "#b5ff00" }}
         />
-
         <div className="relative max-w-7xl mx-auto px-6 py-28 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <div
@@ -227,7 +209,6 @@ export default function App() {
             >
               — TCG Vendor
             </div>
-
             <h1
               className="text-[clamp(3.5rem,10vw,7.5rem)] font-bold leading-[0.88] uppercase mb-8"
               style={{
@@ -235,30 +216,22 @@ export default function App() {
                 letterSpacing: "-0.02em",
               }}
             >
-              Find Us
-              <br />
-              <span className="text-primary">At The</span>
-              <br />
-              Show
+              Find Us <br />
+              <span className="text-primary">At The</span> <br /> Show
             </h1>
-
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm mb-10">
-              In The Fold is a local TCG vendor setting 
-              up at card shows across the Valley. We carry 
-              a varied portfolio of slabs, sealed product, 
-              and singles. Come by our table, bring your binders, 
-              and see what we have in stock!
+              In The Fold is a local TCG vendor setting up at card shows across the
+              Valley. We carry a varied portfolio of slabs, sealed product, and
+              singles. Come by our table, bring your binders, and see what we have
+              in stock!
             </p>
-
             <div className="flex flex-wrap gap-4">
               <a
                 href="#shows"
                 className="group flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
-                style={{
-                  fontFamily: "'Space Mono', monospace",
-                }}
+                style={{ fontFamily: "'Space Mono', monospace" }}
               >
-                Upcoming Shows
+                Upcoming Shows{" "}
                 <ArrowRight
                   size={13}
                   className="group-hover:translate-x-0.5 transition-transform"
@@ -267,15 +240,12 @@ export default function App() {
               <a
                 href="#services"
                 className="flex items-center gap-2 px-6 py-3 border border-border text-xs tracking-widest uppercase text-muted-foreground hover:text-foreground hover:border-foreground/20 transition-all"
-                style={{
-                  fontFamily: "'Space Mono', monospace",
-                }}
+                style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 Buy · Sell · Trade
               </a>
             </div>
           </div>
-
           <div className="flex items-center justify-center lg:justify-end">
             <div className="relative">
               <div
@@ -290,23 +260,17 @@ export default function App() {
             </div>
           </div>
         </div>
-
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
       </section>
 
       {/* UPCOMING SHOWS */}
-      <section
-        id="shows"
-        className="py-14 border-t border-border"
-      >
+      <section id="shows" className="py-14 border-t border-border">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
             <div>
               <div
                 className="text-[10px] tracking-[0.35em] uppercase text-primary mb-4"
-                style={{
-                  fontFamily: "'Space Mono', monospace",
-                }}
+                style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 — Show Schedule
               </div>
@@ -324,8 +288,8 @@ export default function App() {
               className="text-xs text-muted-foreground max-w-xs leading-relaxed"
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
-              We attend shows across the Valley. Sign up below
-              to get notified when the schedule updates!
+              We attend shows across the Valley. Sign up below to get notified when
+              the schedule updates!
             </p>
           </div>
 
@@ -336,23 +300,30 @@ export default function App() {
             {SHOWS.map((show, i) => (
               <div
                 key={i}
-                className="bg-background hover:bg-card transition-colors group">
-               <div className="flex flex-col gap-px" style={{ background: "rgba(255,255,255,0.07)" }}>
-            {SHOWS.map((show, i) => (
-              <div key={i} className="bg-background hover:bg-card transition-colors group">
+                className="bg-background hover:bg-card transition-colors group"
+              >
                 <div className="px-8 py-6 grid grid-cols-1 lg:grid-cols-[140px_1fr_180px_auto] gap-6 items-center">
                   <div className="flex items-center gap-2">
                     <Calendar size={11} className="text-primary shrink-0" />
-                    <span className="text-xs tracking-wider text-primary" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    <span
+                      className="text-xs tracking-wider text-primary"
+                      style={{ fontFamily: "'Space Mono', monospace" }}
+                    >
                       {show.date}
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                  <h3
+                    className="text-xl font-bold uppercase"
+                    style={{ fontFamily: "'Chakra Petch', sans-serif" }}
+                  >
                     {show.name}
                   </h3>
                   <div className="flex items-center gap-2">
                     <MapPin size={11} className="text-muted-foreground shrink-0" />
-                    <span className="text-xs text-muted-foreground tracking-wide" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    <span
+                      className="text-xs text-muted-foreground tracking-wide"
+                      style={{ fontFamily: "'Space Mono', monospace" }}
+                    >
                       {show.location}
                     </span>
                   </div>
@@ -361,7 +332,10 @@ export default function App() {
                       className="text-xs px-3 py-1 border"
                       style={{
                         fontFamily: "'Space Mono', monospace",
-                        borderColor: show.table === "TBD" ? "rgba(255,255,255,0.12)" : "rgba(181,255,0,0.4)",
+                        borderColor:
+                          show.table === "TBD"
+                            ? "rgba(255,255,255,0.12)"
+                            : "rgba(181,255,0,0.4)",
                         color: show.table === "TBD" ? "#7878a0" : "#b5ff00",
                       }}
                     >
@@ -372,13 +346,11 @@ export default function App() {
               </div>
             ))}
           </div>
+        </div>
       </section>
 
       {/* SERVICES */}
-      <section
-        id="services"
-        className="py-16 border-t border-border"
-      >
+      <section id="services" className="py-16 border-t border-border">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-14">
             <div
@@ -413,9 +385,7 @@ export default function App() {
                 />
                 <h3
                   className="text-2xl font-bold uppercase mb-4"
-                  style={{
-                    fontFamily: "'Chakra Petch', sans-serif",
-                  }}
+                  style={{ fontFamily: "'Chakra Petch', sans-serif" }}
                 >
                   {label}
                 </h3>
@@ -436,15 +406,13 @@ export default function App() {
             <div>
               <div
                 className="text-xs tracking-widest uppercase text-primary mb-2"
-                style={{
-                  fontFamily: "'Space Mono', monospace",
-                }}
+                style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 Selling a collection?
               </div>
               <p className="text-sm text-muted-foreground">
-                Bring it to any show or reach out ahead of time.
-                We buy bulk, binders, and sealed product.
+                Bring it to any show or reach out ahead of time. We buy bulk,
+                binders, and sealed product.
               </p>
             </div>
             <a
@@ -452,18 +420,14 @@ export default function App() {
               className="shrink-0 flex items-center gap-2 px-6 py-3 border border-primary/40 text-primary text-xs tracking-widest uppercase hover:bg-primary hover:text-primary-foreground transition-all"
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
-              Get in Touch
-              <ArrowRight size={12} />
+              Get in Touch <ArrowRight size={12} />
             </a>
           </div>
         </div>
       </section>
 
       {/* INVENTORY */}
-      <section
-        id="inventory"
-        className="py-14 border-t border-border"
-      >
+      <section id="inventory" className="py-14 border-t border-border">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-14">
             <div
@@ -495,9 +459,7 @@ export default function App() {
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <h3
                     className="text-xl font-bold uppercase leading-tight"
-                    style={{
-                      fontFamily: "'Chakra Petch', sans-serif",
-                    }}
+                    style={{ fontFamily: "'Chakra Petch', sans-serif" }}
                   >
                     {game.name}
                   </h3>
@@ -518,13 +480,11 @@ export default function App() {
               </div>
             ))}
           </div>
-
           <p
             className="mt-6 text-xs text-muted-foreground/60 tracking-wide"
             style={{ fontFamily: "'Space Mono', monospace" }}
           >
-            Don't see your game? Ask at the table — inventory
-            varies by show.
+            Don't see your game? Ask at the table — inventory varies by show.
           </p>
         </div>
       </section>
@@ -546,9 +506,7 @@ export default function App() {
             <div className="relative">
               <div
                 className="text-[10px] tracking-[0.35em] uppercase text-primary mb-4"
-                style={{
-                  fontFamily: "'Space Mono', monospace",
-                }}
+                style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 — What's Next
               </div>
@@ -562,11 +520,11 @@ export default function App() {
                 A Shop <span className="text-primary">Coming</span> Soon
               </h2>
               <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
-                We are working toward opening our own brick-and-mortar location right here in Phoenix. 
-                Our goal is to build a clean, permanent home for the local Valley tabletop community 
-                featuring dedicated singles cases, comfortable custom table seating, 
-                and plenty of space to play. We will share more details as we get closer.
-                
+                We are working toward opening our own brick-and-mortar location
+                right here in Phoenix. Our goal is to build a clean, permanent
+                home for the local Valley tabletop community featuring dedicated
+                singles cases, comfortable custom table seating, and plenty of space
+                to play. We will share more details as we get closer.
               </p>
             </div>
           </div>
@@ -574,10 +532,7 @@ export default function App() {
       </section>
 
       {/* CONTACT & NEWSLETTER */}
-      <section
-        id="contact"
-        className="py-14 border-t border-border"
-      >
+      <section id="contact" className="py-14 border-t border-border">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Newsletter */}
           <div>
@@ -597,8 +552,8 @@ export default function App() {
               Show <br /> Updates
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed mb-8 max-w-sm">
-              Get notified when we add new shows, update our
-              schedule, or have news about the shop.
+              Get notified when we add new shows, update our schedule, or have
+              news about the shop.
             </p>
 
             {subscribed ? (
@@ -609,17 +564,12 @@ export default function App() {
                   background: "rgba(181,255,0,0.05)",
                 }}
               >
-                <Mail
-                  size={14}
-                  className="text-primary shrink-0"
-                />
+                <Mail size={14} className="text-primary shrink-0" />
                 <span
                   className="text-sm tracking-wider text-primary"
-                  style={{
-                    fontFamily: "'Space Mono', monospace",
-                  }}
+                  style={{ fontFamily: "'Space Mono', monospace" }}
                 >
-                  {"You're on the list. We'll be in touch."}
+                  You're on the list. We'll be in touch.
                 </span>
               </div>
             ) : (
@@ -631,16 +581,12 @@ export default function App() {
                   placeholder="your@email.com"
                   required
                   className="flex-1 px-4 py-3 bg-card border border-border border-r-0 text-sm text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:border-primary/40 transition-colors"
-                  style={{
-                    fontFamily: "'Space Mono', monospace",
-                  }}
+                  style={{ fontFamily: "'Space Mono', monospace" }}
                 />
                 <button
                   type="submit"
                   className="px-6 py-3 bg-primary text-primary-foreground text-xs tracking-widest uppercase hover:opacity-90 transition-opacity shrink-0"
-                  style={{
-                    fontFamily: "'Space Mono', monospace",
-                  }}
+                  style={{ fontFamily: "'Space Mono', monospace" }}
                 >
                   Subscribe
                 </button>
@@ -666,11 +612,9 @@ export default function App() {
               Contact <br /> Us
             </h2>
             <p className="text-sm text-muted-foreground leading-relaxed mb-8 max-w-sm">
-              Questions about inventory, selling a collection,
-              or want to know if {"we'll"} be at a specific
-              show? Reach out.
+              Questions about inventory, selling a collection, or want to know if
+              we'll be at a specific show? Reach out.
             </p>
-
             <div className="flex flex-col gap-3">
               {[
                 {
@@ -687,11 +631,7 @@ export default function App() {
                 <a
                   key={label}
                   href={href}
-                  target={
-                    href.startsWith("http")
-                      ? "_blank"
-                      : undefined
-                  }
+                  target={href.startsWith("http") ? "_blank" : undefined}
                   rel={
                     href.startsWith("http")
                       ? "noopener noreferrer"
@@ -701,17 +641,13 @@ export default function App() {
                 >
                   <span
                     className="text-[10px] tracking-widest uppercase text-muted-foreground"
-                    style={{
-                      fontFamily: "'Space Mono', monospace",
-                    }}
+                    style={{ fontFamily: "'Space Mono', monospace" }}
                   >
                     {label}
                   </span>
                   <span
                     className="text-xs text-foreground/70 group-hover:text-primary transition-colors"
-                    style={{
-                      fontFamily: "'Space Mono', monospace",
-                    }}
+                    style={{ fontFamily: "'Space Mono', monospace" }}
                   >
                     {value}
                   </span>
