@@ -81,12 +81,12 @@ const SERVICES = [
   {
     icon: Tag,
     label: "Sell",
-    desc: "Competitive prices on your singles, lots, and sealed product. Walk-ins welcome at shows.",
+    desc: "Competitive prices on singles, lots, and sealed product. Walk-ins welcome at shows.",
   },
   {
     icon: RefreshCw,
     label: "Trade",
-    desc: "We trade. Bring your binder. Find us at any show on our schedule.",
+    desc: "We love to trade. Bring your binders to our table or reach out and let’s make a deal.",
   },
 ];
 
@@ -596,10 +596,7 @@ export default function App() {
                 A Shop <span className="text-primary">Coming</span> Soon
               </h2>
               <p className="text-sm text-muted-foreground leading-relaxed max-w-md">
-                We are working toward our own brick-and-mortar
-                location. A permanent home for the local TCG
-                community — with singles cases, sealed product,
-                and space to play. More details as we get
+                We are working toward opening our own brick-and-mortar location right here in Phoenix. Our goal is to build a clean, permanent home for the local Valley tabletop community—featuring dedicated singles cases, comfortable custom table seating, and plenty of space to play. We will share more details as we get closer.
                 closer.
               </p>
             </div>
