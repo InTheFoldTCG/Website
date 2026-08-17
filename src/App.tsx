@@ -297,7 +297,7 @@ export default function App() {
        <div className="flex flex-col gap-px" style={{ background: "rgba(255,255,255,0.07)" }}>
             {SHOWS.map((show, i) => (
               <div key={i} className="bg-background hover:bg-card transition-colors group">
-                <div className="px-8 py-6 grid grid-cols-1 lg:grid-cols-[140px_1fr_220px_120px] gap-6 items-center">
+                <div className="px-8 py-6 grid grid-cols-1 lg:grid-cols-[140px_minmax(0,1fr)_320px_120px] gap-6 items-center">
                   <div className="flex items-center gap-2">
                     <Calendar size={11} className="text-primary shrink-0" />
                     <span className="text-xs tracking-wider text-primary" style={{ fontFamily: "'Space Mono', monospace" }}>
