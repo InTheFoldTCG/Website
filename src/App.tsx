@@ -42,11 +42,11 @@ const GAMES = [
 
 const SHOWS = [
   {
-    name: "TBD",
-    date: "2026",
-    location: "Phoenix, AZ",
-    table: "Table 123",
-    status: "upcoming",
+    name: "West Valley TCG Expo 6",
+    date: "Saturday Sep 26 – Sunday Sep 27 2026",
+    location: "20570 West Roosevelt St, Buckeye, AZ 85326",
+    table: "Table 45",
+    status: "confirmed",
   },
   {
     name: "TBD",
