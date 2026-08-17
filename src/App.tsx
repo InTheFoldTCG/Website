@@ -207,7 +207,7 @@ export default function App() {
               className="text-xs tracking-[0.35em] uppercase text-primary mb-6"
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
-              — TCG Vendor
+              In The Fold TCG
             </div>
             <h1
               className="text-[clamp(3.5rem,10vw,7.5rem)] font-bold leading-[0.88] uppercase mb-8"
