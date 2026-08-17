@@ -43,7 +43,7 @@ const GAMES = [
 const SHOWS = [
   {
     name: "West Valley TCG Expo 6",
-    date: "Saturday Sep 26 Sunday Sep 27 2026",
+    date: "Saturday Sep 26 & Sunday Sep 27",
     location: "20570 West Roosevelt St, Buckeye, AZ 85326",
     table: "Table 45",
     status: "confirmed",
