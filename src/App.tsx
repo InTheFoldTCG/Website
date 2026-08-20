@@ -59,7 +59,7 @@ const SHOWS = [
   {
       name: "Phoenix Trading Card Con 2026",
     date: "Fri Oct 30, Sat Oct 31 & Sun Nov 1",
-    location: "Phoenix Convention Center 100 N 3rd St, Phoenix, AZ 85004",
+    location: "100 N 3rd St, Phoenix, AZ 85004",
     table: "Table TBD",
     status: "confirmed",
     href: "https://tradingcardcon.com/event/phoenix-2026/",
