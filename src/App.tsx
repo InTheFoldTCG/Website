@@ -77,7 +77,7 @@ const SERVICES = [
   {
     icon: ShoppingBag,
     label: "Buy",
-    desc: "Singles, sealed product, and collections sourced from across the hobby.",
+    desc: "Click here to see what's in stock. We source singles, sealed product, and collections across major TCGs. ",
     href: "https://app.getcollectr.com/showcase/profile/@inthefoldtcg",
   },
   {
