@@ -53,7 +53,7 @@ const SHOWS = [
     name: "TBD",
     date: "Sep 2026",
     location: "Phoenix, AZ",
-    table: "Table 231",
+    table: "TBD",
     status: "upcoming",
   },
   {
