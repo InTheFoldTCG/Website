@@ -51,13 +51,13 @@ const SHOWS = [
   },
   {
     name: "TBD",
-    date: "Sep 2026",
+    date: "Oct 2026",
     location: "Phoenix, AZ",
     table: "TBD",
     status: "upcoming",
   },
   {
-      name: "Phoenix Trading Card Con 2026",
+    name: "Phoenix Trading Card Con 2026",
     date: "Fri Oct 30, Sat Oct 31 & Sun Nov 1",
     location: "100 N 3rd St, Phoenix, AZ 85004",
     table: "Table TBD",
@@ -66,7 +66,7 @@ const SHOWS = [
   },
   {
     name: "TBD",
-    date: "Dec 2026",
+    date: "Nov 2026",
     location: "Phoenix, AZ",
     table: "TBD",
     status: "upcoming",
