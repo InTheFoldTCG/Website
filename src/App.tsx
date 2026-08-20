@@ -144,8 +144,8 @@ export default function App() {
           <div className="hidden md:flex items-center gap-8">
             {[
               { label: "Shows", href: "#shows" },
-              { label: "Inventory", href: "#inventory" },
               { label: "Buy · Sell · Trade", href: "#services" },
+              { label: "Inventory", href: "#inventory" },
               { label: "Contact", href: "#contact" },
             ].map(({ label, href }) => (
               <a
