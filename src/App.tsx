@@ -50,11 +50,12 @@ const SHOWS = [
     href: "https://www.ontreasure.com/events/west-valley-tcg-expo-6-09262026",
   },
   {
-    name: "TBD",
-    date: "Oct 2026",
-    location: "Phoenix, AZ",
+    name: "TCGTopia XII",
+    date: "Saturday Oct 17 Sunday Oct 18",
+    location: "552 N 40th St, Phoenix, AZ 85008",
     table: "TBD",
-    status: "upcoming",
+    status: "confirmed",
+    href: "https://www.instagram.com/tcgtopia/?hl=en",
   },
   {
     name: "Phoenix Trading Card Con 2026",
