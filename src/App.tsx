@@ -52,7 +52,7 @@ const SHOWS = [
   {
     name: "TCGTopia XII",
     date: "Saturday Oct 17 Sunday Oct 18",
-    location: "552 N 40th St, Phoenix, AZ 85008",
+    location: "552 North 40th St, Phoenix, AZ 85008",
     table: "Table TBD",
     status: "confirmed",
     href: "https://www.instagram.com/tcgtopia/?hl=en",
@@ -60,7 +60,7 @@ const SHOWS = [
   {
     name: "Phoenix Trading Card Con 2026",
     date: "Friday Oct 30 Saturday Oct 31 Sunday Nov 1",
-    location: "100 N 3rd St, Phoenix, AZ 85004",
+    location: "100 North 3rd St, Phoenix, AZ 85004",
     table: "Table TBD",
     status: "confirmed",
     href: "https://tradingcardcon.com/event/phoenix-2026/",
