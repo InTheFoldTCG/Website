@@ -43,17 +43,41 @@ export default function CustomCard() {
     return total;
   };
 
-  const totalPrice = calculateTotal();
+const totalPrice = calculateTotal();
 
-  const handleSubmitAndPay = (e: React.FormEvent) => {
+  const handleSubmitAndPay = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // TODO: Connect totalPrice to your Chase-linked payment processor / terminal checkout
-    setTimeout(() => {
+    try {
+      const photoUrl = photo ? URL.createObjectURL(photo) : "No photo uploaded";
+
+      const orderData = {
+        cardName,
+        attackName,
+        cardType,
+        pokemonType,
+        addons: `Holo: ${hasHolo}, Holder: ${hasHolder}`,
+        totalPrice: `$${totalPrice}.00`,
+        photoUrl: photoUrl
+      };
+
+      await fetch("https://script.google.com/macros/s/AKfycby3zYctlti4EuneSyw4cmEalD50Z9O9s-gk_P_HSrL3-VdUTffUQspfKkebhsuQdTpQjw/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+
       setIsSubmitting(false);
       setSubmitted(true);
-    }, 1500);
+    } catch (error) {
+      console.error("Order submission failed", error);
+      setIsSubmitting(false);
+      alert("Something went wrong saving your order. Please try again.");
+    }
   };
 
   return (
