@@ -210,7 +210,7 @@ export default function CustomCard() {
                 <label className="border border-dashed border-border hover:border-primary/50 p-4 flex items-center justify-center cursor-pointer bg-background transition-colors">
                   <Upload size={18} className="text-primary mr-2" />
                   <span className="text-xs text-foreground font-medium" style={{ fontFamily: "'Space Mono', monospace" }}>
-                    {photo ? photo.name : "Select or snap photo"}
+                    {photo ? photo.name : "Select photo"}
                   </span>
                   <input
                     type="file"
