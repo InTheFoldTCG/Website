@@ -46,17 +46,16 @@ export default function CustomCard() {
 
     try {
       const photoUrl = photo ? URL.createObjectURL(photo) : "No photo uploaded";
-      // Updated endpoint URL configured for separate Holo and Holder columns
       const endpoint = "https://script.google.com/macros/s/AKfycbxYn5xlcODoqhsBmCPfEKCjzVCXQnjUDFdWQfwwsfzv_zUOewBuO8T--YQ7R2okOjR-Nw/exec";
 
-      // 1. Send the Primary Card row
+      // 1. Send the Primary Card row (Clean Yes/No values)
       const primaryOrder = {
         cardName: cardName,
         attackName: attackName,
         cardType: cardType,
         pokemonType: pokemonType,
-        holoAddon: hasHolo ? "YES (+2)" : "No",
-        holderAddon: hasHolder ? "YES (+2)" : "No",
+        holoAddon: hasHolo ? "Yes" : "No",
+        holderAddon: hasHolder ? "Yes" : "No",
         totalPrice: `Primary Card`,
         photoUrl: photoUrl
       };
@@ -68,15 +67,15 @@ export default function CustomCard() {
         body: JSON.stringify(primaryOrder),
       });
 
-      // 2. Send the Duplicate Card row if checked
+      // 2. Send the Duplicate Card row if checked (Clean Yes/No values)
       if (hasDuplicate) {
         const duplicateOrder = {
           cardName: cardName,
           attackName: attackName,
           cardType: cardType,
           pokemonType: pokemonType,
-          holoAddon: dupHolo ? "YES (+2)" : "No",
-          holderAddon: dupHolder ? "YES (+2)" : "No",
+          holoAddon: dupHolo ? "Yes" : "No",
+          holderAddon: dupHolder ? "Yes" : "No",
           totalPrice: `Duplicate Card`,
           photoUrl: photoUrl
         };
