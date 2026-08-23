@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { ImageWithFallback } from "./components/figma/ImageWithFallback";
 import logo from "@/imports/Untitled (1).svg";
-import CustomCardStudio from "./pages/customcard";
+import CustomCard from "./pages/customcard.tsx";
 
 const GAMES = [
   {
