@@ -45,42 +45,60 @@ export default function CustomCard() {
 
 const totalPrice = calculateTotal();
 
-const handleSubmitAndPay = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setIsSubmitting(true);
+  const handleSubmitAndPay = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
-  try {
-    const photoUrl = photo ? URL.createObjectURL(photo) : "No photo uploaded";
+    try {
+      const photoUrl = photo ? URL.createObjectURL(photo) : "No photo uploaded";
+      const endpoint = "https://script.google.com/macros/s/AKfycby3zYctlti4EuneSyw4cmEalD50Z9O9s-gk_P_HSrL3-VdUTffUQspfKkebhsuQdTpQjw/exec";
 
-    const orderData = {
-      cardName,
-      attackName,
-      cardType,
-      pokemonType,
-      addons: `Holo: ${hasHolo}, Holder: ${hasHolder}`,
-      // Include duplicate details if a duplicate exists in your state
-      duplicateDetails: hasDuplicate ? `Style: ${dupStyle}, Name: ${dupName}` : "None",
-      totalPrice: `$${totalPrice}.00`,
-      photoUrl: photoUrl // Shared cleanly across the order
-    };
+      // 1. Send the Primary Card row
+      const primaryOrder = {
+        cardName: cardName,
+        attackName: attackName,
+        cardType: cardType,
+        pokemonType: pokemonType,
+        addons: `Style: ${cardStyle} | Holo: ${hasHolo} | Holder: ${hasHolder}`,
+        totalPrice: `Primary Card`,
+        photoUrl: photoUrl
+      };
 
-    await fetch("https://script.google.com/macros/s/AKfycby3zYctlti4EuneSyw4cmEalD50Z9O9s-gk_P_HSrL3-VdUTffUQspfKkebhsuQdTpQjw/exec", {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(orderData),
-    });
+      await fetch(endpoint, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(primaryOrder),
+      });
 
-    setIsSubmitting(false);
-    setSubmitted(true);
-  } catch (error) {
-    console.error("Order submission failed", error);
-    setIsSubmitting(false);
-    alert("Something went wrong saving your order. Please try again.");
-  }
-};
+      // 2. If a duplicate card is included, send its own distinct row sharing the same photo URL
+      if (hasDuplicate) {
+        const duplicateOrder = {
+          cardName: dupName,
+          attackName: dupAttack,
+          cardType: dupCardType,
+          pokemonType: dupPokemonType,
+          addons: `Style: ${dupStyle} | Holo: ${dupHolo} | Holder: ${dupHolder} (Duplicate)`,
+          totalPrice: `Duplicate Card`,
+          photoUrl: photoUrl
+        };
+
+        await fetch(endpoint, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(duplicateOrder),
+        });
+      }
+
+      setIsSubmitting(false);
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Order submission failed", error);
+      setIsSubmitting(false);
+      alert("Something went wrong saving your order. Please try again.");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground py-20 px-6" style={{ fontFamily: "'Outfit', sans-serif" }}>
