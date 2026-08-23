@@ -53,7 +53,7 @@ const SHOWS = [
     name: "TCGTopia XII",
     date: "Saturday Oct 17 Sunday Oct 18",
     location: "552 N 40th St, Phoenix, AZ 85008",
-    table: "TBD",
+    table: "Table TBD",
     status: "confirmed",
     href: "https://www.instagram.com/tcgtopia/?hl=en",
   },
