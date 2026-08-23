@@ -15,15 +15,10 @@ export default function CustomCard() {
   const [hasHolo, setHasHolo] = useState(false);
   const [hasHolder, setHasHolder] = useState(false);
 
-  // Duplicate Card State
+  // Duplicate Card State (Add-ons only)
   const [hasDuplicate, setHasDuplicate] = useState(false);
-  const [dupCardType, setDupCardType] = useState<"basic" | "fullart">("basic");
-  const [dupPokemonType, setDupPokemonType] = useState("Fire");
-  const [dupCardName, setDupCardName] = useState("");
-  const [dupAttackName, setDupAttackName] = useState("");
-  const [dupPhoto, setDupPhoto] = useState<File | null>(null);
-  const [dupHasHolo, setDupHasHolo] = useState(false);
-  const [dupHasHolder, setDupHasHolder] = useState(false);
+  const [dupHolo, setDupHolo] = useState(false);
+  const [dupHolder, setDupHolder] = useState(false);
 
   // Submission State
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,13 +32,13 @@ export default function CustomCard() {
 
     if (hasDuplicate) {
       total += 8; // Duplicate base
-      if (dupHasHolo) total += 2;
-      if (dupHasHolder) total += 2;
+      if (dupHolo) total += 2;
+      if (dupHolder) total += 2;
     }
     return total;
   };
 
-const totalPrice = calculateTotal();
+  const totalPrice = calculateTotal();
 
   const handleSubmitAndPay = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,7 +54,7 @@ const totalPrice = calculateTotal();
         attackName: attackName,
         cardType: cardType,
         pokemonType: pokemonType,
-        addons: `Style: ${cardStyle} | Holo: ${hasHolo} | Holder: ${hasHolder}`,
+        addons: `Style: ${cardType} | Holo: ${hasHolo} | Holder: ${hasHolder}`,
         totalPrice: `Primary Card`,
         photoUrl: photoUrl
       };
@@ -71,14 +66,14 @@ const totalPrice = calculateTotal();
         body: JSON.stringify(primaryOrder),
       });
 
-      // 2. Send the Duplicate Card row sharing the same name/photo/attack, but with its own add-ons
+      // 2. Send the Duplicate Card row if checked
       if (hasDuplicate) {
         const duplicateOrder = {
           cardName: cardName,
           attackName: attackName,
           cardType: cardType,
           pokemonType: pokemonType,
-          addons: `Style: ${cardStyle} | Holo: ${dupHolo} | Holder: ${dupHolder} (Duplicate)`,
+          addons: `Style: ${cardType} | Holo: ${dupHolo} | Holder: ${dupHolder} (Duplicate)`,
           totalPrice: `Duplicate Card`,
           photoUrl: photoUrl
         };
@@ -253,42 +248,58 @@ const totalPrice = calculateTotal();
                 </label>
               </div>
             </div>
-{/* DUPLICATE CARD SECTION */}
-<div className="mt-6 pt-6 border-t border-border">
-  <div className="flex justify-between items-center mb-4">
-    <span className="font-bold">DUPLICATE CARD ($8)</span>
-    <button
-      type="button"
-      onClick={() => setHasDuplicate(false)}
-      className="text-sm text-red-500 hover:underline"
-    >
-      [Remove]
-    </button>
-  </div>
 
-  {/* Only show the add-ons for the duplicate, since it reuses the primary card's info & photo */}
-  <div className="flex flex-col gap-3">
-    <label className="flex items-center gap-2 cursor-pointer">
-      <input
-        type="checkbox"
-        checked={dupHolo}
-        onChange={(e) => setDupHolo(e.target.checked)}
-        className="rounded border-border"
-      />
-      <span>Add Holo Layer <span className="text-sm text-muted-foreground">(+$2)</span></span>
-    </label>
+            {/* DUPLICATE CARD TOGGLE / SECTION */}
+            {!hasDuplicate ? (
+              <button
+                type="button"
+                onClick={() => setHasDuplicate(true)}
+                className="w-full py-3 border border-dashed border-border text-xs uppercase tracking-widest text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors flex items-center justify-center gap-2"
+                style={{ fontFamily: "'Space Mono', monospace" }}
+              >
+                <Plus size={16} /> Add Duplicate Copy ($8)
+              </button>
+            ) : (
+              <div className="mt-6 pt-6 border-t border-border">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="font-bold text-sm uppercase tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                    Duplicate Card Add-ons ($8)
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setHasDuplicate(false)}
+                    className="text-xs text-red-500 hover:underline"
+                    style={{ fontFamily: "'Space Mono', monospace" }}
+                  >
+                    [Remove Duplicate]
+                  </button>
+                </div>
 
-    <label className="flex items-center gap-2 cursor-pointer">
-      <input
-        type="checkbox"
-        checked={dupHolder}
-        onChange={(e) => setDupHolder(e.target.checked)}
-        className="rounded border-border"
-      />
-      <span>Magnetic Holder <span className="text-sm text-muted-foreground">(+$2)</span></span>
-    </label>
-  </div>
-</div>
+                <div className="grid grid-cols-2 gap-4">
+                  <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
+                    <input
+                      type="checkbox"
+                      checked={dupHolo}
+                      onChange={(e) => setDupHolo(e.target.checked)}
+                      className="accent-primary"
+                    />
+                    <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      Add Holo Layer <strong className="text-primary">(+$2)</strong>
+                    </span>
+                  </label>
+                  <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
+                    <input
+                      type="checkbox"
+                      checked={dupHolder}
+                      onChange={(e) => setDupHolder(e.target.checked)}
+                      className="accent-primary"
+                    />
+                    <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      Magnetic Holder <strong className="text-primary">(+$2)</strong>
+                    </span>
+                  </label>
+                </div>
+              </div>
             )}
 
             {/* LIVE TOTAL & SUBMIT BAR */}
@@ -329,7 +340,7 @@ const totalPrice = calculateTotal();
               Payment of ${totalPrice}.00 processed. Your cards are locked in and heading to the print station!
             </p>
             <button
-              onClick={() => { setSubmitted(false); setPhoto(null); setDupPhoto(null); setHasDuplicate(false); setHasHolo(false); setHasHolder(false); }}
+              onClick={() => { setSubmitted(false); setPhoto(null); setHasDuplicate(false); setHasHolo(false); setHasHolder(false); setDupHolo(false); setDupHolder(false); }}
               className="px-6 py-3 border border-border text-xs tracking-widest uppercase hover:text-primary transition-colors mt-4"
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
