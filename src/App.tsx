@@ -224,9 +224,9 @@ export default function App() {
               <span className="text-primary">At The</span> <br /> Show
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm mb-10">
-              In The Fold is a local TCG vendor setting up at card shows across the
+              In The Fold is a family run, Phoenix local TCG vendor setting up at card shows across the
               Valley. We carry a varied portfolio of slabs, sealed product, and
-              singles. Come by our table, bring your binders, and see what we have
+              singles. Come by our table, bring your binders, say hi and see what we have
               in stock!
             </p>
             <div className="flex flex-wrap gap-4">
