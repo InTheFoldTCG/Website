@@ -46,7 +46,7 @@ export default function CustomCard() {
 
     try {
       const photoUrl = photo ? URL.createObjectURL(photo) : "No photo uploaded";
-      const endpoint = "https://script.google.com/macros/s/AKfycby3zYctlti4EuneSyw4cmEalD50Z9O9s-gk_P_HSrL3-VdUTffUQspfKkebhsuQdTpQjw/exec";
+      const endpoint = "https://script.google.com/macros/s/AKfycbzEAYhGBu6oA9FiM7p_DHPM7QbMfhtSfmZhlDmxJit6IzFOPKnbFWTc0CRn2VThhKeZDw/exec";
 
       // 1. Send the Primary Card row
       const primaryOrder = {
