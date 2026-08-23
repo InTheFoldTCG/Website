@@ -46,7 +46,8 @@ export default function CustomCard() {
 
     try {
       const photoUrl = photo ? URL.createObjectURL(photo) : "No photo uploaded";
-      const endpoint = "https://script.google.com/macros/s/AKfycbzEAYhGBu6oA9FiM7p_DHPM7QbMfhtSfmZhlDmxJit6IzFOPKnbFWTc0CRn2VThhKeZDw/exec";
+      // Updated endpoint URL configured for separate Holo and Holder columns
+      const endpoint = "https://script.google.com/macros/s/AKfycbxYn5xlcODoqhsBmCPfEKCjzVCXQnjUDFdWQfwwsfzv_zUOewBuO8T--YQ7R2okOjR-Nw/exec";
 
       // 1. Send the Primary Card row
       const primaryOrder = {
@@ -54,7 +55,8 @@ export default function CustomCard() {
         attackName: attackName,
         cardType: cardType,
         pokemonType: pokemonType,
-        addons: `Style: ${cardType} | Holo: ${hasHolo} | Holder: ${hasHolder}`,
+        holoAddon: hasHolo ? "YES (+2)" : "No",
+        holderAddon: hasHolder ? "YES (+2)" : "No",
         totalPrice: `Primary Card`,
         photoUrl: photoUrl
       };
@@ -73,7 +75,8 @@ export default function CustomCard() {
           attackName: attackName,
           cardType: cardType,
           pokemonType: pokemonType,
-          addons: `Style: ${cardType} | Holo: ${dupHolo} | Holder: ${dupHolder} (Duplicate)`,
+          holoAddon: dupHolo ? "YES (+2)" : "No",
+          holderAddon: dupHolder ? "YES (+2)" : "No",
           totalPrice: `Duplicate Card`,
           photoUrl: photoUrl
         };
