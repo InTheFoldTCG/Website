@@ -71,14 +71,14 @@ const totalPrice = calculateTotal();
         body: JSON.stringify(primaryOrder),
       });
 
-      // 2. If a duplicate card is included, send its own distinct row sharing the same photo URL
+      // 2. Send the Duplicate Card row sharing the same name/photo/attack, but with its own add-ons
       if (hasDuplicate) {
         const duplicateOrder = {
-          cardName: dupName,
-          attackName: dupAttack,
-          cardType: dupCardType,
-          pokemonType: dupPokemonType,
-          addons: `Style: ${dupStyle} | Holo: ${dupHolo} | Holder: ${dupHolder} (Duplicate)`,
+          cardName: cardName,
+          attackName: attackName,
+          cardType: cardType,
+          pokemonType: pokemonType,
+          addons: `Style: ${cardStyle} | Holo: ${dupHolo} | Holder: ${dupHolder} (Duplicate)`,
           totalPrice: `Duplicate Card`,
           photoUrl: photoUrl
         };
@@ -253,153 +253,42 @@ const totalPrice = calculateTotal();
                 </label>
               </div>
             </div>
+{/* DUPLICATE CARD SECTION */}
+<div className="mt-6 pt-6 border-t border-border">
+  <div className="flex justify-between items-center mb-4">
+    <span className="font-bold">DUPLICATE CARD ($8)</span>
+    <button
+      type="button"
+      onClick={() => setHasDuplicate(false)}
+      className="text-sm text-red-500 hover:underline"
+    >
+      [Remove]
+    </button>
+  </div>
 
-            {/* === DUPLICATE CARD SECTION === */}
-            {!hasDuplicate ? (
-              <button
-                type="button"
-                onClick={() => setHasDuplicate(true)}
-                className="w-full py-3 border border-dashed border-border hover:border-primary text-xs uppercase tracking-wider text-muted-foreground hover:text-foreground flex items-center justify-center gap-2 transition-colors"
-                style={{ fontFamily: "'Space Mono', monospace" }}
-              >
-                <Plus size={16} /> Add a Duplicate Card ($8 base)
-              </button>
-            ) : (
-              <div className="space-y-6 p-5 border border-primary/40 bg-primary/5 relative">
-                <div className="flex items-center justify-between">
-                  <div className="text-sm font-bold uppercase text-primary tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
-                    Duplicate Card ($8)
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setHasDuplicate(false)}
-                    className="text-muted-foreground hover:text-red-400 text-xs flex items-center gap-1"
-                    style={{ fontFamily: "'Space Mono', monospace" }}
-                  >
-                    <Trash2 size={14} /> Remove
-                  </button>
-                </div>
+  {/* Only show the add-ons for the duplicate, since it reuses the primary card's info & photo */}
+  <div className="flex flex-col gap-3">
+    <label className="flex items-center gap-2 cursor-pointer">
+      <input
+        type="checkbox"
+        checked={dupHolo}
+        onChange={(e) => setDupHolo(e.target.checked)}
+        className="rounded border-border"
+      />
+      <span>Add Holo Layer <span className="text-sm text-muted-foreground">(+$2)</span></span>
+    </label>
 
-                {/* Dup Style */}
-                <div>
-                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-                    Duplicate Style
-                  </label>
-                  <div className="grid grid-cols-2 gap-4">
-                    <button
-                      type="button"
-                      onClick={() => setDupCardType("basic")}
-                      className={`p-3 border text-left transition-all ${dupCardType === "basic" ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground"}`}
-                    >
-                      <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Basic Card</div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setDupCardType("fullart")}
-                      className={`p-3 border text-left transition-all ${dupCardType === "fullart" ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground"}`}
-                    >
-                      <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Full Art</div>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Dup Type (Basic only) */}
-                {dupCardType === "basic" && (
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-                      Duplicate Pokémon Type
-                    </label>
-                    <select
-                      value={dupPokemonType}
-                      onChange={(e) => setDupPokemonType(e.target.value)}
-                      className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
-                      style={{ fontFamily: "'Space Mono', monospace" }}
-                    >
-                      <option value="Fire">Fire Type</option>
-                      <option value="Water">Water Type</option>
-                      <option value="Grass">Grass Type</option>
-                      <option value="Electric">Electric Type</option>
-                      <option value="Psychic">Psychic Type</option>
-                      <option value="Fighting">Fighting Type</option>
-                      <option value="Colorless">Colorless Type</option>
-                    </select>
-                  </div>
-                )}
-
-                {/* Dup Name & Attack */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-                      Name at Top
-                    </label>
-                    <input
-                      type="text"
-                      required={hasDuplicate}
-                      value={dupCardName}
-                      onChange={(e) => setDupCardName(e.target.value)}
-                      placeholder="e.g. Trainer Mike"
-                      className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
-                      style={{ fontFamily: "'Space Mono', monospace" }}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-                      Attack / Effect
-                    </label>
-                    <input
-                      type="text"
-                      required={hasDuplicate}
-                      value={dupAttackName}
-                      onChange={(e) => setDupAttackName(e.target.value)}
-                      placeholder="e.g. Strike - 100"
-                      className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
-                      style={{ fontFamily: "'Space Mono', monospace" }}
-                    />
-                  </div>
-                </div>
-
-                {/* Dup Photo */}
-                <div>
-                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-                    Duplicate Subject Photo
-                  </label>
-            
-                    <input
-                      type="file"
-                      accept="image/*"
-                      required={hasDuplicate}
-                      onChange={(e) => e.target.files && setDupPhoto(e.target.files[0])}
-                      className="hidden"
-                    />
-                  </label>
-                </div>
-
-                {/* Dup Add-ons */}
-                <div className="grid grid-cols-2 gap-4 pt-2">
-                  <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
-                    <input
-                      type="checkbox"
-                      checked={dupHasHolo}
-                      onChange={(e) => setDupHasHolo(e.target.checked)}
-                      className="accent-primary"
-                    />
-                    <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
-                      Add Holo Layer <strong className="text-primary">(+$2)</strong>
-                    </span>
-                  </label>
-                  <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
-                    <input
-                      type="checkbox"
-                      checked={dupHasHolder}
-                      onChange={(e) => setDupHasHolder(e.target.checked)}
-                      className="accent-primary"
-                    />
-                    <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
-                      Magnetic Holder <strong className="text-primary">(+$2)</strong>
-                    </span>
-                  </label>
-                </div>
-              </div>
+    <label className="flex items-center gap-2 cursor-pointer">
+      <input
+        type="checkbox"
+        checked={dupHolder}
+        onChange={(e) => setDupHolder(e.target.checked)}
+        className="rounded border-border"
+      />
+      <span>Magnetic Holder <span className="text-sm text-muted-foreground">(+$2)</span></span>
+    </label>
+  </div>
+</div>
             )}
 
             {/* LIVE TOTAL & SUBMIT BAR */}
