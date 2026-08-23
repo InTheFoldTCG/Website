@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Upload, Sparkles, CreditCard, CheckCircle2, Plus, Trash2 } from "lucide-react";
 
-export default function CustomCardStudio() {
+export default function CustomCard() {
+  useEffect(() => {
+    document.title = "In The Fold TCG - Custom Cards";
+  }, []);
+
   // Primary Card State
   const [cardType, setCardType] = useState<"basic" | "fullart">("basic");
   const [pokemonType, setPokemonType] = useState("Fire");
