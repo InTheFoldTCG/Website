@@ -45,40 +45,42 @@ export default function CustomCard() {
 
 const totalPrice = calculateTotal();
 
-  const handleSubmitAndPay = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+const handleSubmitAndPay = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsSubmitting(true);
 
-    try {
-      const photoUrl = photo ? URL.createObjectURL(photo) : "No photo uploaded";
+  try {
+    const photoUrl = photo ? URL.createObjectURL(photo) : "No photo uploaded";
 
-      const orderData = {
-        cardName,
-        attackName,
-        cardType,
-        pokemonType,
-        addons: `Holo: ${hasHolo}, Holder: ${hasHolder}`,
-        totalPrice: `$${totalPrice}.00`,
-        photoUrl: photoUrl
-      };
+    const orderData = {
+      cardName,
+      attackName,
+      cardType,
+      pokemonType,
+      addons: `Holo: ${hasHolo}, Holder: ${hasHolder}`,
+      // Include duplicate details if a duplicate exists in your state
+      duplicateDetails: hasDuplicate ? `Style: ${dupStyle}, Name: ${dupName}` : "None",
+      totalPrice: `$${totalPrice}.00`,
+      photoUrl: photoUrl // Shared cleanly across the order
+    };
 
-      await fetch("https://script.google.com/macros/s/AKfycby3zYctlti4EuneSyw4cmEalD50Z9O9s-gk_P_HSrL3-VdUTffUQspfKkebhsuQdTpQjw/exec", {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(orderData),
-      });
+    await fetch("https://script.google.com/macros/s/AKfycby3zYctlti4EuneSyw4cmEalD50Z9O9s-gk_P_HSrL3-VdUTffUQspfKkebhsuQdTpQjw/exec", {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData),
+    });
 
-      setIsSubmitting(false);
-      setSubmitted(true);
-    } catch (error) {
-      console.error("Order submission failed", error);
-      setIsSubmitting(false);
-      alert("Something went wrong saving your order. Please try again.");
-    }
-  };
+    setIsSubmitting(false);
+    setSubmitted(true);
+  } catch (error) {
+    console.error("Order submission failed", error);
+    setIsSubmitting(false);
+    alert("Something went wrong saving your order. Please try again.");
+  }
+};
 
   return (
     <div className="min-h-screen bg-background text-foreground py-20 px-6" style={{ fontFamily: "'Outfit', sans-serif" }}>
@@ -343,11 +345,7 @@ const totalPrice = calculateTotal();
                   <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
                     Duplicate Subject Photo
                   </label>
-                  <label className="border border-dashed border-border hover:border-primary/50 p-4 flex items-center justify-center cursor-pointer bg-background transition-colors">
-                    <Upload size={18} className="text-primary mr-2" />
-                    <span className="text-xs text-foreground font-medium" style={{ fontFamily: "'Space Mono', monospace" }}>
-                      {dupPhoto ? dupPhoto.name : "Select or snap photo"}
-                    </span>
+            
                     <input
                       type="file"
                       accept="image/*"
