@@ -40,6 +40,8 @@ export default function CustomCard() {
     return total;
   };
 
+  const totalPrice = calculateTotal();
+
   const handleSubmitAndPay = async (e: React.FormEvent) => {
   e.preventDefault();
   setIsSubmitting(true);
