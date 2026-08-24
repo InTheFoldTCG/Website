@@ -66,10 +66,9 @@ export default function CustomCard() {
       photoUrl: photoUrl
     };
 
-    await fetch(endpoint, {
+      await fetch(endpoint, {
       method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "text/plain;charset=utf-8" }, // required for GAS web apps to parse JSON cleanly without pre-flight CORS blocks
       body: JSON.stringify(primaryOrder),
     });
 
