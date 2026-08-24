@@ -90,7 +90,7 @@ export default function CustomCard() {
     await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(primaryOrder),
+      body: JSON.stringify(duplicateOrder),
     });
     }
 
