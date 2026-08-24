@@ -397,7 +397,7 @@ export default function CustomCard() {
                   <span>Processing...</span>
                 ) : (
                   <>
-                    <CreditCard size={16} /> Pay & Submit (${totalPrice})
+                    <CreditCard size={16} /> Proceed to pay (${totalPrice})
                   </>
                 )}
               </button>
