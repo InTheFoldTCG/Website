@@ -121,7 +121,7 @@ export default function CustomCard() {
             Custom Card Studio
           </h1>
           <p className="text-xs text-muted-foreground mt-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-            Design your custom cards below. Total updates live based on add-ons.
+            Design your custom cards below. Total based on add-ons.
           </p>
         </div>
 
