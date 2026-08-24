@@ -7,6 +7,8 @@ export default function CustomCard() {
   }, []);
 
   // Primary Card State
+  const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
   const [cardType, setCardType] = useState<"basic" | "fullart">("basic");
   const [pokemonType, setPokemonType] = useState("Fire");
   const [cardName, setCardName] = useState("");
@@ -38,25 +40,49 @@ export default function CustomCard() {
     return total;
   };
 
-  const totalPrice = calculateTotal();
-
   const handleSubmitAndPay = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  e.preventDefault();
+  setIsSubmitting(true);
+  try {
+    const photoUrl = photo ? URL.createObjectURL(photo) : "No photo uploaded";
+    const endpoint = "https://script.google.com/macros/s/AKfycbxYn5xlcODoqhsBmCPfEKCjzVCXQnjUDFdWQfwwsfzv_zUOewBuO8T--YQ7R2okOjR-Nw/exec";
+    
+    // Generate a unique order ID
+    const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;
 
-    try {
-      const photoUrl = photo ? URL.createObjectURL(photo) : "No photo uploaded";
-      const endpoint = "https://script.google.com/macros/s/AKfycbxYn5xlcODoqhsBmCPfEKCjzVCXQnjUDFdWQfwwsfzv_zUOewBuO8T--YQ7R2okOjR-Nw/exec";
+    const primaryOrder = {
+      orderId: orderId,
+      customerName: customerName,
+      customerEmail: customerEmail,
+      cardName: cardName,
+      attackName: attackName,
+      cardType: cardType,
+      pokemonType: pokemonType,
+      holoAddon: hasHolo ? "Yes" : "No",
+      holderAddon: hasHolder ? "Yes" : "No",
+      totalPrice: `Primary Card`,
+      photoUrl: photoUrl
+    };
 
-      // 1. Send the Primary Card row (Clean Yes/No values)
-      const primaryOrder = {
+    await fetch(endpoint, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(primaryOrder),
+    });
+
+    if (hasDuplicate) {
+      const duplicateOrder = {
+        orderId: orderId,
+        customerName: customerName,
+        customerEmail: customerEmail,
         cardName: cardName,
         attackName: attackName,
         cardType: cardType,
         pokemonType: pokemonType,
-        holoAddon: hasHolo ? "Yes" : "No",
-        holderAddon: hasHolder ? "Yes" : "No",
-        totalPrice: `Primary Card`,
+        holoAddon: dupHolo ? "Yes" : "No",
+        holderAddon: dupHolder ? "Yes" : "No",
+        totalPrice: `Duplicate Card`,
         photoUrl: photoUrl
       };
 
@@ -64,39 +90,19 @@ export default function CustomCard() {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(primaryOrder),
+        body: JSON.stringify(duplicateOrder),
       });
-
-      // 2. Send the Duplicate Card row if checked (Clean Yes/No values)
-      if (hasDuplicate) {
-        const duplicateOrder = {
-          cardName: cardName,
-          attackName: attackName,
-          cardType: cardType,
-          pokemonType: pokemonType,
-          holoAddon: dupHolo ? "Yes" : "No",
-          holderAddon: dupHolder ? "Yes" : "No",
-          totalPrice: `Duplicate Card`,
-          photoUrl: photoUrl
-        };
-
-        await fetch(endpoint, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(duplicateOrder),
-        });
-      }
-
-      setIsSubmitting(false);
-      setSubmitted(true);
-    } catch (error) {
-      console.error("Order submission failed", error);
-      setIsSubmitting(false);
-      alert("Something went wrong saving your order. Please try again.");
     }
-  };
 
+    setIsSubmitting(false);
+    setSubmitted(true);
+  } catch (error) {
+    console.error("Order submission failed", error);
+    setIsSubmitting(false);
+    alert("Something went wrong saving your order. Please try again.");
+  }
+};
+  
   return (
     <div className="min-h-screen bg-background text-foreground py-20 px-6" style={{ fontFamily: "'Outfit', sans-serif" }}>
       <div className="max-w-xl mx-auto bg-card border border-border p-8 md:p-10 rounded-xl relative overflow-hidden">
@@ -204,6 +210,38 @@ export default function CustomCard() {
                 </div>
               </div>
 
+              {/* Customer Information */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-6 border-b border-border">
+  <div>
+    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+      Customer Name
+    </label>
+    <input
+      type="text"
+      required
+      value={customerName}
+      onChange={(e) => setCustomerName(e.target.value)}
+      placeholder="e.g. Jane Doe"
+      className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+      style={{ fontFamily: "'Space Mono', monospace" }}
+    />
+  </div>
+  <div>
+    <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+      Customer Email
+    </label>
+    <input
+      type="email"
+      required
+      value={customerEmail}
+      onChange={(e) => setCustomerEmail(e.target.value)}
+      placeholder="e.g. jane@example.com"
+      className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+      style={{ fontFamily: "'Space Mono', monospace" }}
+    />
+  </div>
+</div>
+              
               {/* Photo Upload */}
               <div>
                 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
