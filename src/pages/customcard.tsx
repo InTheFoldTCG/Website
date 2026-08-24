@@ -230,7 +230,7 @@ export default function CustomCard() {
                 </div>
                 <div>
                   <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-                    Attack / Effect
+                    Attack / Ability
                   </label>
                   <input
                     type="text"
