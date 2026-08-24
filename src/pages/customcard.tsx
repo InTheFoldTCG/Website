@@ -125,8 +125,40 @@ export default function CustomCard() {
           </p>
         </div>
 
-        {!submitted ? (
+       {!submitted ? (
           <form onSubmit={handleSubmitAndPay} className="space-y-8">
+            
+            {/* === CUSTOMER INFORMATION (MOVED TO TOP) === */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-6 border-b border-border">
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Customer Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  placeholder="e.g. Jane Doe"
+                  className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                  style={{ fontFamily: "'Space Mono', monospace" }}
+                />
+              </div>
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Customer Email
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={customerEmail}
+                  onChange={(e) => setCustomerEmail(e.target.value)}
+                  placeholder="e.g. jane@example.com"
+                  className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                  style={{ fontFamily: "'Space Mono', monospace" }}
+                />
+              </div>
+            </div>
             
             {/* === PRIMARY CARD SECTION === */}
             <div className="space-y-6 pb-6 border-b border-border">
