@@ -87,12 +87,11 @@ export default function CustomCard() {
         photoUrl: photoUrl
       };
 
-      await fetch(endpoint, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(duplicateOrder),
-      });
+    await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(primaryOrder),
+    });
     }
 
     setIsSubmitting(false);
