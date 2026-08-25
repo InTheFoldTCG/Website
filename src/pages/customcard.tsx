@@ -47,7 +47,7 @@ export default function CustomCard() {
   setIsSubmitting(true);
   try {
     const photoUrl = photo ? URL.createObjectURL(photo) : "No photo uploaded";
-    const endpoint = "https://script.google.com/macros/s/AKfycbzbVyR_--QX85CKnuLKOTOeDObjpsJzOoVsLTNpeLdhRl7uoLey6R8Ph-RLtcf_B9k/exec";
+    const endpoint = "https://script.google.com/macros/s/AKfycbyPocnWWKVcVsB0FN_BT5VREPWRCzKDhBOBJQoU0pbGl6U0EO1hwEVMv5vfIcOkInNO/exec";
     
     // Generate a unique order ID
     const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;
