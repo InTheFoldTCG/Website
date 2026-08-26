@@ -53,21 +53,21 @@ export default function CustomCard() {
     });
   };
 
-  const handleSubmitAndPay = async (e: React.FormEvent) => {
+const handleSubmitAndPay = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+    
     try {
       const endpoint = "https://script.google.com/macros/s/AKfycbyJ5_rhnXISOHEP8u7KhiMyUE6h2ixWB5i2owqTVMdqK8E9fIDcMcBJQ8bfnaR2ETr5/exec";
-
       let photoData = "";
       let photoName = "";
+      
       if (photo) {
         photoData = await convertFileToBase64(photo);
         photoName = photo.name;
       }
 
-      // 1. Send the Primary Card row
+      // Send the primary order
       const primaryOrder = {
         customerName: customerName,
         customerEmail: customerEmail,
@@ -82,13 +82,13 @@ export default function CustomCard() {
         photoName: photoName
       };
 
-await fetch(endpoint, {
-  method: "POST",
-  headers: { "Content-Type": "text/plain;charset=utf-8" }, // bypasses preflight CORS blocks
-  body: JSON.stringify(primaryOrder),
-});
+      await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(primaryOrder),
+      });
 
-      // 2. Send the Duplicate Card row if checked
+      // Send duplicate card row if checked
       if (hasDuplicate) {
         const duplicateOrder = {
           customerName: customerName,
@@ -106,8 +106,7 @@ await fetch(endpoint, {
 
         await fetch(endpoint, {
           method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(duplicateOrder),
         });
       }
