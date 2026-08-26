@@ -9,7 +9,7 @@ export default function CustomCard() {
   // Customer Contact State
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
-  const endpoint = "https://script.google.com/macros/s/AKfycbzQ1X4SjW0T82Y5U8H0eXv9l3x2w1v0U7y6z5w4/exec"; // <-- Your live endpoint URL
+  const endpoint = "https://script.google.com/macros/s/AKfycbwOOKH1NGHqM455hNuPr808o6hk0y-OnKQAKD0lQla9IOFmgTXgmt0PHw_WBH7jOhOm/exec"; // <-- Your live endpoint URL
 
   // Primary Card State
   const [cardType, setCardType] = useState<"basic" | "fullart">("basic");
