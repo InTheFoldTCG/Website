@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Upload, Sparkles, CreditCard, CheckCircle2, Plus, Trash2 } from "lucide-react";
+import { Upload, CreditCard, CheckCircle2, Plus } from "lucide-react";
 
 export default function CustomCard() {
   useEffect(() => {
@@ -7,8 +7,6 @@ export default function CustomCard() {
   }, []);
 
   // Primary Card State
-  const [customerName, setCustomerName] = useState("");
-  const [customerEmail, setCustomerEmail] = useState("");
   const [cardType, setCardType] = useState<"basic" | "fullart">("basic");
   const [pokemonType, setPokemonType] = useState("Fire");
   const [cardName, setCardName] = useState("");
@@ -42,82 +40,80 @@ export default function CustomCard() {
 
   const totalPrice = calculateTotal();
 
-const handleSubmitAndPay = async (e: React.FormEvent) => {
+  const convertFileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleSubmitAndPay = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const sendData = async (fileData = "", fileName = "", mimeType = "") => {
-      try {
-        const endpoint = "https://script.google.com/macros/s/AKfycbxQeqnjRb7USG75l74X2gJXApwbXNLRhc16Y39r6URdrUHMkVWSdoYnMvuN3Kw6YqhT/exec";
-        const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;
+    try {
+      const endpoint = "https://script.google.com/macros/s/AKfycbweSinlOb9_6c0gf9HIbdgQT15tbSWYboCX-eFo_PBPCFH3xHeLh3p4Jt15O8pLxNKo/exec";
 
-        const primaryOrder = {
-          orderId: orderId,
-          customerName: customerName,
-          customerEmail: customerEmail,
+      let photoData = "";
+      let photoName = "";
+      if (photo) {
+        photoData = await convertFileToBase64(photo);
+        photoName = photo.name;
+      }
+
+      // 1. Send the Primary Card row
+      const primaryOrder = {
+        cardName: cardName,
+        attackName: attackName,
+        cardType: cardType,
+        pokemonType: pokemonType,
+        holoAddon: hasHolo ? "Yes" : "No",
+        holderAddon: hasHolder ? "Yes" : "No",
+        totalPrice: `Primary Card`,
+        photoData: photoData,
+        photoName: photoName
+      };
+
+      await fetch(endpoint, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(primaryOrder),
+      });
+
+      // 2. Send the Duplicate Card row if checked
+      if (hasDuplicate) {
+        const duplicateOrder = {
           cardName: cardName,
           attackName: attackName,
           cardType: cardType,
           pokemonType: pokemonType,
-          holoAddon: hasHolo ? "Yes" : "No",
-          holderAddon: hasHolder ? "Yes" : "No",
-          totalPrice: `Primary Card`,
-          fileData: fileData,
-          fileName: fileName,
-          mimeType: mimeType
+          holoAddon: dupHolo ? "Yes" : "No",
+          holderAddon: dupHolder ? "Yes" : "No",
+          totalPrice: `Duplicate Card`,
+          photoData: photoData,
+          photoName: photoName
         };
 
         await fetch(endpoint, {
           method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify(primaryOrder),
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(duplicateOrder),
         });
-
-        if (hasDuplicate) {
-          const duplicateOrder = {
-            orderId: orderId,
-            customerName: customerName,
-            customerEmail: customerEmail,
-            cardName: cardName,
-            attackName: attackName,
-            cardType: cardType,
-            pokemonType: pokemonType,
-            holoAddon: dupHolo ? "Yes" : "No",
-            holderAddon: dupHolder ? "Yes" : "No",
-            totalPrice: `Duplicate Card`,
-            fileData: fileData,
-            fileName: fileName,
-            mimeType: mimeType
-          };
-
-          await fetch(endpoint, {
-            method: "POST",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify(duplicateOrder),
-          });
-        }
-
-        setIsSubmitting(false);
-        setSubmitted(true);
-      } catch (error) {
-        console.error("Order submission failed", error);
-        setIsSubmitting(false);
-        alert("Something went wrong saving your order. Please try again.");
       }
-    };
 
-    if (photo) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64String = (reader.result as string).split(',')[1];
-        sendData(base64String, photo.name, photo.type);
-      };
-      reader.readAsDataURL(photo);
-    } else {
-      sendData();
+      setIsSubmitting(false);
+      setSubmitted(true);
+    } catch (error) {
+      console.error("Order submission failed", error);
+      setIsSubmitting(false);
+      alert("Something went wrong saving your order. Please try again.");
     }
   };
-  
+
   return (
     <div className="min-h-screen bg-background text-foreground py-20 px-6" style={{ fontFamily: "'Outfit', sans-serif" }}>
       <div className="max-w-xl mx-auto bg-card border border-border p-8 md:p-10 rounded-xl relative overflow-hidden">
@@ -134,44 +130,12 @@ const handleSubmitAndPay = async (e: React.FormEvent) => {
             Custom Card Studio
           </h1>
           <p className="text-xs text-muted-foreground mt-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-            Design your custom cards below. Total based on add-ons.
+            Design your custom cards below. Total updates live based on add-ons.
           </p>
         </div>
 
-       {!submitted ? (
+        {!submitted ? (
           <form onSubmit={handleSubmitAndPay} className="space-y-8">
-            
-            {/* === CUSTOMER INFORMATION (MOVED TO TOP) === */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-6 border-b border-border">
-              <div>
-                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-                  Customer Name
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={customerName}
-                  onChange={(e) => setCustomerName(e.target.value)}
-                  placeholder="e.g. Jane Doe"
-                  className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
-                  style={{ fontFamily: "'Space Mono', monospace" }}
-                />
-              </div>
-              <div>
-                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-                  Customer Email
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={customerEmail}
-                  onChange={(e) => setCustomerEmail(e.target.value)}
-                  placeholder="e.g. jane@example.com"
-                  className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
-                  style={{ fontFamily: "'Space Mono', monospace" }}
-                />
-              </div>
-            </div>
             
             {/* === PRIMARY CARD SECTION === */}
             <div className="space-y-6 pb-6 border-b border-border">
@@ -243,7 +207,7 @@ const handleSubmitAndPay = async (e: React.FormEvent) => {
                 </div>
                 <div>
                   <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-                    Attack / Ability
+                    Attack / Effect
                   </label>
                   <input
                     type="text"
@@ -256,7 +220,7 @@ const handleSubmitAndPay = async (e: React.FormEvent) => {
                   />
                 </div>
               </div>
-              
+
               {/* Photo Upload */}
               <div>
                 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
@@ -378,7 +342,7 @@ const handleSubmitAndPay = async (e: React.FormEvent) => {
                   <span>Processing...</span>
                 ) : (
                   <>
-                    <CreditCard size={16} /> Proceed to pay (${totalPrice})
+                    <CreditCard size={16} /> Pay & Submit (${totalPrice})
                   </>
                 )}
               </button>
