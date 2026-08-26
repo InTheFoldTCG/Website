@@ -58,7 +58,7 @@ const handleSubmitAndPay = async (e: React.FormEvent) => {
     setIsSubmitting(true);
     
     try {
-      const endpoint = "https://script.google.com/macros/s/AKfycbyJ5_rhnXISOHEP8u7KhiMyUE6h2ixWB5i2owqTVMdqK8E9fIDcMcBJQ8bfnaR2ETr5/exec";
+      const endpoint = "https://script.google.com/macros/s/AKfycbwoSfWvyzjDdJh6Y_0CUqGOy5Xz1I9o_pSAlP7Qv4ZKENftcz0-ONPcaZT-tSWwMCMY/exec";
       let photoData = "";
       let photoName = "";
       
