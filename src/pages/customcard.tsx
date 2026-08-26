@@ -48,7 +48,7 @@ setIsSubmitting(true);
 
 const sendData = async (fileData = "", fileName = "", mimeType = "") => {
 try {
-        const endpoint = "https://script.google.com/macros/s/AKfycbwmB2C-0dy0kWoSRhBg55GzJvomK7KBIcXylJ7qIV9lqJU2D1uOtrRS0veO01uV7qJ_/exec";
+        const endpoint = "https://script.google.com/macros/s/AKfycbxFqPqwZA-q9kigfcXGH8O8yhlTbXl0zPkJQ8-DNs-otR-XmOKeRKD0GjScYZuG_L0O/exec";
 const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;
 
 const primaryOrder = {
