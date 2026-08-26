@@ -82,12 +82,11 @@ export default function CustomCard() {
         photoName: photoName
       };
 
-      await fetch(endpoint, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(primaryOrder),
-      });
+await fetch(endpoint, {
+  method: "POST",
+  headers: { "Content-Type": "text/plain;charset=utf-8" }, // bypasses preflight CORS blocks
+  body: JSON.stringify(primaryOrder),
+});
 
       // 2. Send the Duplicate Card row if checked
       if (hasDuplicate) {
