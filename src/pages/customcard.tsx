@@ -48,7 +48,7 @@ const handleSubmitAndPay = async (e: React.FormEvent) => {
 
     const sendData = async (fileData = "", fileName = "", mimeType = "") => {
       try {
-        const endpoint = "https://script.google.com/macros/s/AKfycbyQx1z4oCsw3AkvymFMOqZkSg41zWlQMOcMCEZfkdKrI6I3mgxmo9udvMYCNGYxK94U/exec";
+        const endpoint = "https://script.google.com/macros/s/AKfycbxQeqnjRb7USG75l74X2gJXApwbXNLRhc16Y39r6URdrUHMkVWSdoYnMvuN3Kw6YqhT/exec";
         const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;
 
         const primaryOrder = {
