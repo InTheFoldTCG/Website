@@ -42,66 +42,81 @@ export default function CustomCard() {
 
   const totalPrice = calculateTotal();
 
-  const handleSubmitAndPay = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  try {
-    const photoUrl = photo ? URL.createObjectURL(photo) : "No photo uploaded";
-   const endpoint = "https://script.google.com/macros/s/AKfycbw8aVP3jkNDG2TVarxaLD7XgxP5SHoMlbF3wnho2E0NJNLSHcqtGgcYxtBWt7YrvgS2/exec";
-    
-    // Generate a unique order ID
-    const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;
+const handleSubmitAndPay = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
-    const primaryOrder = {
-      orderId: orderId,
-      customerName: customerName,
-      customerEmail: customerEmail,
-      cardName: cardName,
-      attackName: attackName,
-      cardType: cardType,
-      pokemonType: pokemonType,
-      holoAddon: hasHolo ? "Yes" : "No",
-      holderAddon: hasHolder ? "Yes" : "No",
-      totalPrice: `Primary Card`,
-      photoUrl: photoUrl
+    const sendData = async (fileData = "", fileName = "", mimeType = "") => {
+      try {
+        const endpoint = "https://script.google.com/macros/s/AKfycbw8aVP3jkNDG2TVarxaLD7XgxP5SHoMlbF3wnho2E0NJNLSHcqtGgcYxtBWt7YrvgS2/exec";
+        const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;
+
+        const primaryOrder = {
+          orderId: orderId,
+          customerName: customerName,
+          customerEmail: customerEmail,
+          cardName: cardName,
+          attackName: attackName,
+          cardType: cardType,
+          pokemonType: pokemonType,
+          holoAddon: hasHolo ? "Yes" : "No",
+          holderAddon: hasHolder ? "Yes" : "No",
+          totalPrice: `Primary Card`,
+          fileData: fileData,
+          fileName: fileName,
+          mimeType: mimeType
+        };
+
+        await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(primaryOrder),
+        });
+
+        if (hasDuplicate) {
+          const duplicateOrder = {
+            orderId: orderId,
+            customerName: customerName,
+            customerEmail: customerEmail,
+            cardName: cardName,
+            attackName: attackName,
+            cardType: cardType,
+            pokemonType: pokemonType,
+            holoAddon: dupHolo ? "Yes" : "No",
+            holderAddon: dupHolder ? "Yes" : "No",
+            totalPrice: `Duplicate Card`,
+            fileData: fileData,
+            fileName: fileName,
+            mimeType: mimeType
+          };
+
+          await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(duplicateOrder),
+          });
+        }
+
+        setIsSubmitting(false);
+        setSubmitted(true);
+      } catch (error) {
+        console.error("Order submission failed", error);
+        setIsSubmitting(false);
+        alert("Something went wrong saving your order. Please try again.");
+      }
     };
 
-      await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" }, // required for GAS web apps to parse JSON cleanly without pre-flight CORS blocks
-      body: JSON.stringify(primaryOrder),
-    });
-
-    if (hasDuplicate) {
-      const duplicateOrder = {
-        orderId: orderId,
-        customerName: customerName,
-        customerEmail: customerEmail,
-        cardName: cardName,
-        attackName: attackName,
-        cardType: cardType,
-        pokemonType: pokemonType,
-        holoAddon: dupHolo ? "Yes" : "No",
-        holderAddon: dupHolder ? "Yes" : "No",
-        totalPrice: `Duplicate Card`,
-        photoUrl: photoUrl
+    if (photo) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = (reader.result as string).split(',')[1];
+        sendData(base64String, photo.name, photo.type);
       };
-
-    await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(duplicateOrder),
-    });
+      reader.readAsDataURL(photo);
+    } else {
+      sendData();
     }
-
-    setIsSubmitting(false);
-    setSubmitted(true);
-  } catch (error) {
-    console.error("Order submission failed", error);
-    setIsSubmitting(false);
-    alert("Something went wrong saving your order. Please try again.");
-  }
-};
+  };
   
   return (
     <div className="min-h-screen bg-background text-foreground py-20 px-6" style={{ fontFamily: "'Outfit', sans-serif" }}>
