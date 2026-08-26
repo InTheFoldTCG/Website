@@ -58,7 +58,7 @@ export default function CustomCard() {
     setIsSubmitting(true);
 
     try {
-      const endpoint = "https://script.google.com/macros/s/AKfycbzlozrF_54UHG4AFjnjOmlgAACm5ogtjVPrp2C-I_L8fc2vdx7it40qD6FzipiP8k_2/exec";
+      const endpoint = "https://script.google.com/macros/s/AKfycbyJ5_rhnXISOHEP8u7KhiMyUE6h2ixWB5i2owqTVMdqK8E9fIDcMcBJQ8bfnaR2ETr5/exec";
 
       let photoData = "";
       let photoName = "";
