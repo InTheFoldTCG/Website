@@ -9,6 +9,7 @@ export default function CustomCard() {
   // Customer Contact State
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
+  const endpoint = "const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;";
 
   // Primary Card State
   const [cardType, setCardType] = useState<"basic" | "fullart">("basic");
@@ -58,7 +59,7 @@ const handleSubmitAndPay = async (e: React.FormEvent) => {
     setIsSubmitting(true);
     
     try {
-      const endpoint = "https://script.google.com/macros/s/AKfycbwoSfWvyzjDdJh6Y_0CUqGOy5Xz1I9o_pSAlP7Qv4ZKENftcz0-ONPcaZT-tSWwMCMY/exec";
+      const endpoint = "const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;";
       let photoData = "";
       let photoName = "";
       
