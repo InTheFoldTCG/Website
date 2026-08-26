@@ -6,6 +6,10 @@ export default function CustomCard() {
     document.title = "In The Fold TCG - Custom Cards";
   }, []);
 
+  // Customer Contact State
+  const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
+
   // Primary Card State
   const [cardType, setCardType] = useState<"basic" | "fullart">("basic");
   const [pokemonType, setPokemonType] = useState("Fire");
@@ -65,6 +69,8 @@ export default function CustomCard() {
 
       // 1. Send the Primary Card row
       const primaryOrder = {
+        customerName: customerName,
+        customerEmail: customerEmail,
         cardName: cardName,
         attackName: attackName,
         cardType: cardType,
@@ -86,6 +92,8 @@ export default function CustomCard() {
       // 2. Send the Duplicate Card row if checked
       if (hasDuplicate) {
         const duplicateOrder = {
+          customerName: customerName,
+          customerEmail: customerEmail,
           cardName: cardName,
           attackName: attackName,
           cardType: cardType,
@@ -137,6 +145,43 @@ export default function CustomCard() {
         {!submitted ? (
           <form onSubmit={handleSubmitAndPay} className="space-y-8">
             
+            {/* === CUSTOMER INFO SECTION === */}
+            <div className="space-y-4 pb-6 border-b border-border">
+              <div className="text-sm font-bold uppercase text-primary tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                Customer Information
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)}
+                    placeholder="John Doe"
+                    className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                    style={{ fontFamily: "'Space Mono', monospace" }}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={customerEmail}
+                    onChange={(e) => setCustomerEmail(e.target.value)}
+                    placeholder="john@example.com"
+                    className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                    style={{ fontFamily: "'Space Mono', monospace" }}
+                  />
+                </div>
+              </div>
+            </div>
+
             {/* === PRIMARY CARD SECTION === */}
             <div className="space-y-6 pb-6 border-b border-border">
               <div className="text-sm font-bold uppercase text-primary tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
