@@ -55,22 +55,23 @@ const handleSubmitAndPay = async (e: React.FormEvent) => {
         const endpoint = "https://script.google.com/macros/s/AKfycbz7ucDlvtmLaQYlAY_KLTojTDzP_Vp0_RUVHR2bbxpwdeOK2gEOSgVab4XOd4jtIy2S/exec";
         const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;
 
-        const primaryOrder = {
-          orderId: orderId,
-          customerName: customerName,
-          customerEmail: customerEmail,
-          cardName: cardName,
-          attackName: attackName,
-          cardType: cardType,
-          pokemonType: pokemonType,
-          holoAddon: hasHolo ? "Yes" : "No",
-          holderAddon: hasHolder ? "Yes" : "No",
-          totalPrice: `Primary Card`,
-          itemPrice: primaryPrice, // Add itemPrice here
-          fileData: fileData,
-          fileName: fileName,
-          mimeType: mimeType
-        };
+const primaryOrder = {
+  orderId: orderId,
+  customerName: customerName,
+  customerEmail: customerEmail,
+  cardName: cardName,
+  attackName: attackName,
+  cardType: cardType,
+  pokemonType: pokemonType,
+  holoAddon: hasHolo ? "Yes" : "No",
+  holderAddon: hasHolder ? "Yes" : "No",
+  totalPrice: `Primary Card`,
+  itemPrice: primaryPrice,
+  orderTotal: totalPrice,   // <-- add this line
+  fileData: fileData,
+  fileName: fileName,
+  mimeType: mimeType
+};
 
         await fetch(endpoint, {
           method: "POST",
@@ -81,21 +82,22 @@ const handleSubmitAndPay = async (e: React.FormEvent) => {
 
         if (hasDuplicate) {
           const duplicateOrder = {
-            orderId: orderId,
-            customerName: customerName,
-            customerEmail: customerEmail,
-            cardName: cardName,
-            attackName: attackName,
-            cardType: cardType,
-            pokemonType: pokemonType,
-            holoAddon: dupHolo ? "Yes" : "No",
-            holderAddon: dupHolder ? "Yes" : "No",
-            totalPrice: `Duplicate Card`,
-            itemPrice: duplicatePrice, // And add itemPrice here
-            fileData: fileData,
-            fileName: fileName,
-            mimeType: mimeType
-          };
+  orderId: orderId,
+  customerName: customerName,
+  customerEmail: customerEmail,
+  cardName: cardName,
+  attackName: attackName,
+  cardType: cardType,
+  pokemonType: pokemonType,
+  holoAddon: dupHolo ? "Yes" : "No",
+  holderAddon: dupHolder ? "Yes" : "No",
+  totalPrice: `Duplicate Card`,
+  itemPrice: duplicatePrice,
+  orderTotal: totalPrice,   // <-- add this line
+  fileData: fileData,
+  fileName: fileName,
+  mimeType: mimeType
+};
 
           await fetch(endpoint, {
             method: "POST",
