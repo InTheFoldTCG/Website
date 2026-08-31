@@ -13,9 +13,6 @@ import {
 import { ImageWithFallback } from "./components/figma/ImageWithFallback";
 import logo from "@/imports/Untitled (1).svg";
 import CustomCard from "./pages/customcard";
-import PrivacyPolicy from "./privacypolicy";
-if (window.location.pathname === "/privacy") {
-  return <PrivacyPolicy />;
 }
 const GAMES = [
   {
@@ -109,7 +106,13 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+if (window.location.pathname === "/customcard") {
+    return <CustomCard />;
+  }
 
+  if (window.location.pathname === "/privacy") {
+    return <PrivacyPolicy />;
+  }
   if (window.location.pathname === "/customcard") {
     return <CustomCard />;
   }
