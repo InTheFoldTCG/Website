@@ -693,7 +693,7 @@ export default function App() {
           </div>
           <div className="flex items-center gap-6">
             <a
-              href="/privacypolicy.tsx"
+              href="/privacy"
               className="text-[10px] tracking-wider text-muted-foreground/50 hover:text-foreground transition-colors"
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
@@ -706,5 +706,7 @@ export default function App() {
               © 2026 In The Fold TCG. All rights reserved.
             </div>
           </div>
+        </div>
+      </footer>
         </div>
       </footer>
