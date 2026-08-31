@@ -61,7 +61,7 @@ const SHOWS = [
   {
     name: "Phoenix Trading Card Con 2026",
     date: "Friday Oct 30 Saturday Oct 31 Sunday Nov 1",
-    location: "100 North 3rd St, Phoenix, AZ 85004",
+    location: "9495 Entertainment Blvd Glendale, AZ 85305",
     table: "Table TBD",
     status: "confirmed",
     href: "https://tradingcardcon.com/event/phoenix-2026/",
