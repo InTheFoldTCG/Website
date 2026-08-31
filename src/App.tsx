@@ -693,7 +693,7 @@ export default function App() {
           </div>
           <div className="flex items-center gap-6">
             <a
-              href="/privacypolicy"
+              href="/privacypolicy.tsx"
               className="text-[10px] tracking-wider text-muted-foreground/50 hover:text-foreground transition-colors"
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
