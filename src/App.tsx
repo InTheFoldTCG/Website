@@ -42,6 +42,14 @@ const GAMES = [
 ];
 
 const SHOWS = [
+   {
+    name: "**POP-UP** AZ Vendor Hall Card Show",
+    date: "Saturday Sept 12",
+    location: "15679 W Custer Ln, Surprise, AZ 85379",
+    table: "Table 35",
+    status: "confirmed",
+    href: "https://www.ontreasure.com/events/az-vendor-hall-card-show-september-12th-09122026",
+  },
   {
     name: "West Valley TCG Expo 6",
     date: "Saturday Sep 26 Sunday Sep 27",
