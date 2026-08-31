@@ -715,4 +715,3 @@ if (window.location.pathname === "/customcard") {
         </div>
       </footer>
         </div>
-      </footer>
