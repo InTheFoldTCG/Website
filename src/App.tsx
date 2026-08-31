@@ -691,14 +691,20 @@ export default function App() {
               In The Fold TCG by Sixfold Holdings
             </span>
           </div>
-          <div
-            className="text-[10px] text-muted-foreground/30 tracking-wider"
-            style={{ fontFamily: "'Space Mono', monospace" }}
-          >
-            © 2026 In The Fold TCG. All rights reserved.
+          <div className="flex items-center gap-6">
+            <a
+              href="/privacypolicy"
+              className="text-[10px] tracking-wider text-muted-foreground/50 hover:text-foreground transition-colors"
+              style={{ fontFamily: "'Space Mono', monospace" }}
+            >
+              Privacy Policy
+            </a>
+            <div
+              className="text-[10px] text-muted-foreground/30 tracking-wider"
+              style={{ fontFamily: "'Space Mono', monospace" }}
+            >
+              © 2026 In The Fold TCG. All rights reserved.
+            </div>
           </div>
         </div>
       </footer>
-    </div>
-  );
-}
