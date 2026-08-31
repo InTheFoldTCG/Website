@@ -368,7 +368,7 @@ Magnetic Holder <strong className="text-primary">(+$2)</strong>
 )}
 
 {/* LIVE TOTAL & SUBMIT BAR */}
-<div className="pt-4 border-t border-border flex items-center justify-between">
+<div className="pt-4 border-t border-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
 <div>
 <div className="text-[10px] uppercase text-muted-foreground tracking-widest" style={{ fontFamily: "'Space Mono', monospace" }}>
 Total Price
@@ -381,7 +381,7 @@ ${totalPrice}.00
 <button
 type="submit"
 disabled={isSubmitting}
-className="px-8 py-4 bg-primary text-primary-foreground text-xs tracking-widest uppercase font-bold hover:opacity-90 transition-opacity flex items-center gap-2 cursor-pointer"
+className="px-4 sm:px-8 py-4 bg-primary text-primary-foreground text-xs tracking-widest uppercase font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto"
 style={{ fontFamily: "'Space Mono', monospace" }}
 >
 {isSubmitting ? (
