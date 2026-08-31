@@ -45,10 +45,11 @@ const totalPrice = calculateTotal();
 const handleSubmitAndPay = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
+    // Put them right here:
     const primaryPrice = 10 + (hasHolo ? 2 : 0) + (hasHolder ? 2 : 0);
     const duplicatePrice = 8 + (dupHolo ? 2 : 0) + (dupHolder ? 2 : 0);
-    
+
     const sendData = async (fileData = "", fileName = "", mimeType = "") => {
       try {
         const endpoint = "https://script.google.com/macros/s/AKfycbxEruHChA6OB01-6bA9lXBasy-pU9HtLK4mzS4W0xVkyFBV9g63J9FHOWU_4T7Si5Uu/exec";
@@ -65,6 +66,7 @@ const handleSubmitAndPay = async (e: React.FormEvent) => {
           holoAddon: hasHolo ? "Yes" : "No",
           holderAddon: hasHolder ? "Yes" : "No",
           totalPrice: `Primary Card`,
+          itemPrice: primaryPrice, // Add itemPrice here
           fileData: fileData,
           fileName: fileName,
           mimeType: mimeType
@@ -89,6 +91,7 @@ const handleSubmitAndPay = async (e: React.FormEvent) => {
             holoAddon: dupHolo ? "Yes" : "No",
             holderAddon: dupHolder ? "Yes" : "No",
             totalPrice: `Duplicate Card`,
+            itemPrice: duplicatePrice, // And add itemPrice here
             fileData: fileData,
             fileName: fileName,
             mimeType: mimeType
