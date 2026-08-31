@@ -13,7 +13,10 @@ import {
 import { ImageWithFallback } from "./components/figma/ImageWithFallback";
 import logo from "@/imports/Untitled (1).svg";
 import CustomCard from "./pages/customcard";
-
+import PrivacyPolicy from "./privacypolicy";
+if (window.location.pathname === "/privacy") {
+  return <PrivacyPolicy />;
+}
 const GAMES = [
   {
     name: "Pokémon TCG",
