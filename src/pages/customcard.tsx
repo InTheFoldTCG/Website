@@ -72,7 +72,7 @@ const primaryOrder = {
   fileName: fileName,
   mimeType: mimeType
 };
-
+console.log("PRIMARY ORDER BEING SENT:", primaryOrder);
         await fetch(endpoint, {
           method: "POST",
           redirect: "follow",
