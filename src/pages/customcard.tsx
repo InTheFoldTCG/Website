@@ -45,7 +45,10 @@ const totalPrice = calculateTotal();
 const handleSubmitAndPay = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+    
+    const primaryPrice = 10 + (hasHolo ? 2 : 0) + (hasHolder ? 2 : 0);
+    const duplicatePrice = 8 + (dupHolo ? 2 : 0) + (dupHolder ? 2 : 0);
+    
     const sendData = async (fileData = "", fileName = "", mimeType = "") => {
       try {
         const endpoint = "https://script.google.com/macros/s/AKfycbxEruHChA6OB01-6bA9lXBasy-pU9HtLK4mzS4W0xVkyFBV9g63J9FHOWU_4T7Si5Uu/exec";
