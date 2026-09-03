@@ -30,12 +30,12 @@ const [submitted, setSubmitted] = useState(false);
 const calculateTotal = () => {
 let total = 10; // Primary base
 if (hasHolo) total += 2;
-if (hasHolder) total += 3;
+if (hasHolder) total += 2;
 
 if (hasDuplicate) {
 total += 8; // Duplicate base
 if (dupHolo) total += 2;
-if (dupHolder) total += 3;
+if (dupHolder) total += 2;
 }
 return total;
 };
@@ -47,8 +47,8 @@ const handleSubmitAndPay = async (e: React.FormEvent) => {
     setIsSubmitting(true);
 
     // Put them right here:
-    const primaryPrice = 10 + (hasHolo ? 2 : 0) + (hasHolder ? 3 : 0);
-    const duplicatePrice = 8 + (dupHolo ? 2 : 0) + (dupHolder ? 3 : 0);
+    const primaryPrice = 10 + (hasHolo ? 2 : 0) + (hasHolder ? 2 : 0);
+    const duplicatePrice = 8 + (dupHolo ? 2 : 0) + (dupHolder ? 2 : 0);
 
     const sendData = async (fileData = "", fileName = "", mimeType = "") => {
       try {
@@ -138,13 +138,13 @@ return (
 {/* HEADER */}
 <div className="text-center mb-8">
 <div className="text-xs tracking-[0.3em] uppercase text-primary mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-In The Fold Live Lab
+In The Fold TCG
 </div>
 <h1 className="text-3xl md:text-4xl font-bold uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
-Custom Card Studio
+Custom Card Form
 </h1>
 <p className="text-xs text-muted-foreground mt-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-Design your custom cards below. Total based on add-ons.
+Design your custom cards below. Total updates with on add-ons.
 </p>
 </div>
 
@@ -308,7 +308,7 @@ onChange={(e) => setHasHolder(e.target.checked)}
 className="accent-primary"
 />
 <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
-Magnetic Holder <strong className="text-primary">(+$3)</strong>
+Magnetic Holder <strong className="text-primary">(+$2)</strong>
 </span>
 </label>
 </div>
@@ -360,7 +360,7 @@ onChange={(e) => setDupHolder(e.target.checked)}
 className="accent-primary"
 />
 <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
-Magnetic Holder <strong className="text-primary">(+$3)</strong>
+Magnetic Holder <strong className="text-primary">(+$2)</strong>
 </span>
 </label>
 </div>
