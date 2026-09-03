@@ -30,12 +30,12 @@ const [submitted, setSubmitted] = useState(false);
 const calculateTotal = () => {
 let total = 10; // Primary base
 if (hasHolo) total += 2;
-if (hasHolder) total += 2;
+if (hasHolder) total += 3;
 
 if (hasDuplicate) {
 total += 8; // Duplicate base
 if (dupHolo) total += 2;
-if (dupHolder) total += 2;
+if (dupHolder) total += 3;
 }
 return total;
 };
@@ -47,8 +47,8 @@ const handleSubmitAndPay = async (e: React.FormEvent) => {
     setIsSubmitting(true);
 
     // Put them right here:
-    const primaryPrice = 10 + (hasHolo ? 2 : 0) + (hasHolder ? 2 : 0);
-    const duplicatePrice = 8 + (dupHolo ? 2 : 0) + (dupHolder ? 2 : 0);
+    const primaryPrice = 10 + (hasHolo ? 2 : 0) + (hasHolder ? 3 : 0);
+    const duplicatePrice = 8 + (dupHolo ? 2 : 0) + (dupHolder ? 3 : 0);
 
     const sendData = async (fileData = "", fileName = "", mimeType = "") => {
       try {
@@ -239,7 +239,7 @@ style={{ fontFamily: "'Space Mono', monospace" }}
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 <div>
 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-Name at Top
+Name at Top of Card
 </label>
 <input
 type="text"
@@ -253,7 +253,7 @@ style={{ fontFamily: "'Space Mono', monospace" }}
 </div>
 <div>
 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-Attack / Ability
+Attack / Ability & Text
 </label>
 <input
 type="text"
@@ -308,7 +308,7 @@ onChange={(e) => setHasHolder(e.target.checked)}
 className="accent-primary"
 />
 <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
-Magnetic Holder <strong className="text-primary">(+$2)</strong>
+Magnetic Holder <strong className="text-primary">(+$3)</strong>
 </span>
 </label>
 </div>
@@ -360,7 +360,7 @@ onChange={(e) => setDupHolder(e.target.checked)}
 className="accent-primary"
 />
 <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
-Magnetic Holder <strong className="text-primary">(+$2)</strong>
+Magnetic Holder <strong className="text-primary">(+$3)</strong>
 </span>
 </label>
 </div>
