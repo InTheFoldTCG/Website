@@ -155,7 +155,7 @@ Design your custom cards below. Total updates with on add-ons.
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-6 border-b border-border">
 <div>
 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-Customer Name
+Customer Name <span className="text-red-500">*</span>
 </label>
 <input
 type="text"
@@ -169,7 +169,7 @@ style={{ fontFamily: "'Space Mono', monospace" }}
 </div>
 <div>
 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-Customer Email
+Customer Email <span className="text-red-500">*</span>
 </label>
 <input
 type="email"
@@ -192,7 +192,7 @@ Primary Card ($10)
 {/* Card Style */}
 <div>
 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-Card Style
+Card Style <span className="text-red-500">*</span>
 </label>
 <div className="grid grid-cols-2 gap-4">
 <button
@@ -216,7 +216,7 @@ className={`p-3 border text-left transition-all ${cardType === "fullart" ? "bord
 {cardType === "basic" && (
 <div>
 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-Pokémon Type
+Pokémon Type <span className="text-red-500">*</span>
 </label>
 <select
 value={pokemonType}
@@ -239,7 +239,7 @@ style={{ fontFamily: "'Space Mono', monospace" }}
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 <div>
 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-Name at Top of Card
+Name at Top of Card <span className="text-red-500">*</span>
 </label>
 <input
 type="text"
@@ -253,7 +253,7 @@ style={{ fontFamily: "'Space Mono', monospace" }}
 </div>
 <div>
 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-Attack / Ability & Text
+Attack / Ability & Text <span className="text-red-500">*</span>
 </label>
 <input
 type="text"
@@ -270,12 +270,12 @@ style={{ fontFamily: "'Space Mono', monospace" }}
 {/* Photo Upload */}
 <div>
 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-Subject Photo
+Subject Photo <span className="text-red-500">*</span>
 </label>
 <label className="border border-dashed border-border hover:border-primary/50 p-4 flex items-center justify-center cursor-pointer bg-background transition-colors">
 <Upload size={18} className="text-primary mr-2" />
 <span className="text-xs text-foreground font-medium" style={{ fontFamily: "'Space Mono', monospace" }}>
-{photo ? photo.name : "Select photo"}
+{photo ? photo.name : "Select photo *"}
 </span>
 <input
 type="file"
