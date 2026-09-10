@@ -388,7 +388,7 @@ style={{ fontFamily: "'Space Mono', monospace" }}
 <span>Processing...</span>
 ) : (
 <>
-<CreditCard size={16} /> Proceed to pay (${totalPrice})
+<CreditCard size={16} /> Submit Order (${totalPrice})
 </>
 )}
 </button>
