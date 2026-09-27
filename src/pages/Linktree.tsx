@@ -1,6 +1,7 @@
-
 import React from 'react';
 import { ExternalLink, Instagram, Globe, Sparkles } from 'lucide-react';
+import { ImageWithFallback } from '../components/figma/ImageWithFallback';
+import logo from '@/imports/Untitled (1).svg';
 
 export function Links() {
   const links = [
@@ -33,6 +34,33 @@ export function Links() {
         fontFamily: 'system-ui, sans-serif',
       }}
     >
+      {/* Logo with glow */}
+      <div style={{ position: 'relative', marginBottom: 16 }}>
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: '#b5ff00',
+            filter: 'blur(60px)',
+            transform: 'scale(0.85)',
+            opacity: 0.2,
+            pointerEvents: 'none',
+          }}
+        />
+        <ImageWithFallback
+          src={logo}
+          alt="In The Fold TF logo"
+          style={{
+            position: 'relative',
+            width: 96,
+            height: 96,
+            objectFit: 'contain',
+            filter: 'invert(1)',
+            opacity: 0.9,
+          }}
+        />
+      </div>
+
       <div style={{ textAlign: 'center', marginBottom: 32 }}>
         <h1
           style={{
