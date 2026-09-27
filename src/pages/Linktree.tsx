@@ -7,16 +7,23 @@ export function Links() {
   const links = [
     {
       title: 'Instagram',
-      subtitle: 'Follow us for giveaways, updates and more @inthefoldtcg',
+      subtitle: 'Follow us @inthefoldtcg',
       url: 'https://instagram.com/inthefoldtcg',
       icon: Instagram,
       primary: true,
     },
     {
       title: 'Website',
-      subtitle: 'Browse inventory, sets, and show schedules',
+      subtitle: 'Browse inventory show schedules',
       url: 'https://inthefoldtcg.com',
       icon: Globe,
+      primary: false,
+    },
+    {
+      title: 'Custom Cards',
+      subtitle: 'Contact us to get started!',
+   
+      icon: Sparkles,
       primary: false,
     },
   ];
@@ -86,7 +93,7 @@ export function Links() {
           IN THE FOLD TCG
         </h1>
         <p style={{ color: '#aaa', marginTop: 8, fontSize: 14 }}>
-   
+     
         </p>
       </div>
 
@@ -94,23 +101,12 @@ export function Links() {
         style={{
           width: '100%',
           maxWidth: 420,
-          background: '#151515',
-          border: '1px solid #2a2a2a',
-          borderRadius: 16,
-          padding: 20,
-          marginBottom: 24,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 12,
+          marginTop: 8,
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-          <Sparkles size={18} color="#b5ff00" />
-          <strong style={{ fontSize: 15 }}>Custom Cards</strong>
-        </div>
-        <p style={{ color: '#bbb', fontSize: 13, lineHeight: 1.5, margin: 0 }}>
-          Contact us to get started!
-        </p>
-      </div>
-
-      <div style={{ width: '100%', maxWidth: 420, display: 'flex', flexDirection: 'column', gap: 12 }}>
         {links.map((link, index) => {
           const Icon = link.icon;
           return (
