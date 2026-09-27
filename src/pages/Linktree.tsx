@@ -6,17 +6,17 @@ import logo from '@/imports/Untitled (1).svg';
 export function Links() {
   const links = [
     {
-      title: 'Website',
-      subtitle: 'Browse inventory, sets, and custom cards',
-      url: 'https://inthefoldtcg.com',
-      icon: Globe,
-      primary: true,
-    },
-    {
       title: 'Instagram',
       subtitle: 'Follow us @inthefoldtcg',
       url: 'https://instagram.com/inthefoldtcg',
       icon: Instagram,
+      primary: true,
+    },
+    {
+      title: 'Website',
+      subtitle: 'Browse inventory, sets, and custom cards',
+      url: 'https://inthefoldtcg.com',
+      icon: Globe,
       primary: false,
     },
   ];
@@ -35,15 +35,26 @@ export function Links() {
       }}
     >
       {/* Logo with glow */}
-      <div style={{ position: 'relative', marginBottom: 16 }}>
+      <div
+        style={{
+          position: 'relative',
+          width: 160,
+          height: 160,
+          marginBottom: 8,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         <div
           style={{
             position: 'absolute',
             inset: 0,
             background: '#b5ff00',
-            filter: 'blur(60px)',
-            transform: 'scale(0.85)',
-            opacity: 0.2,
+            filter: 'blur(40px)',
+            opacity: 0.35,
+            borderRadius: '50%',
+            zIndex: 0,
             pointerEvents: 'none',
           }}
         />
@@ -52,6 +63,7 @@ export function Links() {
           alt="In The Fold TF logo"
           style={{
             position: 'relative',
+            zIndex: 1,
             width: 96,
             height: 96,
             objectFit: 'contain',
