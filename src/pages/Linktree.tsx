@@ -7,14 +7,14 @@ export function Links() {
   const links = [
     {
       title: 'Instagram',
-      subtitle: 'Follow us @inthefoldtcg',
+      subtitle: 'Follow us for giveaways, updates and more @inthefoldtcg',
       url: 'https://instagram.com/inthefoldtcg',
       icon: Instagram,
       primary: true,
     },
     {
       title: 'Website',
-      subtitle: 'Browse inventory, sets, and custom cards',
+      subtitle: 'Browse inventory, sets, and show schedules',
       url: 'https://inthefoldtcg.com',
       icon: Globe,
       primary: false,
@@ -103,7 +103,7 @@ export function Links() {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
           <Sparkles size={18} color="#b5ff00" />
-          <strong style={{ fontSize: 15 }}>Want to place a custom card order?</strong>
+          <strong style={{ fontSize: 15 }}>Custom Cards</strong>
         </div>
         <p style={{ color: '#bbb', fontSize: 13, lineHeight: 1.5, margin: 0 }}>
           Contact us to get started!
