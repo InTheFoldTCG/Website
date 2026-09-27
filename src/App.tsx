@@ -10,7 +10,7 @@ import {
   RefreshCw,
   ShoppingBag,
 } from "lucide-react";
-import { Links } from './pages/Linktree.tsx'; // or whatever path you used
+import { Links } from './pages/Linktree.tsx';
 import { ImageWithFallback } from "./components/figma/ImageWithFallback";
 import logo from "@/imports/Untitled (1).svg";
 import CustomCard from "./pages/customcard";
@@ -108,14 +108,15 @@ export default function App() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
   if (window.location.pathname === "/links") {
-    return ;
+    return <Linktree,tsx />;
   }
 
   if (window.location.pathname === "/customcard") {
-    return ;
+    return <customcard.tsc />;
   }
+
   if (window.location.pathname === "/privacy") {
-    return ;
+    return <privacypolicy.tsx />;
   }
   function handleSubscribe(e: React.FormEvent) {
     e.preventDefault();
