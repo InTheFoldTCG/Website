@@ -107,17 +107,16 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
-if (window.location.pathname === "/customcard") {
-    return <CustomCard />;
+  if (window.location.pathname === "/links") {
+    return ;
   }
 
-  if (window.location.pathname === "/privacy") {
-    return <PrivacyPolicy />;
-  }
   if (window.location.pathname === "/customcard") {
-    return <CustomCard />;
+    return ;
   }
-  
+  if (window.location.pathname === "/privacy") {
+    return ;
+  }
   function handleSubscribe(e: React.FormEvent) {
     e.preventDefault();
     const GOOGLE_FORM_ID = "1FAIpQLSfzjjJy1P8wQh7Wtxz4sVXw9NcwcXi0REwp26GCnCmnv03hRg";
