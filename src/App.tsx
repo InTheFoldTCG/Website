@@ -117,7 +117,9 @@ if (window.location.pathname === "/customcard") {
   if (window.location.pathname === "/customcard") {
     return <CustomCard />;
   }
-  
+  if (window.location.pathname === "/links") {
+    return <Linktree />;
+  }
   function handleSubscribe(e: React.FormEvent) {
     e.preventDefault();
     const GOOGLE_FORM_ID = "1FAIpQLSfzjjJy1P8wQh7Wtxz4sVXw9NcwcXi0REwp26GCnCmnv03hRg";
