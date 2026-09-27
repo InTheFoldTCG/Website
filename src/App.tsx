@@ -118,7 +118,7 @@ if (window.location.pathname === "/customcard") {
     return <CustomCard />;
   }
   if (window.location.pathname === "/links") {
-    return <Linktree />;
+    return <Links />;
   }
   function handleSubscribe(e: React.FormEvent) {
     e.preventDefault();
