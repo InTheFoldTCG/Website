@@ -1,4 +1,4 @@
-<a
+
 import React from 'react';
 import { ExternalLink, Instagram, Globe, Sparkles } from 'lucide-react';
 
@@ -75,7 +75,7 @@ export function Links() {
         {links.map((link, index) => {
           const Icon = link.icon;
           return (
-            
+            <a
               key={index}
               href={link.url}
               target="_blank"
