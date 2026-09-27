@@ -1,3 +1,4 @@
+<a
 import React from 'react';
 import { ExternalLink, Instagram, Globe, Sparkles } from 'lucide-react';
 
