@@ -21,8 +21,8 @@ export function Links() {
     },
     {
       title: 'Custom Cards',
-      subtitle: 'Contact us to get started!',
-   
+      subtitle: 'DM us or click here to email and get started!',
+      url: 'mailto:info@inthefoldtcg.com',
       icon: Sparkles,
       primary: false,
     },
