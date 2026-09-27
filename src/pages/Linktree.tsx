@@ -86,7 +86,7 @@ export function Links() {
           IN THE FOLD TCG
         </h1>
         <p style={{ color: '#aaa', marginTop: 8, fontSize: 14 }}>
-          TCG & Custom Cards
+   
         </p>
       </div>
 
