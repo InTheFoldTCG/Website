@@ -5,15 +5,15 @@ import { ExternalLink, Instagram, Globe, Sparkles } from 'lucide-react';
 export function Links() {
   const links = [
     {
-      title: 'Main Store & Website',
+      title: 'Website',
       subtitle: 'Browse inventory, sets, and custom cards',
-      url: 'https://website-uden.vercel.app',
+      url: 'https://inthefoldtcg.com',
       icon: Globe,
       primary: true,
     },
     {
       title: 'Instagram',
-      subtitle: 'Follow us @inthefoldtcg for pulls & updates',
+      subtitle: 'Follow us @inthefoldtcg',
       url: 'https://instagram.com/inthefoldtcg',
       icon: Instagram,
       primary: false,
@@ -46,7 +46,7 @@ export function Links() {
           IN THE FOLD TCG
         </h1>
         <p style={{ color: '#aaa', marginTop: 8, fontSize: 14 }}>
-          Trading Card Retail & Customs
+          TCG & Custom Cards
         </p>
       </div>
 
@@ -66,8 +66,7 @@ export function Links() {
           <strong style={{ fontSize: 15 }}>Want to place a custom card order?</strong>
         </div>
         <p style={{ color: '#bbb', fontSize: 13, lineHeight: 1.5, margin: 0 }}>
-          Head over to our custom card submission builder on our main website to
-          upload your designs, or slide into our Instagram DMs to start your project.
+          Contact us to get started!
         </p>
       </div>
 
