@@ -77,7 +77,7 @@ export default function CustomCard() {
 
         await fetch(endpoint, {
           method: "POST",
-          mode: "no-cors",
+          redirect: "follow",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(primaryOrder),
         });
@@ -103,7 +103,7 @@ export default function CustomCard() {
 
           await fetch(endpoint, {
             method: "POST",
-            mode: "no-cors",
+            redirect: "follow",
             headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify(duplicateOrder),
           });
@@ -186,7 +186,7 @@ export default function CustomCard() {
             {/* === PRIMARY CARD SECTION === */}
             <div className="space-y-6 pb-6 border-b border-border">
               <div className="text-sm font-bold uppercase text-primary tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
-                Primary Card ($10-12)
+                Primary Card ({cardType === "fullart" ? "$12" : "$10"})
               </div>
 
               {/* Card Style */}
