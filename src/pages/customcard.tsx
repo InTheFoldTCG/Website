@@ -52,7 +52,7 @@ export default function CustomCard() {
 
     const sendData = async (fileData = "", fileName = "", mimeType = "") => {
       try {
-        const endpoint = "https://script.google.com/macros/s/AKfycbyHdtavgEg3aEh_v0toowGa03yS1sMo4aOfJ_ZdBo11Doy4kyaAyBcrTiCwvnzq-M18/exec";
+        const endpoint = "https://script.google.com/macros/s/AKfycbyr6xDrHewbAprFeywPwdRydmV12_-6nji8eEVkv2uc1ju_fBAWA_As0jCwMimtg6cb/exec";
         const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;
 
         const primaryOrder = {
