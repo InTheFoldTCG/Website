@@ -32,7 +32,6 @@ export default function CustomCard() {
     let total = basePrice; // Primary base
     if (hasHolo) total += 2;
     if (hasHolder) total += 2;
-
     if (hasDuplicate) {
       total += 8; // Duplicate base
       if (dupHolo) total += 2;
@@ -132,252 +131,312 @@ export default function CustomCard() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground py-12 px-4 sm:px-6">
-      <div className="max-w-2xl mx-auto bg-card border border-border rounded-xl p-6 sm:p-8 shadow-xl">
+    <div className="min-h-screen bg-background text-foreground py-20 px-6" style={{ fontFamily: "'Outfit', sans-serif" }}>
+      <div className="max-w-xl mx-auto bg-card border border-border p-8 md:p-10 rounded-xl relative overflow-hidden">
+        {/* Accent glow */}
+        <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none blur-[80px] opacity-10" style={{ background: "#b5ff00" }} />
+
+        {/* HEADER */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-wider uppercase mb-2" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+          <div className="text-xs tracking-[0.3em] uppercase text-primary mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+            In The Fold TCG
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
             Custom Card Form
           </h1>
-          <p className="text-xs text-muted-foreground" style={{ fontFamily: "'Space Mono', monospace" }}>
-            Design your custom card, pick your upgrades, and submit your order.
+          <p className="text-xs text-muted-foreground mt-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+            Design your custom cards below. Total updates with add-ons.
           </p>
         </div>
 
         {!submitted ? (
-          <form onSubmit={handleSubmitAndPay} className="space-y-6">
-            {/* Customer Info */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <form onSubmit={handleSubmitAndPay} className="space-y-8">
+            {/* === CUSTOMER INFORMATION === */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-6 border-b border-border">
               <div>
-                <label className="block text-xs uppercase tracking-wider mb-2 font-semibold" style={{ fontFamily: "'Space Mono', monospace" }}>
-                  Customer Name *
+                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Customer Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   required
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  placeholder="Jane Doe"
-                  className="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary"
+                  placeholder="e.g. Jane Doe"
+                  className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
                   style={{ fontFamily: "'Space Mono', monospace" }}
                 />
               </div>
               <div>
-                <label className="block text-xs uppercase tracking-wider mb-2 font-semibold" style={{ fontFamily: "'Space Mono', monospace" }}>
-                  Customer Phone *
+                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Customer Phone <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
                   required
                   value={customerPhone}
                   onChange={(e) => setCustomerPhone(e.target.value)}
-                  placeholder="555-123-4567"
-                  className="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary"
+                  placeholder="e.g. 555-123-4567"
+                  className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
                   style={{ fontFamily: "'Space Mono', monospace" }}
                 />
               </div>
             </div>
 
-            {/* Card Type Selection */}
-            <div>
-              <label className="block text-xs uppercase tracking-wider mb-2 font-semibold" style={{ fontFamily: "'Space Mono', monospace" }}>
-                Card Style *
-              </label>
-              <div className="grid grid-cols-2 gap-4">
-                <button
-                  type="button"
-                  onClick={() => setCardType("basic")}
-                  className={`p-4 rounded-lg border text-left transition-all ${
-                    cardType === "basic"
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border bg-background hover:border-muted-foreground"
-                  }`}
-                >
-                  <div className="font-bold text-sm uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Basic Card</div>
-                  <div className="text-xs text-muted-foreground mt-1" style={{ fontFamily: "'Space Mono', monospace" }}>$10.00</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCardType("fullart")}
-                  className={`p-4 rounded-lg border text-left transition-all ${
-                    cardType === "fullart"
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border bg-background hover:border-muted-foreground"
-                  }`}
-                >
-                  <div className="font-bold text-sm uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Full Art</div>
-                  <div className="text-xs text-muted-foreground mt-1" style={{ fontFamily: "'Space Mono', monospace" }}>$12.00</div>
-                </button>
+            {/* === PRIMARY CARD SECTION === */}
+            <div className="space-y-6 pb-6 border-b border-border">
+              <div className="text-sm font-bold uppercase text-primary tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                Primary Card ({cardType === "fullart" ? "$12" : "$10"})
               </div>
-            </div>
 
-            {/* Pokémon Type */}
-            <div>
-              <label className="block text-xs uppercase tracking-wider mb-2 font-semibold" style={{ fontFamily: "'Space Mono', monospace" }}>
-                Pokémon Type *
-              </label>
-              <select
-                value={pokemonType}
-                onChange={(e) => setPokemonType(e.target.value)}
-                className="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary"
-                style={{ fontFamily: "'Space Mono', monospace" }}
-              >
-                <option value="Fire">Fire</option>
-                <option value="Water">Water</option>
-                <option value="Grass">Grass</option>
-                <option value="Lightning">Lightning</option>
-                <option value="Psychic">Psychic</option>
-                <option value="Fighting">Fighting</option>
-                <option value="Darkness">Darkness</option>
-                <option value="Metal">Metal</option>
-                <option value="Fairy">Fairy</option>
-                <option value="Dragon">Dragon</option>
-                <option value="Colorless">Colorless</option>
-              </select>
-            </div>
-
-            {/* Card Name & Attack */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Card Style */}
               <div>
-                <label className="block text-xs uppercase tracking-wider mb-2 font-semibold" style={{ fontFamily: "'Space Mono', monospace" }}>
-                  Card Name *
+                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Card Style <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="text"
-                  required
-                  value={cardName}
-                  onChange={(e) => setCardName(e.target.value)}
-                  placeholder="Custom Charizard"
-                  className="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary"
-                  style={{ fontFamily: "'Space Mono', monospace" }}
-                />
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Basic Card Button */}
+                  <button
+                    type="button"
+                    onClick={() => setCardType("basic")}
+                    className={`p-4 border text-left transition-all flex items-center gap-3.5 ${cardType === "basic" ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground hover:border-primary/40"}`}
+                  >
+                    <svg className="w-8 h-8 shrink-0" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <rect x="1" y="1" width="22" height="30" rx="3" />
+                      <rect x="3.5" y="3.5" width="17" height="4" rx="1" fill="currentColor" fillOpacity="0.15" />
+                      <rect x="3.5" y="9" width="17" height="12" rx="1" fill="currentColor" fillOpacity="0.08" />
+                      <line x1="3.5" y1="23" x2="15" y2="23" />
+                      <line x1="3.5" y1="26" x2="12" y2="26" />
+                    </svg>
+                    <div>
+                      <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Basic Card</div>
+                      <div className="text-[10px] opacity-80 mt-0.5" style={{ fontFamily: "'Space Mono', monospace" }}>$10</div>
+                    </div>
+                  </button>
+
+                  {/* Full Art Button */}
+                  <button
+                    type="button"
+                    onClick={() => setCardType("fullart")}
+                    className={`p-4 border text-left transition-all flex items-center gap-3.5 ${cardType === "fullart" ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground hover:border-primary/40"}`}
+                  >
+                    <svg className="w-8 h-8 shrink-0" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <rect x="1" y="1" width="22" height="30" rx="3" />
+                      <rect x="2.5" y="2.5" width="19" height="27" rx="2" fill="currentColor" fillOpacity="0.15" />
+                      <circle cx="12" cy="12" r="4" fill="currentColor" fillOpacity="0.3" />
+                    </svg>
+                    <div>
+                      <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Full Art</div>
+                      <div className="text-[10px] opacity-80 mt-0.5" style={{ fontFamily: "'Space Mono', monospace" }}>$12</div>
+                    </div>
+                  </button>
+                </div>
               </div>
+
+              {/* Conditional Pokémon Type (Basic only) */}
+              {cardType === "basic" && (
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    Pokémon Type <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={pokemonType}
+                    onChange={(e) => setPokemonType(e.target.value)}
+                    className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                    style={{ fontFamily: "'Space Mono', monospace" }}
+                  >
+                    <option value="Fire">Fire Type</option>
+                    <option value="Water">Water Type</option>
+                    <option value="Grass">Grass Type</option>
+                    <option value="Electric">Electric Type</option>
+                    <option value="Psychic">Psychic Type</option>
+                    <option value="Fighting">Fighting Type</option>
+                    <option value="Colorless">Colorless Type</option>
+                  </select>
+                </div>
+              )}
+
+              {/* Name & Attack */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    Name at Top of Card <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={cardName}
+                    onChange={(e) => setCardName(e.target.value)}
+                    placeholder="e.g. Trainer Mike"
+                    className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                    style={{ fontFamily: "'Space Mono', monospace" }}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    Attack / Ability & Text <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={attackName}
+                    onChange={(e) => setAttackName(e.target.value)}
+                    placeholder="e.g. Strike - 100"
+                    className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                    style={{ fontFamily: "'Space Mono', monospace" }}
+                  />
+                </div>
+              </div>
+
+              {/* Photo Upload */}
               <div>
-                <label className="block text-xs uppercase tracking-wider mb-2 font-semibold" style={{ fontFamily: "'Space Mono', monospace" }}>
-                  Attack Name *
+                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Subject Photo <span className="text-red-500">*</span>
                 </label>
-                <input
-                  type="text"
-                  required
-                  value={attackName}
-                  onChange={(e) => setAttackName(e.target.value)}
-                  placeholder="Solar Flare"
-                  className="w-full bg-background border border-border rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-primary"
-                  style={{ fontFamily: "'Space Mono', monospace" }}
-                />
+                <label className="border border-dashed border-border hover:border-primary/50 p-4 flex items-center justify-center cursor-pointer bg-background transition-colors">
+                  <Upload size={18} className="text-primary mr-2" />
+                  <span className="text-xs text-foreground font-medium" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    {photo ? photo.name : "Select photo *"}
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    required
+                    onChange={(e) => e.target.files && setPhoto(e.target.files[0])}
+                    className="hidden"
+                  />
+                </label>
               </div>
-            </div>
 
-            {/* Photo Upload */}
-            <div>
-              <label className="block text-xs uppercase tracking-wider mb-2 font-semibold" style={{ fontFamily: "'Space Mono', monospace" }}>
-                Upload Artwork *
-              </label>
-              <input
-                type="file"
-                required
-                accept="image/*"
-                onChange={(e) => setPhoto(e.target.files?.[0] || null)}
-                className="w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-primary-foreground hover:file:opacity-90 cursor-pointer"
-                style={{ fontFamily: "'Space Mono', monospace" }}
-              />
-            </div>
-
-            {/* Primary Add-ons */}
-            <div className="space-y-3 pt-2 border-t border-border">
-              <label className="block text-xs uppercase tracking-wider font-semibold" style={{ fontFamily: "'Space Mono', monospace" }}>
-                Primary Add-ons
-              </label>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <label className="flex items-center gap-2 cursor-pointer text-sm" style={{ fontFamily: "'Space Mono', monospace" }}>
+              {/* Primary Add-ons */}
+              <div className="grid grid-cols-2 gap-4 pt-2">
+                <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
                   <input
                     type="checkbox"
                     checked={hasHolo}
                     onChange={(e) => setHasHolo(e.target.checked)}
-                    className="rounded border-border text-primary focus:ring-primary w-4 h-4"
+                    className="accent-primary"
                   />
-                  Holo Finish (+$2)
+                  <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    Add Holo Layer <strong className="text-primary">(+$2)</strong>
+                  </span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer text-sm" style={{ fontFamily: "'Space Mono', monospace" }}>
+                <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
                   <input
                     type="checkbox"
                     checked={hasHolder}
                     onChange={(e) => setHasHolder(e.target.checked)}
-                    className="rounded border-border text-primary focus:ring-primary w-4 h-4"
+                    className="accent-primary"
                   />
-                  Magnetic Holder (+$2)
+                  <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    Magnetic Holder <strong className="text-primary">(+$2)</strong>
+                  </span>
                 </label>
               </div>
             </div>
 
-            {/* Duplicate Card Section */}
-            <div className="pt-4 border-t border-border space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-bold text-sm uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Add Duplicate Card</div>
-                  <div className="text-xs text-muted-foreground" style={{ fontFamily: "'Space Mono', monospace" }}>Get an extra copy for $8.00 base</div>
+            {/* DUPLICATE CARD TOGGLE / SECTION */}
+            {!hasDuplicate ? (
+              <button
+                type="button"
+                onClick={() => setHasDuplicate(true)}
+                className="w-full py-3 border border-dashed border-border text-xs uppercase tracking-widest text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors flex items-center justify-center gap-2"
+                style={{ fontFamily: "'Space Mono', monospace" }}
+              >
+                <Plus size={16} /> Add Duplicate Copy ($8)
+              </button>
+            ) : (
+              <div className="mt-6 pt-6 border-t border-border">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="font-bold text-sm uppercase tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                    Duplicate Card Add-ons ($8)
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setHasDuplicate(false)}
+                    className="text-xs text-red-500 hover:underline"
+                    style={{ fontFamily: "'Space Mono', monospace" }}
+                  >
+                    [Remove Duplicate]
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setHasDuplicate(!hasDuplicate)}
-                  className={`px-4 py-2 rounded-lg text-xs font-bold uppercase transition-all ${
-                    hasDuplicate ? "bg-red-500/10 text-red-500 border border-red-500" : "bg-primary/10 text-primary border border-primary"
-                  }`}
-                  style={{ fontFamily: "'Space Mono', monospace" }}
-                >
-                  {hasDuplicate ? "Remove Duplicate" : "+ Add Duplicate"}
-                </button>
+                <div className="grid grid-cols-2 gap-4">
+                  <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
+                    <input
+                      type="checkbox"
+                      checked={dupHolo}
+                      onChange={(e) => setDupHolo(e.target.checked)}
+                      className="accent-primary"
+                    />
+                    <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      Add Holo Layer <strong className="text-primary">(+$2)</strong>
+                    </span>
+                  </label>
+                  <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
+                    <input
+                      type="checkbox"
+                      checked={dupHolder}
+                      onChange={(e) => setDupHolder(e.target.checked)}
+                      className="accent-primary"
+                    />
+                    <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      Magnetic Holder <strong className="text-primary">(+$2)</strong>
+                    </span>
+                  </label>
+                </div>
               </div>
+            )}
 
-              {hasDuplicate && (
-                <div className="p-4 rounded-lg bg-background/50 border border-border space-y-3">
-                  <div className="text-xs uppercase tracking-wider font-semibold text-muted-foreground" style={{ fontFamily: "'Space Mono', monospace" }}>
-                    Duplicate Add-ons
-                  </div>
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <label className="flex items-center gap-2 cursor-pointer text-sm" style={{ fontFamily: "'Space Mono', monospace" }}>
-                      <input
-                        type="checkbox"
-                        checked={dupHolo}
-                        onChange={(e) => setDupHolo(e.target.checked)}
-                        className="rounded border-border text-primary focus:ring-primary w-4 h-4"
-                      />
-                      Holo Finish (+$2)
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer text-sm" style={{ fontFamily: "'Space Mono', monospace" }}>
-                      <input
-                        type="checkbox"
-                        checked={dupHolder}
-                        onChange={(e) => setDupHolder(e.target.checked)}
-                        className="rounded border-border text-primary focus:ring-primary w-4 h-4"
-                      />
-                      Magnetic Holder (+$2)
-                    </label>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Total and Submit */}
-            <div className="pt-6 border-t border-border flex items-center justify-between">
+            {/* LIVE TOTAL & SUBMIT BAR */}
+            <div className="pt-4 border-t border-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
               <div>
-                <div className="text-xs text-muted-foreground uppercase" style={{ fontFamily: "'Space Mono', monospace" }}>Total Price</div>
-                <div className="text-2xl font-bold text-primary" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>${totalPrice}.00</div>
+                <div className="text-[10px] uppercase text-muted-foreground tracking-widest" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Total Price
+                </div>
+                <div className="text-2xl font-bold text-primary" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                  ${totalPrice}.00
+                </div>
               </div>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-bold uppercase text-xs tracking-wider hover:opacity-90 transition-opacity disabled:opacity-50"
+                className="px-4 sm:px-8 py-4 bg-primary text-primary-foreground text-xs tracking-widest uppercase font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto"
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
-                {isSubmitting ? "Submitting..." : "Submit Order"}
+                {isSubmitting ? (
+                  <span>Processing...</span>
+                ) : (
+                  <>
+                    <CreditCard size={16} /> Submit Order (${totalPrice})
+                  </>
+                )}
               </button>
             </div>
           </form>
         ) : (
-          <div className="text-center py-12 space-y-4">
-            <CheckCircle2 className="w-12 h-12 text-primary mx-auto" />
-            <h2 className="text-2xl font-bold uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Order Submitted Successfully!</h2>
-            <p className="text-xs text-muted-foreground" style={{ fontFamily: "'Space Mono', monospace" }}>Your custom card details and image have been received.</p>
+          <div className="text-center py-8 space-y-4">
+            <CheckCircle2 size={48} className="text-primary mx-auto" />
+            <h2 className="text-2xl font-bold uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+              Order Queued Successfully!
+            </h2>
+            <p className="text-xs text-muted-foreground max-w-sm mx-auto leading-relaxed" style={{ fontFamily: "'Space Mono', monospace" }}>
+              Payment of ${totalPrice}.00 processed. Your cards are locked in and heading to the print station!
+            </p>
+            <button
+              onClick={() => {
+                setSubmitted(false);
+                setPhoto(null);
+                setHasDuplicate(false);
+                setHasHolo(false);
+                setHasHolder(false);
+                setDupHolo(false);
+                setDupHolder(false);
+              }}
+              className="px-6 py-3 border border-border text-xs tracking-widest uppercase hover:text-primary transition-colors mt-4"
+              style={{ fontFamily: "'Space Mono', monospace" }}
+            >
+              Create Another Order
+            </button>
           </div>
         )}
       </div>
