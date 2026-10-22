@@ -186,7 +186,7 @@ export default function CustomCard() {
             {/* === PRIMARY CARD SECTION === */}
             <div className="space-y-6 pb-6 border-b border-border">
               <div className="text-sm font-bold uppercase text-primary tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
-                Primary Card ({cardType === "fullart" ? "$12" : "$10"})
+                Primary Card ({cardType === "fullart" ? "$10-$12" : "$10-$12"})
               </div>
 
               {/* Card Style */}
