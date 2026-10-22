@@ -32,6 +32,7 @@ export default function CustomCard() {
     let total = basePrice; // Primary base
     if (hasHolo) total += 2;
     if (hasHolder) total += 2;
+
     if (hasDuplicate) {
       total += 8; // Duplicate base
       if (dupHolo) total += 2;
@@ -186,7 +187,7 @@ export default function CustomCard() {
             {/* === PRIMARY CARD SECTION === */}
             <div className="space-y-6 pb-6 border-b border-border">
               <div className="text-sm font-bold uppercase text-primary tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
-                Primary Card ($10-12)
+                Primary Card ($10-$12)
               </div>
 
               {/* Card Style */}
@@ -197,34 +198,3 @@ export default function CustomCard() {
                 <div className="grid grid-cols-2 gap-4">
                   {/* Basic Card Button */}
                   <button
-                    type="button"
-                    onClick={() => setCardType("basic")}
-                    className={`p-4 border text-left transition-all flex items-center gap-3.5 ${cardType === "basic" ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground hover:border-primary/40"}`}
-                  >
-                    <svg className="w-8 h-8 shrink-0" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <rect x="1" y="1" width="22" height="30" rx="3" />
-                      <rect x="3.5" y="3.5" width="17" height="4" rx="1" fill="currentColor" fillOpacity="0.15" />
-                      <rect x="3.5" y="9" width="17" height="12" rx="1" fill="currentColor" fillOpacity="0.08" />
-                      <line x1="3.5" y1="23" x2="15" y2="23" />
-                      <line x1="3.5" y1="26" x2="12" y2="26" />
-                    </svg>
-                    <div>
-                      <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Basic Card</div>
-                      <div className="text-[10px] opacity-80 mt-0.5" style={{ fontFamily: "'Space Mono', monospace" }}>$10</div>
-                    </div>
-                  </button>
-
-                  {/* Full Art Button */}
-                  <button
-                    type="button"
-                    onClick={() => setCardType("fullart")}
-                    className={`p-4 border text-left transition-all flex items-center gap-3.5 ${cardType === "fullart" ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground hover:border-primary/40"}`}
-                  >
-                    <svg className="w-8 h-8 shrink-0" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <rect x="1" y="1" width="22" height="30" rx="3" />
-                      <rect x="2.5" y="2.5" width="19" height="27" rx="2" fill="currentColor" fillOpacity="0.15" />
-                      <circle cx="12" cy="12" r="4" fill="currentColor" fillOpacity="0.3" />
-                    </svg>
-                    <div>
-                      <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Full Art</div>
-                      <div className="text-[10px] opacity-80 mt-0.5" style
