@@ -8,7 +8,7 @@ export default function CustomCard() {
 
   // Primary Card State
   const [customerName, setCustomerName] = useState("");
-  const [customerEmail, setCustomerEmail] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
   const [cardType, setCardType] = useState<"basic" | "fullart">("basic");
   const [pokemonType, setPokemonType] = useState("Fire");
   const [cardName, setCardName] = useState("");
@@ -58,7 +58,7 @@ export default function CustomCard() {
         const primaryOrder = {
           orderId: orderId,
           customerName: customerName,
-          customerEmail: customerEmail,
+          customerPhone: customerPhone,
           cardName: cardName,
           attackName: attackName,
           cardType: cardType,
@@ -86,7 +86,7 @@ export default function CustomCard() {
           const duplicateOrder = {
             orderId: orderId,
             customerName: customerName,
-            customerEmail: customerEmail,
+            customerPhone: customerPhone,
             cardName: cardName,
             attackName: attackName,
             cardType: cardType,
@@ -169,14 +169,14 @@ export default function CustomCard() {
               </div>
               <div>
                 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-                  Customer Email <span className="text-red-500">*</span>
+                  Customer Phone <span className="text-red-500">*</span>
                 </label>
                 <input
-                  type="email"
+                  type="tel"
                   required
-                  value={customerEmail}
-                  onChange={(e) => setCustomerEmail(e.target.value)}
-                  placeholder="e.g. jane@example.com"
+                  value={customerPhone}
+                  onChange={(e) => setCustomerPhone(e.target.value)}
+                  placeholder="e.g. 555-123-4567"
                   className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
                   style={{ fontFamily: "'Space Mono', monospace" }}
                 />
@@ -203,7 +203,6 @@ export default function CustomCard() {
                   >
                     <svg className="w-8 h-8 shrink-0" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <rect x="1" y="1" width="22" height="30" rx="3" />
-                      {/* Standard card layout: top header box & artwork box */}
                       <rect x="3.5" y="3.5" width="17" height="4" rx="1" fill="currentColor" fillOpacity="0.15" />
                       <rect x="3.5" y="9" width="17" height="12" rx="1" fill="currentColor" fillOpacity="0.08" />
                       <line x1="3.5" y1="23" x2="15" y2="23" />
@@ -223,7 +222,6 @@ export default function CustomCard() {
                   >
                     <svg className="w-8 h-8 shrink-0" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <rect x="1" y="1" width="22" height="30" rx="3" />
-                      {/* Full art borderless art fill window */}
                       <rect x="2.5" y="2.5" width="19" height="27" rx="2" fill="currentColor" fillOpacity="0.15" />
                       <circle cx="12" cy="12" r="4" fill="currentColor" fillOpacity="0.3" />
                     </svg>
