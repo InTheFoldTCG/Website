@@ -19,13 +19,13 @@ const GAMES = [
   {
     name: "Pokémon TCG",
     abbr: "PKM",
-    desc: "Vintage and modern sets, holos, graded slabs, and bulk.",
+    desc: "Vintage and modern sets, graded slabs, and bulk.",
     color: "#e84040",
   },
   {
     name: "Magic: The Gathering",
     abbr: "MTG",
-    desc: "Singles, sealed product, Commander staples, and more.",
+    desc: "Singles, sealed product.",
     color: "#c2973a",
   },
   {
@@ -37,7 +37,7 @@ const GAMES = [
   {
     name: "Disney Lorcana",
     abbr: "LRC",
-    desc: "New chapters in stock. Enchanted cards always available.",
+    desc: "Enchanted cards limited availability.",
     color: "#338866",
   },
 ];
@@ -76,11 +76,18 @@ const SHOWS = [
     href: "https://tradingcardcon.com/event/phoenix-2026/",
   },
   {
-    name: "TBD",
-    date: "Nov 2026",
-    location: "Phoenix, AZ",
+    name: "Chrome & Cards",
+    date: "Saturday Nov 21 & Sunday Nov 22",
+    location: "4320 W Thunderbird Rd, Glendale, AZ 85306",
+    table: "36",
+    status: "confirmed",
+  },
+    {
+    name: "West Valley TCG Expo 8",
+    date: "Saturday Dec 5 & Sunday Dec 6",
+    location: "20570 West Roosevelt Street, Buckeye, AZ 85326",
     table: "TBD",
-    status: "upcoming",
+    status: "confirmed",
   },
 ];
 
