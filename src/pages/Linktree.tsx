@@ -1,7 +1,7 @@
 import React from 'react';
 import { ExternalLink, Instagram, Globe, Sparkles } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
-import logo from '@/imports/Untitled (1).svg';
+import logo from "@/imports/websitelogo.svg";
 
 export function Links() {
   const links = [
