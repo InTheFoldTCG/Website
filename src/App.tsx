@@ -43,30 +43,6 @@ const GAMES = [
 ];
 
 const SHOWS = [
-   {
-    name: "**POP-UP** AZ Vendor Hall Card Show",
-    date: "Saturday Sept 12",
-    location: "15679 W Custer Ln, Surprise, AZ 85379",
-    table: "Table 35",
-    status: "confirmed",
-    href: "https://www.ontreasure.com/events/az-vendor-hall-card-show-september-12th-09122026",
-  },
-  {
-    name: "West Valley TCG Expo 6",
-    date: "Saturday Sep 26 Sunday Sep 27",
-    location: "20570 West Roosevelt St, Buckeye, AZ 85326",
-    table: "Table 45",
-    status: "confirmed",
-    href: "https://www.ontreasure.com/events/west-valley-tcg-expo-6-09262026",
-  },
-  {
-    name: "TCGTopia XII",
-    date: "Saturday Oct 17 Sunday Oct 18",
-    location: "552 North 40th St, Phoenix, AZ 85008",
-    table: "Table TBD",
-    status: "confirmed",
-    href: "https://www.instagram.com/tcgtopia/?hl=en",
-  },
   {
     name: "Phoenix Trading Card Con 2026",
     date: "Friday Oct 30 Saturday Oct 31 Sunday Nov 1",
