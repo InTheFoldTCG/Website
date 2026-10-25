@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Upload, CreditCard, CheckCircle2, Plus } from "lucide-react";
 
@@ -400,10 +399,10 @@ export default function CustomCard() {
               <button
                 type="button"
                 onClick={() => setHasDuplicate(true)}
-                className="w-full py-3 border border-dashed border-border text-xs uppercase tracking-widest text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors flex items-center justify-center gap-2"
-                style={{ fontFamily: "'Space Mono', monospace" }}
+                className="w-full py-4 border-2 border-primary bg-primary text-primary-foreground text-sm font-bold uppercase tracking-widest hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer"
+                style={{ fontFamily: "'Chakra Petch', sans-serif" }}
               >
-                <Plus size={16} /> Add Duplicate Copy ($8)
+                <Plus size={20} strokeWidth={3} /> Add Duplicate Copy ($8)
               </button>
             ) : (
               <div className="mt-6 pt-6 border-t border-border">
