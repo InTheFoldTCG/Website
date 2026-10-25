@@ -1,5 +1,29 @@
+
 import { useEffect, useState } from "react";
-import { Upload, Sparkles, CreditCard, CheckCircle2, Plus, Trash2 } from "lucide-react";
+import { Upload, CreditCard, CheckCircle2, Plus } from "lucide-react";
+
+const STICKER_SHEET_PRICE = 5;
+
+const HoloIcon = () => (
+  <svg className="w-6 h-6 shrink-0 text-primary" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="1" y="1" width="22" height="30" rx="3" fill="currentColor" fillOpacity="0.1" />
+    <line x1="5" y1="26" x2="19" y2="12" strokeWidth="1" strokeOpacity="0.6" />
+    <line x1="5" y1="31" x2="23" y2="13" strokeWidth="1" strokeOpacity="0.4" />
+    <path d="M12 5 L13.4 9.6 L18 11 L13.4 12.4 L12 17 L10.6 12.4 L6 11 L10.6 9.6 Z" fill="currentColor" fillOpacity="0.5" strokeWidth="1" />
+  </svg>
+);
+
+const HolderIcon = () => (
+  <svg className="w-6 h-6 shrink-0 text-primary" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="1" y="1" width="22" height="30" rx="2.5" strokeWidth="2" />
+    <rect x="4.5" y="4.5" width="15" height="23" rx="1" fill="currentColor" fillOpacity="0.15" strokeWidth="1" />
+    <circle cx="2.8" cy="2.8" r="0.9" fill="currentColor" stroke="none" />
+    <circle cx="21.2" cy="2.8" r="0.9" fill="currentColor" stroke="none" />
+    <circle cx="2.8" cy="29.2" r="0.9" fill="currentColor" stroke="none" />
+    <circle cx="21.2" cy="29.2" r="0.9" fill="currentColor" stroke="none" />
+    <line x1="10" y1="30" x2="14" y2="30" strokeWidth="1" />
+  </svg>
+);
 
 export default function CustomCard() {
   useEffect(() => {
@@ -22,11 +46,16 @@ export default function CustomCard() {
   const [dupHolo, setDupHolo] = useState(false);
   const [dupHolder, setDupHolder] = useState(false);
 
+  // Sticker Sheet State
+  const [hasStickerSheet, setHasStickerSheet] = useState(false);
+
   // Submission State
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [placedOrderId, setPlacedOrderId] = useState("");
+  const [placedTotal, setPlacedTotal] = useState(0);
 
-  // LIVE PRICING CALCULATION ($10 basic, $12 full art, $8 duplicate, $2 add-ons each)
+  // LIVE PRICING CALCULATION ($10 basic, $12 full art, $8 duplicate, $2 add-ons each, $5 sticker sheet)
   const calculateTotal = () => {
     let basePrice = cardType === "fullart" ? 12 : 10;
     let total = basePrice; // Primary base
@@ -37,6 +66,7 @@ export default function CustomCard() {
       if (dupHolo) total += 2;
       if (dupHolder) total += 2;
     }
+    if (hasStickerSheet) total += STICKER_SHEET_PRICE;
     return total;
   };
 
@@ -49,11 +79,11 @@ export default function CustomCard() {
     const basePrice = cardType === "fullart" ? 12 : 10;
     const primaryPrice = basePrice + (hasHolo ? 2 : 0) + (hasHolder ? 2 : 0);
     const duplicatePrice = 8 + (dupHolo ? 2 : 0) + (dupHolder ? 2 : 0);
+    const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;
 
     const sendData = async (fileData = "", fileName = "", mimeType = "") => {
       try {
         const endpoint = "https://script.google.com/macros/s/AKfycbyr6xDrHewbAprFeywPwdRydmV12_-6nji8eEVkv2uc1ju_fBAWA_As0jCwMimtg6cb/exec";
-        const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;
 
         const primaryOrder = {
           orderId: orderId,
@@ -109,6 +139,35 @@ export default function CustomCard() {
           });
         }
 
+        if (hasStickerSheet) {
+          const stickerOrder = {
+            orderId: orderId,
+            customerName: customerName,
+            customerPhone: customerPhone,
+            cardName: cardName,
+            attackName: attackName,
+            cardType: cardType,
+            pokemonType: pokemonType,
+            holoAddon: "No",
+            holderAddon: "No",
+            totalPrice: `Sticker Sheet`,
+            itemPrice: STICKER_SHEET_PRICE,
+            orderTotal: totalPrice,
+            fileData: fileData,
+            fileName: fileName,
+            mimeType: mimeType
+          };
+
+          await fetch(endpoint, {
+            method: "POST",
+            redirect: "follow",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(stickerOrder),
+          });
+        }
+
+        setPlacedOrderId(orderId);
+        setPlacedTotal(totalPrice);
         setIsSubmitting(false);
         setSubmitted(true);
       } catch (error) {
@@ -203,10 +262,10 @@ export default function CustomCard() {
                   >
                     <svg className="w-8 h-8 shrink-0" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <rect x="1" y="1" width="22" height="30" rx="3" />
-                      <rect x="3.5" y="3.5" width="17" height="4" rx="1" fill="currentColor" fillOpacity="0.15" />
-                      <rect x="3.5" y="9" width="17" height="12" rx="1" fill="currentColor" fillOpacity="0.08" />
-                      <line x1="3.5" y1="23" x2="15" y2="23" />
-                      <line x1="3.5" y1="26" x2="12" y2="26" />
+                      <rect x="3.5" y="3.5" width="17" height="14" rx="1" fill="currentColor" fillOpacity="0.15" />
+                      <line x1="3.5" y1="21" x2="15" y2="21" />
+                      <line x1="3.5" y1="24" x2="12" y2="24" />
+                      <line x1="3.5" y1="27" x2="17" y2="27" />
                     </svg>
                     <div>
                       <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Basic Card</div>
@@ -222,8 +281,7 @@ export default function CustomCard() {
                   >
                     <svg className="w-8 h-8 shrink-0" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
                       <rect x="1" y="1" width="22" height="30" rx="3" />
-                      <rect x="2.5" y="2.5" width="19" height="27" rx="2" fill="currentColor" fillOpacity="0.15" />
-                      <circle cx="12" cy="12" r="4" fill="currentColor" fillOpacity="0.3" />
+                      <rect x="2.5" y="2.5" width="19" height="27" rx="2" fill="currentColor" fillOpacity="0.25" />
                     </svg>
                     <div>
                       <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Full Art</div>
@@ -317,6 +375,7 @@ export default function CustomCard() {
                     onChange={(e) => setHasHolo(e.target.checked)}
                     className="accent-primary"
                   />
+                  <HoloIcon />
                   <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
                     Add Holo Layer <strong className="text-primary">(+$2)</strong>
                   </span>
@@ -328,6 +387,7 @@ export default function CustomCard() {
                     onChange={(e) => setHasHolder(e.target.checked)}
                     className="accent-primary"
                   />
+                  <HolderIcon />
                   <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
                     Magnetic Holder <strong className="text-primary">(+$2)</strong>
                   </span>
@@ -368,6 +428,7 @@ export default function CustomCard() {
                       onChange={(e) => setDupHolo(e.target.checked)}
                       className="accent-primary"
                     />
+                    <HoloIcon />
                     <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
                       Add Holo Layer <strong className="text-primary">(+$2)</strong>
                     </span>
@@ -379,6 +440,7 @@ export default function CustomCard() {
                       onChange={(e) => setDupHolder(e.target.checked)}
                       className="accent-primary"
                     />
+                    <HolderIcon />
                     <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
                       Magnetic Holder <strong className="text-primary">(+$2)</strong>
                     </span>
@@ -386,6 +448,40 @@ export default function CustomCard() {
                 </div>
               </div>
             )}
+
+            {/* STICKER SHEET ADD-ON */}
+            <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
+              <input
+                type="checkbox"
+                checked={hasStickerSheet}
+                onChange={(e) => setHasStickerSheet(e.target.checked)}
+                className="accent-primary"
+              />
+              <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                Custom Sticker Sheet <strong className="text-primary">(+${STICKER_SHEET_PRICE})</strong>
+                <span className="block text-[10px] opacity-80 mt-0.5">4 rows of 3 · your card art</span>
+              </span>
+              <div className="flex-1 flex justify-center">
+                <svg className="w-12 h-12 shrink-0 text-primary" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <rect x="1" y="1" width="22" height="30" rx="3" />
+                  {[0, 1, 2, 3].flatMap((r) =>
+                    [0, 1, 2].map((c) => (
+                      <rect
+                        key={`${r}-${c}`}
+                        x={3.5 + c * 6.25}
+                        y={3.5 + r * 6.5}
+                        width="4.5"
+                        height="5.5"
+                        rx="0.8"
+                        fill="currentColor"
+                        fillOpacity="0.15"
+                        strokeWidth="1"
+                      />
+                    ))
+                  )}
+                </svg>
+              </div>
+            </label>
 
             {/* LIVE TOTAL & SUBMIT BAR */}
             <div className="pt-4 border-t border-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
@@ -414,23 +510,42 @@ export default function CustomCard() {
             </div>
           </form>
         ) : (
-          <div className="text-center py-8 space-y-4">
+          <div className="text-center py-8 space-y-5">
             <CheckCircle2 size={48} className="text-primary mx-auto" />
             <h2 className="text-2xl font-bold uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
-              Order Queued Successfully!
+              Order Received
             </h2>
             <p className="text-xs text-muted-foreground max-w-sm mx-auto leading-relaxed" style={{ fontFamily: "'Space Mono', monospace" }}>
-              Payment of ${totalPrice}.00 processed. Your cards are locked in and heading to the print station!
+              Thank you for your order. Please visit us at our booth and show this screen to finalize your payment. Your cards go to print once payment is complete.
             </p>
+
+            <div className="border border-primary/40 bg-primary/10 p-5 max-w-xs mx-auto">
+              <div className="text-[10px] uppercase text-muted-foreground tracking-widest" style={{ fontFamily: "'Space Mono', monospace" }}>
+                Order Number
+              </div>
+              <div className="text-3xl font-bold text-primary mt-1" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                {placedOrderId}
+              </div>
+              <div className="text-[10px] uppercase text-muted-foreground tracking-widest mt-4" style={{ fontFamily: "'Space Mono', monospace" }}>
+                Total Due
+              </div>
+              <div className="text-xl font-bold" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                ${placedTotal}.00
+              </div>
+            </div>
+
             <button
               onClick={() => {
                 setSubmitted(false);
                 setPhoto(null);
+                setPlacedOrderId("");
+                setPlacedTotal(0);
                 setHasDuplicate(false);
                 setHasHolo(false);
                 setHasHolder(false);
                 setDupHolo(false);
                 setDupHolder(false);
+                setHasStickerSheet(false);
               }}
               className="px-6 py-3 border border-border text-xs tracking-widest uppercase hover:text-primary transition-colors mt-4"
               style={{ fontFamily: "'Space Mono', monospace" }}
