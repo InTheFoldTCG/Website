@@ -1,5 +1,33 @@
 import React, { useState } from 'react';
-import { Layers, Sparkles, Copy, Check, Upload, Tag } from 'lucide-react';
+import { Check, Upload } from 'lucide-react';
+
+// --- CUSTOM SVG ICONS ---
+const BasicCardIcon = () => (
+  <svg className="w-5 h-5 mr-2 shrink-0 text-[#b5ff00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="3" y="3" width="18" height="18" rx="2" />
+    <rect x="6" y="6" width="12" height="7" rx="1" />
+    <line x1="6" y1="16" x2="18" y2="16" />
+    <line x1="6" y1="18" x2="14" y2="18" />
+  </svg>
+);
+
+const FullArtIcon = () => (
+  <svg className="w-5 h-5 mr-2 shrink-0 text-[#b5ff00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="3" y="3" width="18" height="18" rx="2" />
+    <path d="M3 15l5-5 4 4 5-6 4 4" />
+    <circle cx="8.5" cy="8.5" r="1.5" />
+  </svg>
+);
+
+const StickerIcon = () => (
+  <svg className="w-5 h-5 mr-2 shrink-0 text-[#b5ff00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="3" y="3" width="18" height="18" rx="2" strokeDasharray="3 3" />
+    <rect x="6" y="6" width="5" height="5" rx="1" />
+    <rect x="13" y="6" width="5" height="5" rx="1" />
+    <rect x="6" y="13" width="5" height="5" rx="1" />
+    <rect x="13" y="13" width="5" height="5" rx="1" />
+  </svg>
+);
 
 export default function CustomCardForm() {
   // Product Selector Mode
@@ -64,7 +92,6 @@ export default function CustomCardForm() {
     }
     setIsSubmitting(true);
 
-    // Simulated API call payload structure
     const payload = {
       productType: productType === 'card' ? 'Custom Card' : 'Sticker Sheet Only',
       customerName,
@@ -96,13 +123,13 @@ export default function CustomCardForm() {
 
   if (submitted) {
     return (
-      <div className="max-w-md mx-auto my-12 p-8 bg-[#0a0a0a] border border-[#b5ff00]/40 rounded-2xl text-center text-white">
+      <div className="max-w-md mx-auto my-12 p-8 bg-[#0a0a0a] border border-[#b5ff00]/40 rounded-2xl text-center text-white font-['Space_Mono']">
         <div className="w-16 h-16 bg-[#b5ff00]/10 text-[#b5ff00] rounded-full flex items-center justify-center mx-auto mb-4">
           <Check className="w-8 h-8" />
         </div>
         <h2 className="text-2xl font-bold tracking-tight mb-2 uppercase font-['Chakra_Petch']">Order Submitted!</h2>
-        <p className="text-zinc-400 text-sm mb-6 font-['Space_Mono']">
-          Thanks {customerName}! We have received your custom order request and will contact you shortly.
+        <p className="text-zinc-400 text-sm mb-6">
+          Thanks {customerName}! We have received your custom order request. Please show this screen to your custom card maker so they can process your payment. Orders will be sent to production after payment is processed. Thank you!
         </p>
         <button
           onClick={() => {
@@ -139,6 +166,7 @@ export default function CustomCardForm() {
             1. SELECT ITEM TYPE *
           </label>
           <div className="grid grid-cols-2 gap-3">
+            {/* TOP CARD BUTTON WITH FULL ART ICON */}
             <button
               type="button"
               onClick={() => handleProductTypeChange('card')}
@@ -148,13 +176,17 @@ export default function CustomCardForm() {
                   : 'border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:border-zinc-700'
               }`}
             >
-              <div>
-                <div className="text-xs uppercase">Custom Card</div>
-                <div className="text-[10px] font-normal text-zinc-400">Starts at $10</div>
+              <div className="flex items-center">
+                <FullArtIcon />
+                <div>
+                  <div className="text-xs uppercase">Custom Card</div>
+                  <div className="text-[10px] font-normal text-zinc-400">Starts at $10</div>
+                </div>
               </div>
               {productType === 'card' && <div className="w-2.5 h-2.5 rounded-full bg-[#b5ff00]" />}
             </button>
 
+            {/* TOP STICKER BUTTON WITH STICKER ICON */}
             <button
               type="button"
               onClick={() => handleProductTypeChange('sticker')}
@@ -164,9 +196,12 @@ export default function CustomCardForm() {
                   : 'border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:border-zinc-700'
               }`}
             >
-              <div>
-                <div className="text-xs uppercase">🏷️ Sticker Sheet</div>
-                <div className="text-[10px] font-normal text-zinc-400">12 Stickers · Starts at $10</div>
+              <div className="flex items-center">
+                <StickerIcon />
+                <div>
+                  <div className="text-xs uppercase">Sticker Sheet</div>
+                  <div className="text-[10px] font-normal text-zinc-400">12 Stickers · Starts at $10</div>
+                </div>
               </div>
               {productType === 'sticker' && <div className="w-2.5 h-2.5 rounded-full bg-[#b5ff00]" />}
             </button>
@@ -203,37 +238,39 @@ export default function CustomCardForm() {
           </div>
         </div>
 
-        {/* CUSTOMIZATION DETAILS (SHARED FIELDS) */}
+        {/* CUSTOMIZATION DETAILS */}
         <div className="space-y-4 pt-4 border-t border-zinc-800/80">
           <div className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
             2. {productType === 'card' ? 'CARD DESIGN DETAILS' : 'STICKER SHEET DESIGN DETAILS'}
           </div>
 
-          {/* STYLE SELECTOR */}
+          {/* STYLE SELECTOR WITH BASIC & FULL ART ICONS */}
           <div>
             <label className="block text-[10px] text-zinc-400 uppercase mb-1.5">STYLE *</label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
                 onClick={() => setCardStyle('basic')}
-                className={`py-2.5 px-3 rounded-lg border text-xs font-bold transition-all ${
+                className={`py-2.5 px-3 rounded-lg border text-xs font-bold transition-all flex items-center justify-center ${
                   cardStyle === 'basic'
                     ? 'border-[#b5ff00] bg-[#b5ff00]/10 text-[#b5ff00]'
                     : 'border-zinc-800 bg-zinc-900/50 text-zinc-400'
                 }`}
               >
-                BASIC STYLE ($10)
+                <BasicCardIcon />
+                <span>BASIC TYPE ($10)</span>
               </button>
               <button
                 type="button"
                 onClick={() => setCardStyle('fullArt')}
-                className={`py-2.5 px-3 rounded-lg border text-xs font-bold transition-all ${
+                className={`py-2.5 px-3 rounded-lg border text-xs font-bold transition-all flex items-center justify-center ${
                   cardStyle === 'fullArt'
                     ? 'border-[#b5ff00] bg-[#b5ff00]/10 text-[#b5ff00]'
                     : 'border-zinc-800 bg-zinc-900/50 text-zinc-400'
                 }`}
               >
-                FULL ART STYLE ($12)
+                <FullArtIcon />
+                <span>FULL ART ($12)</span>
               </button>
             </div>
           </div>
@@ -256,9 +293,9 @@ export default function CustomCardForm() {
             </select>
           </div>
 
-          {/* NAME ON CARD */}
+          {/* NAME ON ITEM */}
           <div>
-            <label className="block text-[10px] text-zinc-400 uppercase mb-1.5">NAME ON ITEM *</label>
+            <label className="block text-[10px] text-zinc-400 uppercase mb-1.5">NAME ON CARD *</label>
             <input
               type="text"
               required
