@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Upload, CreditCard, CheckCircle2, Plus } from "lucide-react";
 
-// --- YOUR ORIGINAL SVG ICONS ---
+// --- YOUR UPDATED SVG ICONS ---
 const BasicCardIcon = () => (
   <svg className="w-8 h-8 shrink-0 text-primary" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
     <rect x="1" y="1" width="22" height="30" rx="3" />
@@ -16,6 +16,9 @@ const FullArtIcon = () => (
   <svg className="w-8 h-8 shrink-0 text-primary" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
     <rect x="1" y="1" width="22" height="30" rx="3" />
     <rect x="2.5" y="2.5" width="19" height="27" rx="2" fill="currentColor" fillOpacity="0.25" />
+    <line x1="3.5" y1="21" x2="15" y2="21" />
+    <line x1="3.5" y1="24" x2="12" y2="24" />
+    <line x1="3.5" y1="27" x2="17" y2="27" />
   </svg>
 );
 
@@ -406,7 +409,7 @@ export default function CustomCard() {
             {/* === 2. DESIGN CUSTOMIZATION SECTION === */}
             <div className="space-y-6 pb-6 border-b border-border">
               <div className="text-sm font-bold uppercase text-primary tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
-                2. {productType === "card" ? "Card Design Details" : "Sticker Sheet Artwork Details"} ({cardType === "fullart" ? "$10-$12" : "$10-$12"})
+                2. {productType === "card" ? "Card Design Details" : "Sticker Sheet Artwork Details"} ({cardType === "fullart" ? "$12" : "$10"})
               </div>
 
               {/* Card Style */}
@@ -451,28 +454,26 @@ export default function CustomCard() {
                 </div>
               </div>
 
-              {/* Conditional Pokémon Type (Basic only) */}
-              {cardType === "basic" && (
-                <div>
-                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
-                    Pokémon Type <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={pokemonType}
-                    onChange={(e) => setPokemonType(e.target.value)}
-                    className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
-                    style={{ fontFamily: "'Space Mono', monospace" }}
-                  >
-                    <option value="Fire">Fire Type</option>
-                    <option value="Water">Water Type</option>
-                    <option value="Grass">Grass Type</option>
-                    <option value="Electric">Electric Type</option>
-                    <option value="Psychic">Psychic Type</option>
-                    <option value="Fighting">Fighting Type</option>
-                    <option value="Colorless">Colorless Type</option>
-                  </select>
-                </div>
-              )}
+              {/* Pokémon Type Select (Available for both Basic and Full Art) */}
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Pokémon Type <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={pokemonType}
+                  onChange={(e) => setPokemonType(e.target.value)}
+                  className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                  style={{ fontFamily: "'Space Mono', monospace" }}
+                >
+                  <option value="Fire">Fire Type</option>
+                  <option value="Water">Water Type</option>
+                  <option value="Grass">Grass Type</option>
+                  <option value="Electric">Electric Type</option>
+                  <option value="Psychic">Psychic Type</option>
+                  <option value="Fighting">Fighting Type</option>
+                  <option value="Colorless">Colorless Type</option>
+                </select>
+              </div>
 
               {/* Name & Attack */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -623,7 +624,7 @@ export default function CustomCard() {
                     className="accent-primary"
                   />
                   <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
-                    Custom Sticker Sheet <strong className="text-primary">(+$5)</strong>
+                    Add A Custom Sticker Sheet <strong className="text-primary">(+$5)</strong>
                     <span className="block text-[10px] opacity-80 mt-0.5">4 rows of 3 · matches your card art</span>
                   </span>
                   <div className="flex-1 flex justify-center">
