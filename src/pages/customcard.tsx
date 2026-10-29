@@ -406,7 +406,7 @@ export default function CustomCard() {
             {/* === 2. DESIGN CUSTOMIZATION SECTION === */}
             <div className="space-y-6 pb-6 border-b border-border">
               <div className="text-sm font-bold uppercase text-primary tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
-                2. {productType === "card" ? "Card Design Details" : "Sticker Sheet Artwork Details"} ({cardType === "fullart" ? "$12" : "$10"})
+                2. {productType === "card" ? "Card Design Details" : "Sticker Sheet Artwork Details"} ({cardType === "fullart" ? "$10-$12" : "$10-$12"})
               </div>
 
               {/* Card Style */}
