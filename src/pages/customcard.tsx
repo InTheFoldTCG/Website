@@ -1,453 +1,729 @@
-import React, { useState } from 'react';
-import { Check, Upload } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { Upload, CreditCard, CheckCircle2, Plus } from "lucide-react";
 
-// --- CUSTOM SVG ICONS ---
+// --- YOUR ORIGINAL SVG ICONS ---
 const BasicCardIcon = () => (
-  <svg className="w-5 h-5 mr-2 shrink-0 text-[#b5ff00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <rect x="3" y="3" width="18" height="18" rx="2" />
-    <rect x="6" y="6" width="12" height="7" rx="1" />
-    <line x1="6" y1="16" x2="18" y2="16" />
-    <line x1="6" y1="18" x2="14" y2="18" />
+  <svg className="w-8 h-8 shrink-0 text-primary" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="1" y="1" width="22" height="30" rx="3" />
+    <rect x="3.5" y="3.5" width="17" height="14" rx="1" fill="currentColor" fillOpacity="0.15" />
+    <line x1="3.5" y1="21" x2="15" y2="21" />
+    <line x1="3.5" y1="24" x2="12" y2="24" />
+    <line x1="3.5" y1="27" x2="17" y2="27" />
   </svg>
 );
 
 const FullArtIcon = () => (
-  <svg className="w-5 h-5 mr-2 shrink-0 text-[#b5ff00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <rect x="3" y="3" width="18" height="18" rx="2" />
-    <path d="M3 15l5-5 4 4 5-6 4 4" />
-    <circle cx="8.5" cy="8.5" r="1.5" />
+  <svg className="w-8 h-8 shrink-0 text-primary" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="1" y="1" width="22" height="30" rx="3" />
+    <rect x="2.5" y="2.5" width="19" height="27" rx="2" fill="currentColor" fillOpacity="0.25" />
   </svg>
 );
 
-const StickerIcon = () => (
-  <svg className="w-5 h-5 mr-2 shrink-0 text-[#b5ff00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <rect x="3" y="3" width="18" height="18" rx="2" strokeDasharray="3 3" />
-    <rect x="6" y="6" width="5" height="5" rx="1" />
-    <rect x="13" y="6" width="5" height="5" rx="1" />
-    <rect x="6" y="13" width="5" height="5" rx="1" />
-    <rect x="13" y="13" width="5" height="5" rx="1" />
+const StickerSheetIcon = () => (
+  <svg className="w-8 h-8 shrink-0 text-primary" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="1" y="1" width="22" height="30" rx="3" />
+    {[0, 1, 2, 3].flatMap((r) =>
+      [0, 1, 2].map((c) => (
+        <rect
+          key={`${r}-${c}`}
+          x={3.5 + c * 6.25}
+          y={3.5 + r * 6.5}
+          width="4.5"
+          height="5.5"
+          rx="0.8"
+          fill="currentColor"
+          fillOpacity="0.15"
+          strokeWidth="1"
+        />
+      ))
+    )}
   </svg>
 );
 
-export default function CustomCardForm() {
-  // Product Selector Mode
-  const [productType, setProductType] = useState<'card' | 'sticker'>('card');
+const HoloIcon = () => (
+  <svg className="w-6 h-6 shrink-0 text-primary" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="1" y="1" width="22" height="30" rx="3" fill="currentColor" fillOpacity="0.1" />
+    <line x1="5" y1="26" x2="19" y2="12" strokeWidth="1" strokeOpacity="0.6" />
+    <line x1="5" y1="31" x2="23" y2="13" strokeWidth="1" strokeOpacity="0.4" />
+    <path d="M12 5 L13.4 9.6 L18 11 L13.4 12.4 L12 17 L10.6 12.4 L6 11 L10.6 9.6 Z" fill="currentColor" fillOpacity="0.5" strokeWidth="1" />
+  </svg>
+);
 
-  // Customer Contact Details
-  const [customerName, setCustomerName] = useState('');
-  const [customerPhone, setCustomerPhone] = useState('');
+const HolderIcon = () => (
+  <svg className="w-6 h-6 shrink-0 text-primary" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <rect x="1" y="1" width="22" height="30" rx="2.5" strokeWidth="2" />
+    <rect x="4.5" y="4.5" width="15" height="23" rx="1" fill="currentColor" fillOpacity="0.15" strokeWidth="1" />
+    <circle cx="2.8" cy="2.8" r="0.9" fill="currentColor" stroke="none" />
+    <circle cx="21.2" cy="2.8" r="0.9" fill="currentColor" stroke="none" />
+    <circle cx="2.8" cy="29.2" r="0.9" fill="currentColor" stroke="none" />
+    <circle cx="21.2" cy="29.2" r="0.9" fill="currentColor" stroke="none" />
+    <line x1="10" y1="30" x2="14" y2="30" strokeWidth="1" />
+  </svg>
+);
 
-  // Design Details (Shared by both Card and Sticker designs)
-  const [cardStyle, setCardStyle] = useState<'basic' | 'fullArt'>('basic');
-  const [pokemonType, setPokemonType] = useState('Fire Type');
-  const [cardName, setCardName] = useState('');
-  const [attackText, setAttackText] = useState('');
+export default function CustomCard() {
+  useEffect(() => {
+    document.title = "In The Fold TCG - Custom Cards";
+  }, []);
+
+  // Top Product Selector State
+  const [productType, setProductType] = useState<"card" | "sticker">("card");
+
+  // Primary Customer & Design State
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [cardType, setCardType] = useState<"basic" | "fullart">("basic");
+  const [pokemonType, setPokemonType] = useState("Fire");
+  const [cardName, setCardName] = useState("");
+  const [attackName, setAttackName] = useState("");
   const [photo, setPhoto] = useState<File | null>(null);
 
-  // Card Add-ons
-  const [addHolo, setAddHolo] = useState(false);
-  const [addHolder, setAddHolder] = useState(false);
-  const [addDuplicateCard, setAddDuplicateCard] = useState(false);
-  const [addStickerSheet, setAddStickerSheet] = useState(false); // $5 Add-on on Card order
+  // Card Add-ons State
+  const [hasHolo, setHasHolo] = useState(false);
+  const [hasHolder, setHasHolder] = useState(false);
 
-  // Standalone Sticker Add-ons
-  const [addDuplicateSticker, setAddDuplicateSticker] = useState(false); // $5 Add-on on Sticker order
+  // Duplicate Card State (Card Orders)
+  const [hasDuplicate, setHasDuplicate] = useState(false);
+  const [dupHolo, setDupHolo] = useState(false);
+  const [dupHolder, setDupHolder] = useState(false);
 
-  // UI / Submission State
+  // Sticker Add-ons State
+  const [hasStickerSheet, setHasStickerSheet] = useState(false); // $5 add-on for card orders
+  const [hasDupStickerSheet, setHasDupStickerSheet] = useState(false); // $5 duplicate for standalone sticker orders
+
+  // Submission State
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [placedOrderId, setPlacedOrderId] = useState("");
+  const [placedTotal, setPlacedTotal] = useState(0);
 
-  // Dynamic Total Price Calculation
+  // Pricing Calculation Logic
   const calculateTotal = () => {
-    let total = cardStyle === 'fullArt' ? 12 : 10; // Base $10 for Basic, $12 for Full Art
+    let basePrice = cardType === "fullart" ? 12 : 10;
+    let total = basePrice;
 
-    if (productType === 'card') {
-      if (addHolo) total += 2;
-      if (addHolder) total += 2;
-      if (addDuplicateCard) total += 8;
-      if (addStickerSheet) total += 5;
+    if (productType === "card") {
+      if (hasHolo) total += 2;
+      if (hasHolder) total += 2;
+      if (hasDuplicate) {
+        total += 8;
+        if (dupHolo) total += 2;
+        if (dupHolder) total += 2;
+      }
+      if (hasStickerSheet) total += 5;
     } else {
-      // Standalone Sticker Sheet order
-      if (addDuplicateSticker) total += 5;
+      // Standalone Sticker Sheet ($10 base for Basic, $12 for Full Art)
+      if (hasDupStickerSheet) total += 5;
     }
 
     return total;
   };
 
-  // Reset add-on checkboxes when switching product type
-  const handleProductTypeChange = (type: 'card' | 'sticker') => {
+  const totalPrice = calculateTotal();
+
+  const handleProductTypeChange = (type: "card" | "sticker") => {
     setProductType(type);
-    setAddHolo(false);
-    setAddHolder(false);
-    setAddDuplicateCard(false);
-    setAddStickerSheet(false);
-    setAddDuplicateSticker(false);
+    setHasHolo(false);
+    setHasHolder(false);
+    setHasDuplicate(false);
+    setDupHolo(false);
+    setDupHolder(false);
+    setHasStickerSheet(false);
+    setHasDupStickerSheet(false);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmitAndPay = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!customerName || !customerPhone) {
-      alert('Please fill out your name and phone number.');
-      return;
-    }
     setIsSubmitting(true);
 
-    const payload = {
-      productType: productType === 'card' ? 'Custom Card' : 'Sticker Sheet Only',
-      customerName,
-      customerPhone,
-      cardStyle,
-      pokemonType,
-      cardName,
-      attackText,
-      addOns:
-        productType === 'card'
-          ? {
-              holo: addHolo,
-              holder: addHolder,
-              duplicateCard: addDuplicateCard,
-              stickerSheetAddon: addStickerSheet,
-            }
-          : {
-              duplicateStickerSheet: addDuplicateSticker,
-            },
-      totalPrice: calculateTotal(),
+    const basePrice = cardType === "fullart" ? 12 : 10;
+    const primaryPrice = basePrice + (hasHolo ? 2 : 0) + (hasHolder ? 2 : 0);
+    const duplicatePrice = 8 + (dupHolo ? 2 : 0) + (dupHolder ? 2 : 0);
+    const orderId = `ITF-${Math.floor(100000 + Math.random() * 900000)}`;
+
+    const sendData = async (fileData = "", fileName = "", mimeType = "") => {
+      try {
+        const endpoint = "https://script.google.com/macros/s/AKfycbyr6xDrHewbAprFeywPwdRydmV12_-6nji8eEVkv2uc1ju_fBAWA_As0jCwMimtg6cb/exec";
+
+        if (productType === "card") {
+          const primaryOrder = {
+            orderId: orderId,
+            customerName: customerName,
+            customerPhone: customerPhone,
+            cardName: cardName,
+            attackName: attackName,
+            cardType: cardType,
+            pokemonType: pokemonType,
+            holoAddon: hasHolo ? "Yes" : "No",
+            holderAddon: hasHolder ? "Yes" : "No",
+            totalPrice: `Primary Card`,
+            itemPrice: primaryPrice,
+            orderTotal: totalPrice,
+            fileData: fileData,
+            fileName: fileName,
+            mimeType: mimeType
+          };
+
+          await fetch(endpoint, {
+            method: "POST",
+            redirect: "follow",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(primaryOrder),
+          });
+
+          if (hasDuplicate) {
+            const duplicateOrder = {
+              orderId: orderId,
+              customerName: customerName,
+              customerPhone: customerPhone,
+              cardName: cardName,
+              attackName: attackName,
+              cardType: cardType,
+              pokemonType: pokemonType,
+              holoAddon: dupHolo ? "Yes" : "No",
+              holderAddon: dupHolder ? "Yes" : "No",
+              totalPrice: `Duplicate Card`,
+              itemPrice: duplicatePrice,
+              orderTotal: totalPrice,
+              fileData: fileData,
+              fileName: fileName,
+              mimeType: mimeType
+            };
+
+            await fetch(endpoint, {
+              method: "POST",
+              redirect: "follow",
+              headers: { "Content-Type": "text/plain;charset=utf-8" },
+              body: JSON.stringify(duplicateOrder),
+            });
+          }
+
+          if (hasStickerSheet) {
+            const stickerOrder = {
+              orderId: orderId,
+              customerName: customerName,
+              customerPhone: customerPhone,
+              cardName: cardName,
+              attackName: attackName,
+              cardType: cardType,
+              pokemonType: pokemonType,
+              holoAddon: "No",
+              holderAddon: "No",
+              totalPrice: `Sticker Sheet Addon`,
+              itemPrice: 5,
+              orderTotal: totalPrice,
+              fileData: fileData,
+              fileName: fileName,
+              mimeType: mimeType
+            };
+
+            await fetch(endpoint, {
+              method: "POST",
+              redirect: "follow",
+              headers: { "Content-Type": "text/plain;charset=utf-8" },
+              body: JSON.stringify(stickerOrder),
+            });
+          }
+        } else {
+          // Standalone Sticker Sheet Order
+          const standaloneStickerOrder = {
+            orderId: orderId,
+            customerName: customerName,
+            customerPhone: customerPhone,
+            cardName: cardName,
+            attackName: attackName,
+            cardType: cardType,
+            pokemonType: pokemonType,
+            holoAddon: "No",
+            holderAddon: "No",
+            totalPrice: `Standalone Sticker Sheet`,
+            itemPrice: basePrice,
+            orderTotal: totalPrice,
+            fileData: fileData,
+            fileName: fileName,
+            mimeType: mimeType
+          };
+
+          await fetch(endpoint, {
+            method: "POST",
+            redirect: "follow",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(standaloneStickerOrder),
+          });
+
+          if (hasDupStickerSheet) {
+            const dupStickerOrder = {
+              orderId: orderId,
+              customerName: customerName,
+              customerPhone: customerPhone,
+              cardName: cardName,
+              attackName: attackName,
+              cardType: cardType,
+              pokemonType: pokemonType,
+              holoAddon: "No",
+              holderAddon: "No",
+              totalPrice: `Duplicate Sticker Sheet`,
+              itemPrice: 5,
+              orderTotal: totalPrice,
+              fileData: fileData,
+              fileName: fileName,
+              mimeType: mimeType
+            };
+
+            await fetch(endpoint, {
+              method: "POST",
+              redirect: "follow",
+              headers: { "Content-Type": "text/plain;charset=utf-8" },
+              body: JSON.stringify(dupStickerOrder),
+            });
+          }
+        }
+
+        setPlacedOrderId(orderId);
+        setPlacedTotal(totalPrice);
+        setIsSubmitting(false);
+        setSubmitted(true);
+      } catch (error) {
+        console.error("Order submission failed", error);
+        setIsSubmitting(false);
+        alert("Something went wrong saving your order. Please try again.");
+      }
     };
 
-    console.log('Submitting Order Payload:', payload);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitted(true);
-    }, 1200);
+    if (photo) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = (reader.result as string).split(',')[1];
+        sendData(base64String, photo.name, photo.type);
+      };
+      reader.readAsDataURL(photo);
+    } else {
+      sendData();
+    }
   };
 
-  if (submitted) {
-    return (
-      <div className="max-w-md mx-auto my-12 p-8 bg-[#0a0a0a] border border-[#b5ff00]/40 rounded-2xl text-center text-white font-['Space_Mono']">
-        <div className="w-16 h-16 bg-[#b5ff00]/10 text-[#b5ff00] rounded-full flex items-center justify-center mx-auto mb-4">
-          <Check className="w-8 h-8" />
-        </div>
-        <h2 className="text-2xl font-bold tracking-tight mb-2 uppercase font-['Chakra_Petch']">Order Submitted!</h2>
-        <p className="text-zinc-400 text-sm mb-6">
-          Thanks {customerName}! We have received your custom order request. Please show this screen to your custom card maker so they can process your payment. Orders will be sent to production after payment is processed. Thank you!
-        </p>
-        <button
-          onClick={() => {
-            setSubmitted(false);
-            setCustomerName('');
-            setCustomerPhone('');
-            setCardName('');
-            setAttackText('');
-            setPhoto(null);
-            handleProductTypeChange('card');
-          }}
-          className="w-full bg-zinc-900 border border-zinc-700 text-zinc-300 hover:text-white py-3 rounded-lg font-bold text-xs uppercase tracking-wider transition-colors"
-        >
-          Create Another Order
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <div className="max-w-xl mx-auto my-8 p-6 sm:p-8 bg-[#0a0a0a] text-white rounded-2xl border border-zinc-800 shadow-2xl font-['Space_Mono']">
-      {/* HEADER */}
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold tracking-wider text-[#b5ff00] uppercase font-['Chakra_Petch']">
-          IN THE FOLD TCG
-        </h2>
-        <p className="text-zinc-400 text-xs mt-1">Design your custom cards or sticker sheets below. Total updates dynamically.</p>
+    <div className="min-h-screen bg-background text-foreground py-20 px-6" style={{ fontFamily: "'Outfit', sans-serif" }}>
+      <div className="max-w-xl mx-auto bg-card border border-border p-8 md:p-10 rounded-xl relative overflow-hidden">
+        {/* Accent glow */}
+        <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none blur-[80px] opacity-10" style={{ background: "#b5ff00" }} />
+
+        {/* HEADER */}
+        <div className="text-center mb-8">
+          <div className="text-xs tracking-[0.3em] uppercase text-primary mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+            In The Fold TCG
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+            Custom Card Form
+          </h1>
+          <p className="text-xs text-muted-foreground mt-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+            Design your custom cards or sticker sheets below. Total updates dynamically.
+          </p>
+        </div>
+
+        {!submitted ? (
+          <form onSubmit={handleSubmitAndPay} className="space-y-8">
+            {/* === 1. TOP ITEM TYPE SELECTOR === */}
+            <div>
+              <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                1. Select Item Type <span className="text-red-500">*</span>
+              </label>
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  type="button"
+                  onClick={() => handleProductTypeChange("card")}
+                  className={`p-4 border text-left transition-all flex items-center gap-3.5 ${
+                    productType === "card"
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-border bg-background text-muted-foreground hover:border-primary/40"
+                  }`}
+                >
+                  <FullArtIcon />
+                  <div>
+                    <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                      Custom Card
+                    </div>
+                    <div className="text-[10px] opacity-80 mt-0.5" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      Starts at $10
+                    </div>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleProductTypeChange("sticker")}
+                  className={`p-4 border text-left transition-all flex items-center gap-3.5 ${
+                    productType === "sticker"
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-border bg-background text-muted-foreground hover:border-primary/40"
+                  }`}
+                >
+                  <StickerSheetIcon />
+                  <div>
+                    <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                      Sticker Sheet
+                    </div>
+                    <div className="text-[10px] opacity-80 mt-0.5" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      12 Stickers · Starts at $10
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+
+            {/* === CUSTOMER INFORMATION === */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-6 border-b border-border">
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Customer Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                  placeholder="e.g. Jane Doe"
+                  className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                  style={{ fontFamily: "'Space Mono', monospace" }}
+                />
+              </div>
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Customer Phone <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="tel"
+                  required
+                  value={customerPhone}
+                  onChange={(e) => setCustomerPhone(e.target.value)}
+                  placeholder="e.g. 555-123-4567"
+                  className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                  style={{ fontFamily: "'Space Mono', monospace" }}
+                />
+              </div>
+            </div>
+
+            {/* === 2. DESIGN CUSTOMIZATION SECTION === */}
+            <div className="space-y-6 pb-6 border-b border-border">
+              <div className="text-sm font-bold uppercase text-primary tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                2. {productType === "card" ? "Card Design Details" : "Sticker Sheet Artwork Details"} ({cardType === "fullart" ? "$12" : "$10"})
+              </div>
+
+              {/* Card Style */}
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Card Style <span className="text-red-500">*</span>
+                </label>
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Basic Card Button */}
+                  <button
+                    type="button"
+                    onClick={() => setCardType("basic")}
+                    className={`p-4 border text-left transition-all flex items-center gap-3.5 ${
+                      cardType === "basic"
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border bg-background text-muted-foreground hover:border-primary/40"
+                    }`}
+                  >
+                    <BasicCardIcon />
+                    <div>
+                      <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Basic Card</div>
+                      <div className="text-[10px] opacity-80 mt-0.5" style={{ fontFamily: "'Space Mono', monospace" }}>$10</div>
+                    </div>
+                  </button>
+
+                  {/* Full Art Button */}
+                  <button
+                    type="button"
+                    onClick={() => setCardType("fullart")}
+                    className={`p-4 border text-left transition-all flex items-center gap-3.5 ${
+                      cardType === "fullart"
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border bg-background text-muted-foreground hover:border-primary/40"
+                    }`}
+                  >
+                    <FullArtIcon />
+                    <div>
+                      <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Full Art</div>
+                      <div className="text-[10px] opacity-80 mt-0.5" style={{ fontFamily: "'Space Mono', monospace" }}>$12</div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Conditional Pokémon Type (Basic only) */}
+              {cardType === "basic" && (
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    Pokémon Type <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={pokemonType}
+                    onChange={(e) => setPokemonType(e.target.value)}
+                    className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                    style={{ fontFamily: "'Space Mono', monospace" }}
+                  >
+                    <option value="Fire">Fire Type</option>
+                    <option value="Water">Water Type</option>
+                    <option value="Grass">Grass Type</option>
+                    <option value="Electric">Electric Type</option>
+                    <option value="Psychic">Psychic Type</option>
+                    <option value="Fighting">Fighting Type</option>
+                    <option value="Colorless">Colorless Type</option>
+                  </select>
+                </div>
+              )}
+
+              {/* Name & Attack */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    Name at Top of Card <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={cardName}
+                    onChange={(e) => setCardName(e.target.value)}
+                    placeholder="e.g. Trainer Mike"
+                    className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                    style={{ fontFamily: "'Space Mono', monospace" }}
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    Attack / Ability & Text <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={attackName}
+                    onChange={(e) => setAttackName(e.target.value)}
+                    placeholder="e.g. Strike - 100"
+                    className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                    style={{ fontFamily: "'Space Mono', monospace" }}
+                  />
+                </div>
+              </div>
+
+              {/* Photo Upload */}
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Subject Photo <span className="text-red-500">*</span>
+                </label>
+                <label className="border border-dashed border-border hover:border-primary/50 p-4 flex items-center justify-center cursor-pointer bg-background transition-colors">
+                  <Upload size={18} className="text-primary mr-2" />
+                  <span className="text-xs text-foreground font-medium" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    {photo ? photo.name : "Select photo *"}
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    required
+                    onChange={(e) => e.target.files && setPhoto(e.target.files[0])}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+
+              {/* Primary Card Options (Card mode only) */}
+              {productType === "card" && (
+                <div className="grid grid-cols-2 gap-4 pt-2">
+                  <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
+                    <input
+                      type="checkbox"
+                      checked={hasHolo}
+                      onChange={(e) => setHasHolo(e.target.checked)}
+                      className="accent-primary"
+                    />
+                    <HoloIcon />
+                    <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      Add Holo Layer <strong className="text-primary">(+$2)</strong>
+                    </span>
+                  </label>
+                  <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
+                    <input
+                      type="checkbox"
+                      checked={hasHolder}
+                      onChange={(e) => setHasHolder(e.target.checked)}
+                      className="accent-primary"
+                    />
+                    <HolderIcon />
+                    <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      Magnetic Holder <strong className="text-primary">(+$2)</strong>
+                    </span>
+                  </label>
+                </div>
+              )}
+            </div>
+
+            {/* === 3. CONDITIONALLY RENDERED ADD-ONS === */}
+            {productType === "card" ? (
+              <>
+                {/* DUPLICATE CARD SECTION */}
+                {!hasDuplicate ? (
+                  <button
+                    type="button"
+                    onClick={() => setHasDuplicate(true)}
+                    className="w-full py-4 border-2 border-primary bg-primary text-primary-foreground text-sm font-bold uppercase tracking-widest hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer"
+                    style={{ fontFamily: "'Chakra Petch', sans-serif" }}
+                  >
+                    <Plus size={20} strokeWidth={3} /> Add Duplicate Copy ($8)
+                  </button>
+                ) : (
+                  <div className="mt-6 pt-6 border-t border-border">
+                    <div className="flex justify-between items-center mb-4">
+                      <span className="font-bold text-sm uppercase tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                        Duplicate Card Add-ons ($8)
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setHasDuplicate(false)}
+                        className="text-xs text-red-500 hover:underline"
+                        style={{ fontFamily: "'Space Mono', monospace" }}
+                      >
+                        [Remove Duplicate]
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
+                        <input
+                          type="checkbox"
+                          checked={dupHolo}
+                          onChange={(e) => setDupHolo(e.target.checked)}
+                          className="accent-primary"
+                        />
+                        <HoloIcon />
+                        <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                          Add Holo Layer <strong className="text-primary">(+$2)</strong>
+                        </span>
+                      </label>
+                      <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
+                        <input
+                          type="checkbox"
+                          checked={dupHolder}
+                          onChange={(e) => setDupHolder(e.target.checked)}
+                          className="accent-primary"
+                        />
+                        <HolderIcon />
+                        <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                          Magnetic Holder <strong className="text-primary">(+$2)</strong>
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+                )}
+
+                {/* STICKER SHEET ADD-ON ON CARD ORDERS ($5) */}
+                <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
+                  <input
+                    type="checkbox"
+                    checked={hasStickerSheet}
+                    onChange={(e) => setHasStickerSheet(e.target.checked)}
+                    className="accent-primary"
+                  />
+                  <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    Custom Sticker Sheet <strong className="text-primary">(+$5)</strong>
+                    <span className="block text-[10px] opacity-80 mt-0.5">4 rows of 3 · matches your card art</span>
+                  </span>
+                  <div className="flex-1 flex justify-center">
+                    <StickerSheetIcon />
+                  </div>
+                </label>
+              </>
+            ) : (
+              /* DUPLICATE STICKER SHEET ON STICKER-ONLY ORDERS ($5) */
+              <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
+                <input
+                  type="checkbox"
+                  checked={hasDupStickerSheet}
+                  onChange={(e) => setHasDupStickerSheet(e.target.checked)}
+                  className="accent-primary"
+                />
+                <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Duplicate Sticker Sheet <strong className="text-primary">(+$5)</strong>
+                  <span className="block text-[10px] opacity-80 mt-0.5">An extra sheet of 12 stickers with matching artwork</span>
+                </span>
+                <div className="flex-1 flex justify-center">
+                  <StickerSheetIcon />
+                </div>
+              </label>
+            )}
+
+            {/* LIVE TOTAL & SUBMIT BAR */}
+            <div className="pt-4 border-t border-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+              <div>
+                <div className="text-[10px] uppercase text-muted-foreground tracking-widest" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Total Price
+                </div>
+                <div className="text-2xl font-bold text-primary" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                  ${totalPrice}.00
+                </div>
+              </div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="px-4 sm:px-8 py-4 bg-primary text-primary-foreground text-xs tracking-widest uppercase font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto"
+                style={{ fontFamily: "'Space Mono', monospace" }}
+              >
+                {isSubmitting ? (
+                  <span>Processing...</span>
+                ) : (
+                  <>
+                    <CreditCard size={16} /> Submit Order (${totalPrice})
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+        ) : (
+          <div className="text-center py-8 space-y-5">
+            <CheckCircle2 size={48} className="text-primary mx-auto" />
+            <h2 className="text-2xl font-bold uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+              Order Received
+            </h2>
+            <p className="text-xs text-muted-foreground max-w-sm mx-auto leading-relaxed" style={{ fontFamily: "'Space Mono', monospace" }}>
+              Thank you for your order. Please visit us at our booth and show this screen to finalize your payment. Your items go to print once payment is complete.
+            </p>
+
+            <div className="border border-primary/40 bg-primary/10 p-5 max-w-xs mx-auto">
+              <div className="text-[10px] uppercase text-muted-foreground tracking-widest" style={{ fontFamily: "'Space Mono', monospace" }}>
+                Order Number
+              </div>
+              <div className="text-3xl font-bold text-primary mt-1" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                {placedOrderId}
+              </div>
+              <div className="text-[10px] uppercase text-muted-foreground tracking-widest mt-4" style={{ fontFamily: "'Space Mono', monospace" }}>
+                Total Due
+              </div>
+              <div className="text-xl font-bold" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
+                ${placedTotal}.00
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                setSubmitted(false);
+                setPhoto(null);
+                setPlacedOrderId("");
+                setPlacedTotal(0);
+                setHasDuplicate(false);
+                setHasHolo(false);
+                setHasHolder(false);
+                setDupHolo(false);
+                setDupHolder(false);
+                setHasStickerSheet(false);
+                setHasDupStickerSheet(false);
+                handleProductTypeChange("card");
+              }}
+              className="px-6 py-3 border border-border text-xs tracking-widest uppercase hover:text-primary transition-colors mt-4"
+              style={{ fontFamily: "'Space Mono', monospace" }}
+            >
+              Create Another Order
+            </button>
+          </div>
+        )}
       </div>
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* TOP SELECTOR: ITEM TYPE */}
-        <div>
-          <label className="block text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-2">
-            1. SELECT ITEM TYPE *
-          </label>
-          <div className="grid grid-cols-2 gap-3">
-            {/* TOP CARD BUTTON WITH FULL ART ICON */}
-            <button
-              type="button"
-              onClick={() => handleProductTypeChange('card')}
-              className={`p-3.5 rounded-xl border-2 text-left font-bold transition-all flex items-center justify-between ${
-                productType === 'card'
-                  ? 'border-[#b5ff00] bg-[#b5ff00]/10 text-[#b5ff00]'
-                  : 'border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:border-zinc-700'
-              }`}
-            >
-              <div className="flex items-center">
-                <FullArtIcon />
-                <div>
-                  <div className="text-xs uppercase">Custom Card</div>
-                  <div className="text-[10px] font-normal text-zinc-400">Starts at $10</div>
-                </div>
-              </div>
-              {productType === 'card' && <div className="w-2.5 h-2.5 rounded-full bg-[#b5ff00]" />}
-            </button>
-
-            {/* TOP STICKER BUTTON WITH STICKER ICON */}
-            <button
-              type="button"
-              onClick={() => handleProductTypeChange('sticker')}
-              className={`p-3.5 rounded-xl border-2 text-left font-bold transition-all flex items-center justify-between ${
-                productType === 'sticker'
-                  ? 'border-[#b5ff00] bg-[#b5ff00]/10 text-[#b5ff00]'
-                  : 'border-zinc-800 bg-zinc-900/50 text-zinc-400 hover:border-zinc-700'
-              }`}
-            >
-              <div className="flex items-center">
-                <StickerIcon />
-                <div>
-                  <div className="text-xs uppercase">Sticker Sheet</div>
-                  <div className="text-[10px] font-normal text-zinc-400">12 Stickers · Starts at $10</div>
-                </div>
-              </div>
-              {productType === 'sticker' && <div className="w-2.5 h-2.5 rounded-full bg-[#b5ff00]" />}
-            </button>
-          </div>
-        </div>
-
-        {/* CUSTOMER CONTACT DETAILS */}
-        <div className="space-y-4 pt-4 border-t border-zinc-800/80">
-          <div>
-            <label className="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
-              CUSTOMER NAME *
-            </label>
-            <input
-              type="text"
-              required
-              value={customerName}
-              onChange={(e) => setCustomerName(e.target.value)}
-              placeholder="e.g. Jane Doe"
-              className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg p-3 text-xs text-white placeholder-zinc-600 focus:border-[#b5ff00] outline-none transition-all"
-            />
-          </div>
-          <div>
-            <label className="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-1">
-              CUSTOMER PHONE *
-            </label>
-            <input
-              type="tel"
-              required
-              value={customerPhone}
-              onChange={(e) => setCustomerPhone(e.target.value)}
-              placeholder="e.g. 555-123-4567"
-              className="w-full bg-zinc-900/80 border border-zinc-800 rounded-lg p-3 text-xs text-white placeholder-zinc-600 focus:border-[#b5ff00] outline-none transition-all"
-            />
-          </div>
-        </div>
-
-        {/* CUSTOMIZATION DETAILS */}
-        <div className="space-y-4 pt-4 border-t border-zinc-800/80">
-          <div className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
-            2. {productType === 'card' ? 'CARD DESIGN DETAILS' : 'STICKER SHEET DESIGN DETAILS'}
-          </div>
-
-          {/* STYLE SELECTOR WITH BASIC & FULL ART ICONS */}
-          <div>
-            <label className="block text-[10px] text-zinc-400 uppercase mb-1.5">STYLE *</label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => setCardStyle('basic')}
-                className={`py-2.5 px-3 rounded-lg border text-xs font-bold transition-all flex items-center justify-center ${
-                  cardStyle === 'basic'
-                    ? 'border-[#b5ff00] bg-[#b5ff00]/10 text-[#b5ff00]'
-                    : 'border-zinc-800 bg-zinc-900/50 text-zinc-400'
-                }`}
-              >
-                <BasicCardIcon />
-                <span>BASIC TYPE ($10)</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setCardStyle('fullArt')}
-                className={`py-2.5 px-3 rounded-lg border text-xs font-bold transition-all flex items-center justify-center ${
-                  cardStyle === 'fullArt'
-                    ? 'border-[#b5ff00] bg-[#b5ff00]/10 text-[#b5ff00]'
-                    : 'border-zinc-800 bg-zinc-900/50 text-zinc-400'
-                }`}
-              >
-                <FullArtIcon />
-                <span>FULL ART ($12)</span>
-              </button>
-            </div>
-          </div>
-
-          {/* POKEMON TYPE */}
-          <div>
-            <label className="block text-[10px] text-zinc-400 uppercase mb-1.5">POKÉMON TYPE *</label>
-            <select
-              value={pokemonType}
-              onChange={(e) => setPokemonType(e.target.value)}
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-xs text-zinc-200 outline-none focus:border-[#b5ff00]"
-            >
-              <option value="Fire Type">Fire Type</option>
-              <option value="Water Type">Water Type</option>
-              <option value="Grass Type">Grass Type</option>
-              <option value="Electric Type">Electric Type</option>
-              <option value="Psychic Type">Psychic Type</option>
-              <option value="Fighting Type">Fighting Type</option>
-              <option value="Colorless Type">Colorless Type</option>
-            </select>
-          </div>
-
-          {/* NAME ON ITEM */}
-          <div>
-            <label className="block text-[10px] text-zinc-400 uppercase mb-1.5">NAME ON CARD *</label>
-            <input
-              type="text"
-              required
-              value={cardName}
-              onChange={(e) => setCardName(e.target.value)}
-              placeholder="e.g. Trainer Mike"
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-xs text-white placeholder-zinc-600 outline-none focus:border-[#b5ff00]"
-            />
-          </div>
-
-          {/* ATTACK / ABILITY TEXT */}
-          <div>
-            <label className="block text-[10px] text-zinc-400 uppercase mb-1.5">ATTACK / ABILITY & TEXT *</label>
-            <input
-              type="text"
-              required
-              value={attackText}
-              onChange={(e) => setAttackText(e.target.value)}
-              placeholder="e.g. Strike - 100"
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-xs text-white placeholder-zinc-600 outline-none focus:border-[#b5ff00]"
-            />
-          </div>
-
-          {/* SUBJECT PHOTO UPLOAD */}
-          <div>
-            <label className="block text-[10px] text-zinc-400 uppercase mb-1.5">SUBJECT PHOTO *</label>
-            <div className="relative border border-dashed border-zinc-700 bg-zinc-900/50 hover:bg-zinc-900 rounded-lg p-4 text-center cursor-pointer transition-colors">
-              <input
-                type="file"
-                accept="image/*"
-                required={!photo}
-                onChange={(e) => setPhoto(e.target.files ? e.target.files[0] : null)}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              />
-              <div className="flex flex-col items-center justify-center space-y-1">
-                <Upload className="w-5 h-5 text-[#b5ff00] mb-1" />
-                <span className="text-xs text-zinc-300 font-bold">
-                  {photo ? photo.name : 'Select or drop card image photo'}
-                </span>
-                <span className="text-[10px] text-zinc-500">JPG, PNG, or WEBP</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* CONDITIONALLY RENDERED ADD-ONS */}
-        <div className="pt-4 border-t border-zinc-800/80">
-          <div className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-3">
-            3. ADD-ONS
-          </div>
-
-          {productType === 'card' ? (
-            /* CARD MODE ADD-ONS */
-            <div className="space-y-3">
-              <div className="grid grid-cols-2 gap-3">
-                <label className="flex items-center space-x-2.5 bg-zinc-900 border border-zinc-800 p-3 rounded-xl cursor-pointer hover:border-zinc-700 transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={addHolo}
-                    onChange={(e) => setAddHolo(e.target.checked)}
-                    className="accent-[#b5ff00] w-4 h-4 rounded"
-                  />
-                  <span className="text-xs text-zinc-200">Holo Layer (+$2)</span>
-                </label>
-
-                <label className="flex items-center space-x-2.5 bg-zinc-900 border border-zinc-800 p-3 rounded-xl cursor-pointer hover:border-zinc-700 transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={addHolder}
-                    onChange={(e) => setAddHolder(e.target.checked)}
-                    className="accent-[#b5ff00] w-4 h-4 rounded"
-                  />
-                  <span className="text-xs text-zinc-200">Magnetic Case (+$2)</span>
-                </label>
-              </div>
-
-              {/* DUPLICATE CARD */}
-              <div
-                onClick={() => setAddDuplicateCard(!addDuplicateCard)}
-                className={`p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
-                  addDuplicateCard
-                    ? 'border-[#b5ff00] bg-[#b5ff00]/10'
-                    : 'border-zinc-800 bg-zinc-900 hover:border-zinc-700'
-                }`}
-              >
-                <div>
-                  <div className="text-xs font-bold text-white">DUPLICATE CARD COPY</div>
-                  <div className="text-[10px] text-zinc-400">An exact second physical card</div>
-                </div>
-                <span className="text-xs font-bold text-[#b5ff00]">
-                  {addDuplicateCard ? 'ADDED (+$8)' : '+ ADD ($8)'}
-                </span>
-              </div>
-
-              {/* STICKER SHEET ADD-ON ($5) */}
-              <div
-                onClick={() => setAddStickerSheet(!addStickerSheet)}
-                className={`p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
-                  addStickerSheet
-                    ? 'border-[#b5ff00] bg-[#b5ff00]/10'
-                    : 'border-zinc-800 bg-zinc-900 hover:border-zinc-700'
-                }`}
-              >
-                <div>
-                  <div className="text-xs font-bold text-white">CUSTOM STICKER SHEET</div>
-                  <div className="text-[10px] text-zinc-400">12 stickers (4 rows of 3) matching card art</div>
-                </div>
-                <span className="text-xs font-bold text-[#b5ff00]">
-                  {addStickerSheet ? 'ADDED (+$5)' : '+ ADD ($5)'}
-                </span>
-              </div>
-            </div>
-          ) : (
-            /* STICKER SHEET MODE ADD-ONS */
-            <div className="space-y-3">
-              <div
-                onClick={() => setAddDuplicateSticker(!addDuplicateSticker)}
-                className={`p-3 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
-                  addDuplicateSticker
-                    ? 'border-[#b5ff00] bg-[#b5ff00]/10'
-                    : 'border-zinc-800 bg-zinc-900 hover:border-zinc-700'
-                }`}
-              >
-                <div>
-                  <div className="text-xs font-bold text-white">DUPLICATE STICKER SHEET</div>
-                  <div className="text-[10px] text-zinc-400">Extra sheet of 12 stickers with matching artwork</div>
-                </div>
-                <span className="text-xs font-bold text-[#b5ff00]">
-                  {addDuplicateSticker ? 'ADDED (+$5)' : '+ ADD ($5)'}
-                </span>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* SUBMIT FOOTER */}
-        <div className="pt-4 border-t border-zinc-800 flex items-center justify-between">
-          <div>
-            <div className="text-[10px] uppercase text-zinc-400">TOTAL PRICE</div>
-            <div className="text-2xl font-black text-[#b5ff00] font-['Chakra_Petch']">
-              ${calculateTotal()}.00
-            </div>
-          </div>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="bg-[#b5ff00] hover:bg-[#a0e600] text-black font-bold font-['Chakra_Petch'] px-6 py-3 rounded-xl uppercase tracking-wider text-xs transition-colors disabled:opacity-50"
-          >
-            {isSubmitting ? 'PROCESSING...' : `SUBMIT ORDER ($${calculateTotal()})`}
-          </button>
-        </div>
-      </form>
     </div>
   );
 }
