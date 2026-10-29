@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Upload, CreditCard, CheckCircle2, Plus } from "lucide-react";
 
-// --- YOUR UPDATED SVG ICONS ---
+// --- SVG ICONS ---
 const BasicCardIcon = () => (
   <svg className="w-8 h-8 shrink-0 text-primary" viewBox="0 0 24 32" fill="none" stroke="currentColor" strokeWidth="1.5">
     <rect x="1" y="1" width="22" height="30" rx="3" />
@@ -91,8 +91,8 @@ export default function CustomCard() {
   const [dupHolder, setDupHolder] = useState(false);
 
   // Sticker Add-ons State
-  const [hasStickerSheet, setHasStickerSheet] = useState(false); // $5 add-on for card orders
-  const [hasDupStickerSheet, setHasDupStickerSheet] = useState(false); // $5 duplicate for standalone sticker orders
+  const [hasStickerSheet, setHasStickerSheet] = useState(false); 
+  const [hasDupStickerSheet, setHasDupStickerSheet] = useState(false); 
 
   // Submission State
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -115,7 +115,6 @@ export default function CustomCard() {
       }
       if (hasStickerSheet) total += 5;
     } else {
-      // Standalone Sticker Sheet ($10 base for Basic, $12 for Full Art)
       if (hasDupStickerSheet) total += 5;
     }
 
@@ -228,7 +227,6 @@ export default function CustomCard() {
             });
           }
         } else {
-          // Standalone Sticker Sheet Order
           const standaloneStickerOrder = {
             orderId: orderId,
             customerName: customerName,
@@ -307,7 +305,7 @@ export default function CustomCard() {
 
   return (
     <div className="min-h-screen bg-background text-foreground py-20 px-6" style={{ fontFamily: "'Outfit', sans-serif" }}>
-      <div className="max-w-xl mx-auto bg-card border border-border p-8 md:p-10 rounded-xl relative overflow-hidden">
+      <div className="max-w-xl mx-auto bg-card border border-border p-6 sm:p-10 rounded-xl relative overflow-hidden">
         {/* Accent glow */}
         <div className="absolute top-0 right-0 w-48 h-48 pointer-events-none blur-[80px] opacity-10" style={{ background: "#b5ff00" }} />
 
@@ -331,11 +329,11 @@ export default function CustomCard() {
               <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
                 1. Select Item Type <span className="text-red-500">*</span>
               </label>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4">
                 <button
                   type="button"
                   onClick={() => handleProductTypeChange("card")}
-                  className={`p-4 border text-left transition-all flex items-center gap-3.5 ${
+                  className={`p-3 sm:p-4 border text-left transition-all flex flex-col sm:flex-row items-center sm:items-center gap-2.5 sm:gap-3.5 text-center sm:text-left ${
                     productType === "card"
                       ? "border-primary bg-primary/10 text-primary"
                       : "border-border bg-background text-muted-foreground hover:border-primary/40"
@@ -355,7 +353,7 @@ export default function CustomCard() {
                 <button
                   type="button"
                   onClick={() => handleProductTypeChange("sticker")}
-                  className={`p-4 border text-left transition-all flex items-center gap-3.5 ${
+                  className={`p-3 sm:p-4 border text-left transition-all flex flex-col sm:flex-row items-center sm:items-center gap-2.5 sm:gap-3.5 text-center sm:text-left ${
                     productType === "sticker"
                       ? "border-primary bg-primary/10 text-primary"
                       : "border-border bg-background text-muted-foreground hover:border-primary/40"
@@ -367,7 +365,7 @@ export default function CustomCard() {
                       Sticker Sheet
                     </div>
                     <div className="text-[10px] opacity-80 mt-0.5" style={{ fontFamily: "'Space Mono', monospace" }}>
-                      12 Stickers · Starts at $10
+                      12 Stickers · $10
                     </div>
                   </div>
                 </button>
@@ -409,7 +407,7 @@ export default function CustomCard() {
             {/* === 2. DESIGN CUSTOMIZATION SECTION === */}
             <div className="space-y-6 pb-6 border-b border-border">
               <div className="text-sm font-bold uppercase text-primary tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
-                2. {productType === "card" ? "Card Design Details" : "Sticker Sheet Artwork Details"} ({cardType === "fullart" ? "$12" : "$10"})
+                2. {productType === "card" ? "Card Design Details" : "Sticker Sheet Artwork Details"} ({cardType === "fullart" ? "$10-$12" : "$10-$12"})
               </div>
 
               {/* Card Style */}
@@ -417,12 +415,12 @@ export default function CustomCard() {
                 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
                   Card Style <span className="text-red-500">*</span>
                 </label>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
                   {/* Basic Card Button */}
                   <button
                     type="button"
                     onClick={() => setCardType("basic")}
-                    className={`p-4 border text-left transition-all flex items-center gap-3.5 ${
+                    className={`p-3 sm:p-4 border text-left transition-all flex flex-col sm:flex-row items-center sm:items-center gap-2.5 sm:gap-3.5 text-center sm:text-left ${
                       cardType === "basic"
                         ? "border-primary bg-primary/10 text-primary"
                         : "border-border bg-background text-muted-foreground hover:border-primary/40"
@@ -439,7 +437,7 @@ export default function CustomCard() {
                   <button
                     type="button"
                     onClick={() => setCardType("fullart")}
-                    className={`p-4 border text-left transition-all flex items-center gap-3.5 ${
+                    className={`p-3 sm:p-4 border text-left transition-all flex flex-col sm:flex-row items-center sm:items-center gap-2.5 sm:gap-3.5 text-center sm:text-left ${
                       cardType === "fullart"
                         ? "border-primary bg-primary/10 text-primary"
                         : "border-border bg-background text-muted-foreground hover:border-primary/40"
@@ -454,7 +452,7 @@ export default function CustomCard() {
                 </div>
               </div>
 
-              {/* Pokémon Type Select (Available for both Basic and Full Art) */}
+              {/* Pokémon Type Select */}
               <div>
                 <label className="block text-xs uppercase tracking-wider text-muted-foreground mb-2" style={{ fontFamily: "'Space Mono', monospace" }}>
                   Pokémon Type <span className="text-red-500">*</span>
@@ -529,7 +527,7 @@ export default function CustomCard() {
 
               {/* Primary Card Options (Card mode only) */}
               {productType === "card" && (
-                <div className="grid grid-cols-2 gap-4 pt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                   <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
                     <input
                       type="checkbox"
@@ -586,7 +584,7 @@ export default function CustomCard() {
                         [Remove Duplicate]
                       </button>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
                         <input
                           type="checkbox"
