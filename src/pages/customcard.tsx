@@ -9,10 +9,22 @@ const CARD_PRICE = 12; // basic and full art
 const ADDON_PRICE = 2; // holo layer / magnetic holder, each
 const CARD_DUPLICATE_PRICE = 8; // extra copy of a card
 const STICKER_SHEET_PRICE = 5; // sticker sheet ordered by itself
-const STICKER_DUPLICATE_PRICE = 5; // extra copy of a sticker sheet
+const EXTRA_STICKER_SHEET_PRICE = 5; // each additional sticker sheet
+const MAX_EXTRA_STICKER_SHEETS = 10; // most extra sheets one order can add
 const BUNDLE_PRICE = 15; // card + sticker sheet together
 const STICKER_ADDON_PRICE = BUNDLE_PRICE - CARD_PRICE; // what a sticker sheet adds to a card order
 const BUNDLE_SAVINGS = CARD_PRICE + STICKER_SHEET_PRICE - BUNDLE_PRICE;
+
+// Sticker sheet promo note. Set SHOW_STICKER_PROMO to false when the promo ends and it disappears everywhere.
+const SHOW_STICKER_PROMO = true;
+const STICKER_PROMO_TEXT = "50% off thanks to Desert Dawg Card Show";
+
+// Crossed-out regular price shown before the discounted sticker sheet price. Hidden when the promo is off.
+const REGULAR_STICKER_PRICE = 10;
+function WasPrice() {
+  if (!SHOW_STICKER_PROMO) return null;
+  return <span className="text-red-500 line-through mr-1.5">${REGULAR_STICKER_PRICE}</span>;
+}
 
 // Icon: a single card
 function CardIcon() {
@@ -69,7 +81,7 @@ export default function CustomCard() {
   const [hasHolo, setHasHolo] = useState(false);
   const [hasHolder, setHasHolder] = useState(false);
 
-  // Duplicate State (card duplicate has add-ons, sticker duplicate does not)
+  // Duplicate card State (card orders only)
   const [hasDuplicate, setHasDuplicate] = useState(false);
   const [dupHolo, setDupHolo] = useState(false);
   const [dupHolder, setDupHolder] = useState(false);
@@ -77,12 +89,16 @@ export default function CustomCard() {
   // Sticker sheet added onto a card order (bundle)
   const [hasStickers, setHasStickers] = useState(false);
 
+  // Additional sticker sheets (0 to MAX_EXTRA_STICKER_SHEETS)
+  const [extraStickers, setExtraStickers] = useState(0);
+
   // Submission State
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const isSticker = orderType === "sticker";
   const bundleActive = !isSticker && hasStickers;
+  const stickersOn = isSticker || hasStickers;
 
   // Add-ons and duplicates mean different things in each mode, so start them fresh when switching
   const switchOrderType = (type: "card" | "sticker") => {
@@ -94,17 +110,19 @@ export default function CustomCard() {
     setDupHolo(false);
     setDupHolder(false);
     setHasStickers(false);
+    setExtraStickers(0);
   };
 
   // LIVE PRICING CALCULATION
   const calculateTotal = () => {
     if (isSticker) {
-      return STICKER_SHEET_PRICE + (hasDuplicate ? STICKER_DUPLICATE_PRICE : 0);
+      return STICKER_SHEET_PRICE + extraStickers * EXTRA_STICKER_SHEET_PRICE;
     }
     let total = CARD_PRICE; // Primary base
     if (hasHolo) total += ADDON_PRICE;
     if (hasHolder) total += ADDON_PRICE;
     if (hasStickers) total += STICKER_ADDON_PRICE; // bundle price
+    if (hasStickers) total += extraStickers * EXTRA_STICKER_SHEET_PRICE;
     if (hasDuplicate) {
       total += CARD_DUPLICATE_PRICE; // Duplicate base
       if (dupHolo) total += ADDON_PRICE;
@@ -153,18 +171,6 @@ export default function CustomCard() {
             totalPrice: `Sticker Sheet`,
             itemPrice: STICKER_SHEET_PRICE,
           });
-
-          if (hasDuplicate) {
-            rows.push({
-              ...baseRow,
-              cardType: stickerStyle,
-              pokemonType: pokemonType,
-              holoAddon: "No",
-              holderAddon: "No",
-              totalPrice: `Duplicate Sticker Sheet`,
-              itemPrice: STICKER_DUPLICATE_PRICE,
-            });
-          }
         } else {
           rows.push({
             ...baseRow,
@@ -199,6 +205,19 @@ export default function CustomCard() {
               itemPrice: STICKER_ADDON_PRICE,
             });
           }
+        }
+
+        // Additional sticker sheets go in one row with the quantity in the line item
+        if (extraStickers > 0) {
+          rows.push({
+            ...baseRow,
+            cardType: `Sticker Sheet (${cardType})`,
+            pokemonType: pokemonType,
+            holoAddon: "No",
+            holderAddon: "No",
+            totalPrice: `Additional Sticker Sheets (x${extraStickers})`,
+            itemPrice: extraStickers * EXTRA_STICKER_SHEET_PRICE,
+          });
         }
 
         console.log("ORDER ROWS BEING SENT:", rows);
@@ -267,6 +286,11 @@ export default function CustomCard() {
               <div className="text-sm font-bold uppercase" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
                 Custom Card + Sticker Sheet = ${BUNDLE_PRICE}
               </div>
+              {SHOW_STICKER_PROMO && (
+                <div className="text-[10px] text-primary mt-1" style={{ fontFamily: "'Space Mono', monospace" }}>
+                  Sticker sheets are {STICKER_PROMO_TEXT}!
+                </div>
+              )}
               <div className="text-[10px] text-muted-foreground mt-1" style={{ fontFamily: "'Space Mono', monospace" }}>
                 {bundleActive
                   ? "Bundle applied to your order."
@@ -301,7 +325,12 @@ export default function CustomCard() {
                   <StickerSheetIcon />
                   <div>
                     <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Sticker Sheet</div>
-                    <div className="text-[10px] opacity-80 mt-0.5" style={{ fontFamily: "'Space Mono', monospace" }}>${STICKER_SHEET_PRICE}</div>
+                    <div className="text-[10px] opacity-80 mt-0.5" style={{ fontFamily: "'Space Mono', monospace" }}><WasPrice />${STICKER_SHEET_PRICE}</div>
+                    {SHOW_STICKER_PROMO && (
+                      <div className="text-[10px] text-primary mt-1 leading-tight" style={{ fontFamily: "'Space Mono', monospace" }}>
+                        {STICKER_PROMO_TEXT}
+                      </div>
+                    )}
                   </div>
                 </button>
               </div>
@@ -342,7 +371,18 @@ export default function CustomCard() {
             {/* === PRIMARY SECTION === */}
             <div className="space-y-6 pb-6 border-b border-border">
               <div className="text-sm font-bold uppercase text-primary tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
-                {isSticker ? `Sticker Sheet ($${STICKER_SHEET_PRICE})` : `Primary Card ($${CARD_PRICE})`}
+                {isSticker ? (
+                  <>
+                    Sticker Sheet (<WasPrice />${STICKER_SHEET_PRICE})
+                    {SHOW_STICKER_PROMO && (
+                      <span className="block text-[10px] font-normal normal-case tracking-normal mt-1" style={{ fontFamily: "'Space Mono', monospace" }}>
+                        {STICKER_PROMO_TEXT}
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  `Primary Card ($${CARD_PRICE})`
+                )}
               </div>
 
               {/* Card Style */}
@@ -489,26 +529,21 @@ export default function CustomCard() {
               )}
             </div>
 
-            {/* DUPLICATE TOGGLE / SECTION */}
-            {!hasDuplicate ? (
+            {/* DUPLICATE CARD TOGGLE / SECTION (card orders only) */}
+            {!isSticker && (!hasDuplicate ? (
               <button
                 type="button"
                 onClick={() => setHasDuplicate(true)}
                 className="w-full py-3 border border-dashed border-border text-xs uppercase tracking-widest text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors flex items-center justify-center gap-2"
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
-                <Plus size={16} />{" "}
-                {isSticker
-                  ? `Add Duplicate Sticker Sheet ($${STICKER_DUPLICATE_PRICE})`
-                  : `Add Duplicate Copy ($${CARD_DUPLICATE_PRICE})`}
+                <Plus size={16} /> Add A Duplicate Card (${CARD_DUPLICATE_PRICE})
               </button>
             ) : (
               <div className="mt-6 pt-6 border-t border-border">
                 <div className="flex justify-between items-center mb-4">
                   <span className="font-bold text-sm uppercase tracking-wider" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>
-                    {isSticker
-                      ? `Duplicate Sticker Sheet ($${STICKER_DUPLICATE_PRICE})`
-                      : `Duplicate Card Add-ons ($${CARD_DUPLICATE_PRICE})`}
+                    Duplicate Card Add-ons (${CARD_DUPLICATE_PRICE})
                   </span>
                   <button
                     type="button"
@@ -519,59 +554,111 @@ export default function CustomCard() {
                     [Remove Duplicate]
                   </button>
                 </div>
-                {isSticker ? (
-                  <p className="text-xs text-muted-foreground" style={{ fontFamily: "'Space Mono', monospace" }}>
-                    One extra sheet with the same design.
-                  </p>
-                ) : (
-                  <div className="grid grid-cols-2 gap-4">
-                    <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
-                      <input
-                        type="checkbox"
-                        checked={dupHolo}
-                        onChange={(e) => setDupHolo(e.target.checked)}
-                        className="accent-primary"
-                      />
-                      <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
-                        Add Holo Layer <strong className="text-primary">(+${ADDON_PRICE})</strong>
-                      </span>
-                    </label>
-                    <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
-                      <input
-                        type="checkbox"
-                        checked={dupHolder}
-                        onChange={(e) => setDupHolder(e.target.checked)}
-                        className="accent-primary"
-                      />
-                      <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
-                        Magnetic Holder <strong className="text-primary">(+${ADDON_PRICE})</strong>
-                      </span>
-                    </label>
-                  </div>
-                )}
+                <div className="grid grid-cols-2 gap-4">
+                  <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
+                    <input
+                      type="checkbox"
+                      checked={dupHolo}
+                      onChange={(e) => setDupHolo(e.target.checked)}
+                      className="accent-primary"
+                    />
+                    <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      Add Holo Layer <strong className="text-primary">(+${ADDON_PRICE})</strong>
+                    </span>
+                  </label>
+                  <label className="flex items-center gap-3 p-3 border border-border bg-background cursor-pointer hover:border-primary/50">
+                    <input
+                      type="checkbox"
+                      checked={dupHolder}
+                      onChange={(e) => setDupHolder(e.target.checked)}
+                      className="accent-primary"
+                    />
+                    <span className="text-xs" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      Magnetic Holder <strong className="text-primary">(+${ADDON_PRICE})</strong>
+                    </span>
+                  </label>
+                </div>
               </div>
-            )}
+            ))}
 
-            {/* STICKER SHEET ADD-ON (card orders only) */}
-            {!isSticker && (
-              <button
-                type="button"
-                onClick={() => setHasStickers(!hasStickers)}
-                aria-pressed={hasStickers}
-                className={`w-full p-4 border text-left transition-all flex items-center gap-3.5 ${hasStickers ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground hover:border-primary/40"}`}
-              >
-                <StickerSheetIcon />
-                <div className="flex-1">
-                  <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Add a Sticker Sheet</div>
-                  <div className="text-[10px] opacity-80 mt-0.5" style={{ fontFamily: "'Space Mono', monospace" }}>
-                    9 stickers (3 rows of 3) · +${STICKER_ADDON_PRICE} with your card
+            {/* STICKER SHEETS TILE: add-on toggle on card orders, with the additional-sheets dropdown inside the same tile */}
+            <div
+              className={`border transition-all ${stickersOn ? "border-primary bg-primary/10 text-primary" : "border-border bg-background text-muted-foreground hover:border-primary/40"}`}
+            >
+              {isSticker ? (
+                <div className="p-4 flex items-center gap-3.5">
+                  <StickerSheetIcon />
+                  <div className="flex-1">
+                    <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Add Sticker Sheet</div>
+                    <div className="text-[10px] opacity-80 mt-0.5" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      9 stickers (3 rows of 3) per sheet
+                    </div>
+                    {SHOW_STICKER_PROMO && (
+                      <div className="text-[10px] text-primary mt-1" style={{ fontFamily: "'Space Mono', monospace" }}>
+                        {STICKER_PROMO_TEXT}
+                      </div>
+                    )}
                   </div>
                 </div>
-                <span className="text-[10px] uppercase tracking-widest shrink-0" style={{ fontFamily: "'Space Mono', monospace" }}>
-                  {hasStickers ? "Added" : "+ Add"}
-                </span>
-              </button>
-            )}
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const next = !hasStickers;
+                    setHasStickers(next);
+                    if (!next) setExtraStickers(0);
+                  }}
+                  aria-pressed={hasStickers}
+                  className="w-full p-4 text-left flex items-center gap-3.5"
+                >
+                  <StickerSheetIcon />
+                  <div className="flex-1">
+                    <div className="font-bold uppercase text-xs" style={{ fontFamily: "'Chakra Petch', sans-serif" }}>Add Sticker Sheet</div>
+                    <div className="text-[10px] opacity-80 mt-0.5" style={{ fontFamily: "'Space Mono', monospace" }}>
+                      9 stickers (3 rows of 3) · +${STICKER_ADDON_PRICE} with your card
+                    </div>
+                    {SHOW_STICKER_PROMO && (
+                      <div className="text-[10px] text-primary mt-1" style={{ fontFamily: "'Space Mono', monospace" }}>
+                        {STICKER_PROMO_TEXT}
+                      </div>
+                    )}
+                  </div>
+                  <span className="text-[10px] uppercase tracking-widest shrink-0" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    {hasStickers ? "Added" : "+ Add"}
+                  </span>
+                </button>
+              )}
+
+              {stickersOn && (
+                <div className="px-4 pb-4">
+                  <label
+                    htmlFor="extra-stickers"
+                    className="block text-[10px] uppercase tracking-wider opacity-80 mb-2"
+                    style={{ fontFamily: "'Space Mono', monospace" }}
+                  >
+                    Additional Sheets: <WasPrice />${EXTRA_STICKER_SHEET_PRICE} each
+                  </label>
+                  <select
+                    id="extra-stickers"
+                    value={extraStickers}
+                    onChange={(e) => setExtraStickers(Number(e.target.value))}
+                    className="w-full px-4 py-3 bg-background border border-border text-sm text-foreground focus:outline-none focus:border-primary/50"
+                    style={{ fontFamily: "'Space Mono', monospace" }}
+                  >
+                    {Array.from({ length: MAX_EXTRA_STICKER_SHEETS + 1 }, (_, n) => (
+                      <option key={n} value={n}>
+                        {n === 0
+                          ? "None"
+                          : `${n} extra sheet${n > 1 ? "s" : ""} (+$${n * EXTRA_STICKER_SHEET_PRICE})`}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-[10px] opacity-80 mt-2" style={{ fontFamily: "'Space Mono', monospace" }}>
+                    Extra sheets use the same design.
+                  </p>
+                </div>
+              )}
+            </div>
 
             {/* LIVE TOTAL & SUBMIT BAR */}
             <div className="pt-4 border-t border-border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
@@ -621,6 +708,7 @@ export default function CustomCard() {
                 setDupHolo(false);
                 setDupHolder(false);
                 setHasStickers(false);
+                setExtraStickers(0);
               }}
               className="px-6 py-3 border border-border text-xs tracking-widest uppercase hover:text-primary transition-colors mt-4"
               style={{ fontFamily: "'Space Mono', monospace" }}
