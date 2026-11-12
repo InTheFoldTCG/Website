@@ -14,7 +14,7 @@ export function Links() {
     },
     {
       title: 'Website',
-      subtitle: 'Browse inventory show schedules',
+      subtitle: 'Browse inventory & show schedules',
       url: 'https://inthefoldtcg.com',
       icon: Globe,
       primary: false,
